@@ -1,47 +1,47 @@
 {
-	"name": "kanso",
-	"type": "module",
-	"version": "0.0.1",
-	"scripts": {
-		"generate": "astro sync",
-		"dev": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"astro": "astro",
-		"format": "prettier --write .",
-		"format:check": "prettier --check .",
-		"lint": "eslint .",
-		"lint:fix": "eslint --fix .",
-		"prepare": "husky"
-	},
-	"dependencies": {
-		"@astrojs/mdx": "^4.3.13",
-		"@astrojs/rss": "^4.0.15",
-		"@astrojs/sitemap": "^3.7.0",
-		"@expressive-code/plugin-line-numbers": "^0.41.6",
-		"astro": "^5.17.2",
-		"astro-expressive-code": "^0.41.6",
-		"sharp": "^0.34.5"
-	},
-	"lint-staged": {
-		"*.{js,mjs,ts,astro}": [
-			"eslint --fix",
-			"prettier --write"
-		],
-		"*.{json,md,mdx,css,yml,yaml}": [
-			"prettier --write"
-		]
-	},
-	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "^8.55.0",
-		"@typescript-eslint/parser": "^8.55.0",
-		"eslint": "^9.39.2",
-		"eslint-config-prettier": "^10.1.8",
-		"eslint-plugin-astro": "^1.6.0",
-		"husky": "^9.1.7",
-		"lint-staged": "^16.2.7",
-		"prettier": "^3.8.1",
-		"prettier-plugin-astro": "^0.14.1",
-		"typescript-eslint": "^8.55.0"
-	}
+  "name": "kanso",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "generate": "astro sync",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@expressive-code/plugin-line-numbers": "^0.41.6",
+    "astro": "^5.17.2",
+    "astro-expressive-code": "^0.41.6",
+    "sharp": "^0.34.5"
+  },
+  "lint-staged": {
+    "*.{js,mjs,ts,astro}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,mdx,css,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.55.0",
+    "@typescript-eslint/parser": "^8.55.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^1.6.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript-eslint": "^8.55.0"
+  }
 }

@@ -15,7 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Tooling
 
-- **Prettier** with `prettier-plugin-astro` — config in `.prettierrc`, uses tabs
+- **Prettier** with `prettier-plugin-astro` — config in `.prettierrc`, 2-space indent, double quotes, `es5` trailing commas
 - **ESLint** flat config (`eslint.config.js`) — `typescript-eslint` + `eslint-plugin-astro` + `eslint-config-prettier`
 - **Husky + lint-staged** — Pre-commit hook runs eslint + prettier on staged files
 - **Deployment** — GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`), project site at `enkhee-Osiris.github.io/kanso`
