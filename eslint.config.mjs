@@ -1,3 +1,5 @@
+// @ts-check
+
 import eslint from "@eslint/js";
 import tsEslint from "typescript-eslint";
 import astroEslintParser from "astro-eslint-parser";
