@@ -23,22 +23,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-This is an Astro 5 blog site using the blog starter template, styled after Bear Blog.
+This is an Astro 5 blog site with a minimal, content-focused design.
 
 **Content system:** Blog posts live in `src/content/blog/` as `.md`/`.mdx` files. The collection schema is defined in `src/content.config.ts` — frontmatter requires `title`, `description`, `pubDate`, and optionally `updatedDate` and `heroImage`. Posts are queried via `getCollection('blog')` and rendered through `src/pages/blog/[...slug].astro`.
 
-**Page layout chain:** Pages use `BaseHead.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) → `Header.astro` + `Footer.astro` for site chrome. Blog posts specifically use the `BlogPost.astro` layout which wraps this pattern.
+**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `Footer.astro` for site chrome. Blog posts specifically use the `BlogPost.astro` layout which wraps this pattern.
 
 **Key integrations:**
 
 - `@astrojs/mdx` — MDX support for blog posts
 - `@astrojs/sitemap` — Auto-generated sitemap
-- `@astrojs/rss` — RSS feed at `/rss.xml` (see `src/pages/rss.xml.js`)
+- `@astrojs/rss` — RSS feed at `/rss.xml` (see `src/pages/rss.xml.ts`)
 - `astro-expressive-code` — Code blocks with Dracula/Solarized Light themes and line numbers (`ec.config.mjs`)
 - `sharp` — Image optimization
 
-**Styling:** Global styles in `src/styles/global.css` (imported via `BaseHead.astro`). Uses Atkinson font (woff files in `public/fonts/`). CSS variables defined on `:root` for colors. Component-scoped styles use `<style>` tags in `.astro` files.
+**Styling:** Global styles in `src/styles/global.css` (imported via `Head.astro`). Fonts: Lora (display/headings) and PT Serif (body) loaded via Google Fonts. CSS variables on `:root` for colors (`--color-surface-*`), fonts (`--font-body`, `--font-display`), and semantic tokens (`--color-bg`, `--color-text`, `--color-border`). Dark mode via `prefers-color-scheme` with `html[data-theme]` override. Component-scoped styles use `<style>` tags in `.astro` files.
 
-**Site constants:** `src/consts.ts` exports `SITE_TITLE` and `SITE_DESCRIPTION`. The site URL is configured in `astro.config.mjs`.
+**Site constants:** `src/constants.ts` exports `SITE_TITLE` and `SITE_DESCRIPTION`. The site URL is configured in `astro.config.mjs`.
 
-**TypeScript:** Extends `astro/tsconfigs/strict` (provides `strict`, `noEmit`, `verbatimModuleSyntax`, etc.). Additional: `target: ES2022`, `noImplicitReturns`, path aliases (`@/components/*`, `@/layouts/*`, `@/styles/*`, `@/utils/*`, `@/assets/*`), and `@astrojs/ts-plugin`.
+**TypeScript:** Extends `astro/tsconfigs/strict` (provides `strict`, `noEmit`, `verbatimModuleSyntax`, etc.). Additional: `target: ES2022`, `noImplicitReturns`, path aliases (`@/components/*`, `@/layouts/*`, `@/styles/*`, `@/utils/*`, `@/assets/*`, `@/constants`), and `@astrojs/ts-plugin`.

@@ -9,4 +9,7 @@ export default defineConfig({
   site: "https://enkhee-Osiris.github.io",
   base: "/kanso",
   integrations: [mdx(), sitemap()],
+  experimental: {
+    svgo: true,
+  },
 });
