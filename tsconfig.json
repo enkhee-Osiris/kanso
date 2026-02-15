@@ -20,7 +20,8 @@
       "@/layouts/*": ["src/layouts/*"],
       "@/styles/*": ["src/styles/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/assets/*": ["src/assets/*"]
+      "@/assets/*": ["src/assets/*"],
+      "@/consts": ["src/consts.ts"]
     },
 
     "plugins": [
