@@ -7,4 +7,5 @@ export const URLS = {
   home: `${BASE}`,
   blog: `${BASE}blog/`,
   blogPost: (id: string) => `${BASE}blog/${id}/`,
+  search: `${BASE}search/`,
 };

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 
+import FloatingNav from "@/components/FloatingNav.astro";
 import Head from "@/components/Head.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, URLS } from "@/constants";
 
@@ -103,6 +104,7 @@ const latestPosts = allPosts
         </section>
       </div>
     </main>
+    <FloatingNav />
   </body>
 </html>
 

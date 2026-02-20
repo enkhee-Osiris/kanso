@@ -1,0 +1,142 @@
+---
+import { URLS } from "@/constants";
+
+const menuIcon = await import("@/assets/icons/menu.svg?raw");
+const searchIcon = await import("@/assets/icons/search.svg?raw");
+const closeIcon = await import("@/assets/icons/close.svg?raw");
+const moonIcon = await import("@/assets/icons/moon.svg?raw");
+const sunIcon = await import("@/assets/icons/sun.svg?raw");
+---
+
+<nav class="floating-nav" aria-label="Site navigation">
+  <button id="menu-toggle" type="button" aria-expanded="false" aria-label="Open menu"></button>
+
+  <a href={URLS.search} aria-label="Search">
+    <Fragment set:html={searchIcon.default} />
+  </a>
+
+  <button id="theme-toggle" type="button" aria-label="Switch to dark theme"></button>
+</nav>
+
+<template id="icon-menu"><Fragment set:html={menuIcon.default} /></template>
+<template id="icon-close"><Fragment set:html={closeIcon.default} /></template>
+<template id="icon-moon"><Fragment set:html={moonIcon.default} /></template>
+<template id="icon-sun"><Fragment set:html={sunIcon.default} /></template>
+
+<style>
+  .floating-nav {
+    position: fixed;
+    top: 50%;
+    right: 1.5rem;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .floating-nav button,
+  .floating-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    border: none;
+    background: none;
+    color: var(--color-surface-400);
+    cursor: pointer;
+  }
+
+  .floating-nav button:hover,
+  .floating-nav a:hover {
+    color: var(--color-text);
+    background-color: var(--color-surface-100);
+  }
+
+  .floating-nav button:focus-visible,
+  .floating-nav a:focus-visible {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.25rem;
+    color: var(--color-text);
+  }
+
+  .floating-nav :global(svg) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+</style>
+
+<script>
+  const themeToggle = document.getElementById("theme-toggle") as HTMLButtonElement;
+  const menuToggle = document.getElementById("menu-toggle") as HTMLButtonElement;
+
+  const menuTemplate = document.getElementById("icon-menu") as HTMLTemplateElement;
+  const closeTemplate = document.getElementById("icon-close") as HTMLTemplateElement;
+  const moonTemplate = document.getElementById("icon-moon") as HTMLTemplateElement;
+  const sunTemplate = document.getElementById("icon-sun") as HTMLTemplateElement;
+
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  // Resolve active theme: explicit data-theme attr wins, otherwise fall back to OS preference
+  function getEffectiveTheme(): "light" | "dark" {
+    const attr = document.documentElement.getAttribute("data-theme");
+
+    if (attr === "light" || attr === "dark") return attr;
+
+    return systemDark.matches ? "dark" : "light";
+  }
+
+  // Swap the icon template and update aria-label to reflect the next action
+  function updateThemeToggle() {
+    const current = getEffectiveTheme();
+    const template = current === "dark" ? sunTemplate : moonTemplate;
+
+    themeToggle.replaceChildren(template.content.cloneNode(true));
+    themeToggle.setAttribute(
+      "aria-label",
+      current === "dark" ? "Switch to light theme" : "Switch to dark theme"
+    );
+  }
+
+  // Swap menu/close icon and update aria-label based on expanded state
+  function updateMenuToggle() {
+    const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+    const template = expanded ? closeTemplate : menuTemplate;
+
+    menuToggle.replaceChildren(template.content.cloneNode(true));
+    menuToggle.setAttribute("aria-label", expanded ? "Close menu" : "Open menu");
+  }
+
+  updateThemeToggle();
+  updateMenuToggle();
+
+  themeToggle.addEventListener("click", () => {
+    const next = getEffectiveTheme() === "dark" ? "light" : "dark";
+
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    updateThemeToggle();
+  });
+
+  systemDark.addEventListener("change", () => {
+    if (!document.documentElement.hasAttribute("data-theme")) {
+      updateThemeToggle();
+    }
+  });
+
+  menuToggle.addEventListener("click", () => {
+    const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+
+    menuToggle.setAttribute("aria-expanded", String(!expanded));
+
+    if (expanded) {
+      document.documentElement.removeAttribute("data-menu-open");
+    } else {
+      document.documentElement.setAttribute("data-menu-open", "");
+    }
+
+    updateMenuToggle();
+  });
+</script>
