@@ -8,4 +8,5 @@ export const URLS = {
   blog: `${BASE}blog/`,
   blogPost: (id: string) => `${BASE}blog/${id}/`,
   search: `${BASE}search/`,
+  about: `${BASE}about/`,
 };
