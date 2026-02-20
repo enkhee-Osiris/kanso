@@ -25,7 +25,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is an Astro 5 blog site with a minimal, content-focused design.
 
-**Content system:** Blog posts live in `src/content/blog/` as `.md`/`.mdx` files. The collection schema is defined in `src/content.config.ts` — frontmatter requires `title`, `description`, `pubDate`, and optionally `updatedDate` and `heroImage`. Posts are queried via `getCollection('blog')` and rendered through `src/pages/blog/[...slug].astro`.
+**Content system:** Blog posts live in `src/content/blog/` as `.md`/`.mdx` files. The collection schema is defined in `src/content.config.ts` — frontmatter requires `title`, `description`, `pubDate`, and optionally `updatedDate`, `heroImage`, `tags` (string array), and `featured` (boolean). Posts are queried via `getCollection('blog')` and rendered through `src/pages/blog/[...slug].astro`.
 
 **Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `Footer.astro` for site chrome. Blog posts specifically use the `BlogPost.astro` layout which wraps this pattern.
 
@@ -38,6 +38,10 @@ This is an Astro 5 blog site with a minimal, content-focused design.
 - `sharp` — Image optimization
 
 **Styling:** Global styles in `src/styles/global.css` (imported via `Head.astro`). Fonts: Lora (display/headings) and PT Serif (body) loaded via Google Fonts. CSS variables on `:root` for colors (`--color-surface-*`), fonts (`--font-body`, `--font-display`), and semantic tokens (`--color-bg`, `--color-text`, `--color-border`). Dark mode via `prefers-color-scheme` with `html[data-theme]` override. Component-scoped styles use `<style>` tags in `.astro` files.
+
+**SVG icons:** Stored in `src/assets/icons/` and imported via `?raw` suffix + `set:html` directive (e.g., `const icon = await import("@/assets/icons/name.svg?raw")`).
+
+**Links:** The site uses `base: "/kanso"` in `astro.config.mjs`. Internal links must use `import.meta.env.BASE_URL` as prefix (e.g., ``href={`${import.meta.env.BASE_URL}blog/${post.id}/`}``).
 
 **Site constants:** `src/constants.ts` exports `SITE_TITLE` and `SITE_DESCRIPTION`. The site URL is configured in `astro.config.mjs`.
 

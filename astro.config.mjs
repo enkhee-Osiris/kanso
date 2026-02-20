@@ -8,6 +8,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://enkhee-Osiris.github.io",
   base: "/kanso",
+  trailingSlash: "always",
   integrations: [mdx(), sitemap()],
   experimental: {
     svgo: true,
