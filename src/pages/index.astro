@@ -4,24 +4,25 @@ import { getCollection } from "astro:content";
 import FloatingNav from "@/components/FloatingNav.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
-import { SITE_DESCRIPTION, SITE_TITLE, URLS } from "@/constants";
+import {
+  HOME_FEATURED_WRITINGS_LIMIT,
+  HOME_LATEST_WRITINGS_LIMIT,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  URLS,
+} from "@/constants";
+import { getFeaturedBlogs, getNonFeaturedBlogs } from "@/utils/data";
 
 const githubIcon = await import("@/assets/icons/github.svg?raw");
 const arrowRightIcon = await import("@/assets/icons/arrow-right.svg?raw");
 const linkedinIcon = await import("@/assets/icons/linkedin.svg?raw");
 const mailIcon = await import("@/assets/icons/mail.svg?raw");
 
-const allPosts = await getCollection("blog");
+const allBlogs = await getCollection("blog");
 
-const featuredPosts = allPosts
-  .filter(post => post.data.featured === true)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 2);
+const featuredBlogs = getFeaturedBlogs(allBlogs, HOME_FEATURED_WRITINGS_LIMIT);
 
-const latestPosts = allPosts
-  .filter(post => post.data.featured !== true)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 5);
+const latestBlogs = getNonFeaturedBlogs(allBlogs, HOME_LATEST_WRITINGS_LIMIT);
 ---
 
 <!doctype html>
@@ -64,7 +65,7 @@ const latestPosts = allPosts
         <section class="featured-writings" aria-label="Featured writings">
           <ul role="list">
             {
-              featuredPosts.map(post => (
+              featuredBlogs.map(post => (
                 <li>
                   <a href={URLS.blogPost(post.id)}>
                     <h2>{post.data.title}</h2>
@@ -95,7 +96,7 @@ const latestPosts = allPosts
 
           <ul role="list">
             {
-              latestPosts.map(post => (
+              latestBlogs.map(post => (
                 <li>
                   <a href={URLS.blogPost(post.id)}>{post.data.title}</a>
                 </li>

@@ -27,7 +27,9 @@ This is an Astro 5 blog site with a minimal, content-focused design.
 
 **Content system:** Blog posts live in `src/content/blog/` as `.md`/`.mdx` files. The collection schema is defined in `src/content.config.ts` — frontmatter requires `title`, `description`, `pubDate`, and optionally `updatedDate`, `heroImage`, `tags` (string array), and `featured` (boolean). Posts are queried via `getCollection('blog')` and rendered through `src/pages/blog/[...slug].astro`.
 
-**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `Footer.astro` for site chrome. Blog posts specifically use the `BlogPost.astro` layout which wraps this pattern.
+**Navigation:** `FloatingNav.astro` is a fixed right-side bar (z-index 100) with menu toggle, search link, and theme toggle. `FullscreenNav.astro` is a full-screen overlay (z-index 90) with centered nav links (Home, Blog, About, Search) — visibility is CSS-driven via `html[data-menu-open]` (set by FloatingNav's menu toggle). Page scroll is locked when the overlay is open (`overflow: hidden` on `html`). Both components are included on every page.
+
+**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `Footer.astro` (copyright line) for site chrome. Blog posts specifically use the `BlogPost.astro` layout which wraps this pattern.
 
 **Key integrations:**
 
@@ -43,6 +45,6 @@ This is an Astro 5 blog site with a minimal, content-focused design.
 
 **Links:** The site uses `base: "/kanso"` in `astro.config.mjs`. Internal links must use `import.meta.env.BASE_URL` as prefix (e.g., ``href={`${import.meta.env.BASE_URL}blog/${post.id}/`}``).
 
-**Site constants:** `src/constants.ts` exports `SITE_TITLE` and `SITE_DESCRIPTION`. The site URL is configured in `astro.config.mjs`.
+**Site constants:** `src/constants.ts` exports `SITE_TITLE`, `SITE_DESCRIPTION`, and `URLS` (route map with `home`, `blog`, `blogPost()`, `search`, `about`). The site URL is configured in `astro.config.mjs`.
 
 **TypeScript:** Extends `astro/tsconfigs/strict` (provides `strict`, `noEmit`, `verbatimModuleSyntax`, etc.). Additional: `target: ES2022`, `noImplicitReturns`, path aliases (`@/components/*`, `@/layouts/*`, `@/styles/*`, `@/utils/*`, `@/assets/*`, `@/constants`), and `@astrojs/ts-plugin`.
