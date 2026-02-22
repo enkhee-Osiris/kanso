@@ -1,7 +1,7 @@
 ---
 title: "Typography on the Web"
 description: "Choosing and pairing typefaces for screen reading, and why serif fonts deserve a comeback."
-pubDate: 2026-02-10
+pubDatetime: 2026-02-10T00:00:00.000Z
 tags: ["typography", "design"]
 ---
 

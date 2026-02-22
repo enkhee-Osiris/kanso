@@ -1,37 +1,41 @@
 import type { CollectionEntry } from "astro:content";
 
-type Blog = CollectionEntry<"blog">;
+type Writing = CollectionEntry<"writing">;
 
-function byDateDesc(a: Blog, b: Blog) {
-  return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+function byDateDesc(a: Writing, b: Writing) {
+  return b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf();
 }
 
-export function getFeaturedBlogs(blogs: Blog[], limit?: number) {
-  const filtered = blogs.filter(b => b.data.featured).sort(byDateDesc);
+export function getWritings(writings: Writing[]) {
+  return [...writings].sort(byDateDesc);
+}
+
+export function getFeaturedWritings(writings: Writing[], limit?: number) {
+  const filtered = writings.filter(b => b.data.featured).sort(byDateDesc);
 
   return limit ? filtered.slice(0, limit) : filtered;
 }
 
-export function getNonFeaturedBlogs(blogs: Blog[], limit?: number) {
-  const filtered = blogs.filter(b => !b.data.featured).sort(byDateDesc);
+export function getNonFeaturedWritings(writings: Writing[], limit?: number) {
+  const filtered = writings.filter(b => !b.data.featured).sort(byDateDesc);
 
   return limit ? filtered.slice(0, limit) : filtered;
 }
 
-export function getTagsWithBlogs(blogs: Blog[]) {
-  const tagMap = new Map<string, Blog[]>();
+export function getTagsWithWritings(writings: Writing[]) {
+  const tagMap = new Map<string, Writing[]>();
 
-  for (const blog of blogs) {
-    if (blog.data.tags === undefined || blog.data.tags.length === 0) return;
+  for (const writing of writings) {
+    if (writing.data.tags === undefined || writing.data.tags.length === 0) continue;
 
-    for (const tag of blog.data.tags) {
+    for (const tag of writing.data.tags) {
       if (!tagMap.has(tag)) {
         tagMap.set(tag, []);
       }
 
-      tagMap.get(tag)!.push(blog);
+      tagMap.get(tag)!.push(writing);
     }
   }
 
-  return Array.from(tagMap, ([tag, blogs]) => ({ tag, blogs }));
+  return Array.from(tagMap, ([tag, writings]) => ({ tag, writings }));
 }

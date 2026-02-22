@@ -1,7 +1,7 @@
 ---
 title: "On Minimal Interfaces"
 description: "Less isn't just more — it's harder. Why stripping away the unnecessary is the most difficult design challenge."
-pubDate: 2026-02-01
+pubDatetime: 2026-02-01T00:00:00.000Z
 tags: ["design", "minimalism"]
 featured: true
 ---

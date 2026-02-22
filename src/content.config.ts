@@ -1,18 +1,22 @@
 import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
 
-const blog = defineCollection({
-  loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
+import { AUTHOR } from "./constants";
+
+const writing = defineCollection({
+  loader: glob({ base: "./src/content/writing", pattern: "**/*.{md,mdx}" }),
   schema: ({ image }) =>
     z.object({
+      author: z.string().default(AUTHOR),
+      pubDatetime: z.date(),
+      modDatetime: z.date().optional().nullable(),
       title: z.string(),
-      description: z.string(),
-      pubDate: z.coerce.date(),
-      updatedDate: z.coerce.date().optional(),
-      heroImage: image().optional(),
-      tags: z.array(z.string()).optional(),
       featured: z.boolean().optional(),
+      draft: z.boolean().optional(),
+      tags: z.array(z.string()).default(["others"]),
+      ogImage: image().or(z.string()).optional(),
+      description: z.string(),
     }),
 });
 
-export const collections = { blog };
+export const collections = { writing };

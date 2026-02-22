@@ -1,7 +1,7 @@
 ---
 title: "CSS Custom Properties as Design Tokens"
 description: "How CSS variables bridge the gap between design systems and implementation."
-pubDate: 2026-01-28
+pubDatetime: 2026-01-28T00:00:00.000Z
 tags: ["css", "design systems"]
 ---
 

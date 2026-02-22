@@ -11,18 +11,18 @@ import {
   SITE_TITLE,
   URLS,
 } from "@/constants";
-import { getFeaturedBlogs, getNonFeaturedBlogs } from "@/utils/data";
+import { getFeaturedWritings, getNonFeaturedWritings } from "@/utils/data";
 
 const githubIcon = await import("@/assets/icons/github.svg?raw");
 const arrowRightIcon = await import("@/assets/icons/arrow-right.svg?raw");
 const linkedinIcon = await import("@/assets/icons/linkedin.svg?raw");
 const mailIcon = await import("@/assets/icons/mail.svg?raw");
 
-const allBlogs = await getCollection("blog");
+const allWritings = await getCollection("writing");
 
-const featuredBlogs = getFeaturedBlogs(allBlogs, HOME_FEATURED_WRITINGS_LIMIT);
+const featuredWritings = getFeaturedWritings(allWritings, HOME_FEATURED_WRITINGS_LIMIT);
 
-const latestBlogs = getNonFeaturedBlogs(allBlogs, HOME_LATEST_WRITINGS_LIMIT);
+const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_LIMIT);
 ---
 
 <!doctype html>
@@ -65,17 +65,17 @@ const latestBlogs = getNonFeaturedBlogs(allBlogs, HOME_LATEST_WRITINGS_LIMIT);
         <section class="featured-writings" aria-label="Featured writings">
           <ul role="list">
             {
-              featuredBlogs.map(post => (
+              featuredWritings.map(writing => (
                 <li>
-                  <a href={URLS.blogPost(post.id)}>
-                    <h2>{post.data.title}</h2>
+                  <a href={URLS.writing(writing.id)}>
+                    <h2>{writing.data.title}</h2>
 
-                    <p>{post.data.description}</p>
+                    <p>{writing.data.description}</p>
                   </a>
 
-                  {Array.isArray(post.data.tags) && post.data.tags.length > 0 && (
+                  {Array.isArray(writing.data.tags) && writing.data.tags.length > 0 && (
                     <ul class="tags" role="list">
-                      {post.data.tags.map(tag => (
+                      {writing.data.tags.map(tag => (
                         <li>{tag}</li>
                       ))}
                     </ul>
@@ -88,7 +88,7 @@ const latestBlogs = getNonFeaturedBlogs(allBlogs, HOME_LATEST_WRITINGS_LIMIT);
 
         <section class="latest-writings" aria-label="Latest writings">
           <h2>
-            <a href={URLS.blog}>
+            <a href={URLS.writing}>
               Writings <span aria-hidden="true"><Fragment set:html={arrowRightIcon.default} /></span
               >
             </a>
@@ -96,9 +96,9 @@ const latestBlogs = getNonFeaturedBlogs(allBlogs, HOME_LATEST_WRITINGS_LIMIT);
 
           <ul role="list">
             {
-              latestBlogs.map(post => (
+              latestWritings.map(writing => (
                 <li>
-                  <a href={URLS.blogPost(post.id)}>{post.data.title}</a>
+                  <a href={URLS.writing(writing.id)}>{writing.data.title}</a>
                 </li>
               ))
             }
@@ -180,7 +180,7 @@ const latestBlogs = getNonFeaturedBlogs(allBlogs, HOME_LATEST_WRITINGS_LIMIT);
   }
 
   /* -------------------------
-   * Featured Writings — Two side-by-side post cards
+   * Featured Writings — Two side-by-side writing cards
    * Each card has a title, description, and tag pills
    * ------------------------- */
   .featured-writings ul {
@@ -272,7 +272,7 @@ const latestBlogs = getNonFeaturedBlogs(allBlogs, HOME_LATEST_WRITINGS_LIMIT);
   }
 
   /* -------------------------
-   * Latest Writings — "Writings →" heading + post title list
+   * Latest Writings — "Writings →" heading + writing title list
    * ------------------------- */
   .latest-writings {
     margin-inline: auto;
@@ -314,7 +314,7 @@ const latestBlogs = getNonFeaturedBlogs(allBlogs, HOME_LATEST_WRITINGS_LIMIT);
     height: 1.25rem;
   }
 
-  /* Post list — vertical stack of title links */
+  /* Writing list — vertical stack of title links */
   .latest-writings ul {
     display: flex;
     flex-direction: column;

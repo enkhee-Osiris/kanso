@@ -1,7 +1,7 @@
 ---
 title: "Working with Astro's Content Layer"
 description: "A look at Astro's content collections and how they make working with Markdown feel natural."
-pubDate: 2026-01-10
+pubDatetime: 2026-01-10T00:00:00.000Z
 tags: ["astro", "engineering"]
 ---
 

@@ -3,18 +3,20 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/constants";
+import { getWritings } from "@/utils/data";
 
 export const GET: APIRoute = async context => {
-  const posts = await getCollection("blog");
+  const allWritings = await getCollection("writing");
+  const sortedWritings = getWritings(allWritings);
 
   return rss({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     site: context.site!,
-    items: posts.map(post => ({
-      ...post.data,
-      link: `/blog/${post.id}/`,
+    items: sortedWritings.map(writing => ({
+      ...writing.data,
+      link: `/writing/${writing.id}/`,
     })),
   });
 };
