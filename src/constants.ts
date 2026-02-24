@@ -1,6 +1,9 @@
 const BASE = import.meta.env.BASE_URL;
+const SITE = import.meta.env.SITE;
 
-const hasTrailingSlash = import.meta.env.BASE_URL.endsWith("/");
+export const FULL_URL = new URL(BASE, SITE);
+
+const hasTrailingSlash = BASE.endsWith("/");
 
 const CLEAN_BASE = hasTrailingSlash ? BASE.slice(0, -1) : BASE;
 const URL_ENDING = hasTrailingSlash ? "/" : "";
