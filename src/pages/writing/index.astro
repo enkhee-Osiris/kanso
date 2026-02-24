@@ -7,11 +7,11 @@ import FormattedDate from "@/components/FormattedDate.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, URLS } from "@/constants";
-import { getWritings } from "@/utils/data";
+import { getSortedWritings } from "@/utils/data";
 
 const allWritings = await getCollection("writing");
 
-const writings = getWritings(allWritings);
+const writings = getSortedWritings(allWritings);
 ---
 
 <!doctype html>

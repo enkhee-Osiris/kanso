@@ -6,7 +6,7 @@ function byDateDesc(a: Writing, b: Writing) {
   return b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf();
 }
 
-export function getWritings(writings: Writing[]) {
+export function getSortedWritings(writings: Writing[]) {
   return [...writings].sort(byDateDesc);
 }
 
@@ -33,6 +33,7 @@ export function getTagsWithWritings(writings: Writing[]) {
         tagMap.set(tag, []);
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       tagMap.get(tag)!.push(writing);
     }
   }

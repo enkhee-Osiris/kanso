@@ -3,11 +3,12 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/constants";
-import { getWritings } from "@/utils/data";
+import { getSortedWritings } from "@/utils/data";
 
 export const GET: APIRoute = async context => {
   const allWritings = await getCollection("writing");
-  const sortedWritings = getWritings(allWritings);
+
+  const sortedWritings = getSortedWritings(allWritings);
 
   return rss({
     title: SITE_TITLE,

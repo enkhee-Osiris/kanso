@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+
+import Head from "@/components/Head.astro";
+import { URLS } from "@/constants";
+import { getTagsWithWritings, getSortedWritings } from "@/utils/data";
+
+const TITLE = "";
+const DESCRIPTION = "";
+
+export async function getStaticPaths() {
+  const allWritings = await getCollection("writing");
+  const sortedWritings = getSortedWritings(allWritings);
+
+  const tagsWithWritings = getTagsWithWritings(sortedWritings);
+
+  return tagsWithWritings.map(({ tag, writings }) => ({
+    params: { tag },
+    props: { tag, writings },
+  }));
+}
+
+const { tag, writings } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <Head title={TITLE} description={DESCRIPTION} />
+  </head>
+
+  <body>
+    <main>
+      <section class="writings" aria-label="Writings">
+        <h2>{tag} - Writings</h2>
+
+        <ul role="list">
+          {
+            writings.map(writing => (
+              <li>
+                <a href={URLS.writing(writing.id)}>{writing.data.title}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

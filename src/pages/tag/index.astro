@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+
+import Head from "@/components/Head.astro";
+import { URLS } from "@/constants";
+import { getTagsWithWritings } from "@/utils/data";
+
+const allWritings = await getCollection("writing");
+
+const tagsWithWritings = getTagsWithWritings(allWritings);
+
+const TITLE = "";
+const DESCRIPTION = "";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <Head title={TITLE} description={DESCRIPTION} />
+  </head>
+
+  <body>
+    <main>
+      <section class="tags" aria-label="Tags with writings">
+        <ul role="list">
+          {
+            tagsWithWritings.map(({ tag, writings }) => (
+              <li>
+                <a href={URLS.tag(tag)}>
+                  {tag} - {writings.length}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

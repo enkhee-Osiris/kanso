@@ -66,7 +66,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
           <ul role="list">
             {
               featuredWritings.map(writing => (
-                <li>
+                <li class="card">
                   <a href={URLS.writing(writing.id)}>
                     <h2>{writing.data.title}</h2>
 
@@ -76,7 +76,9 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
                   {Array.isArray(writing.data.tags) && writing.data.tags.length > 0 && (
                     <ul class="tags" role="list">
                       {writing.data.tags.map(tag => (
-                        <li>{tag}</li>
+                        <li>
+                          <a href={URLS.tag(tag)}>{tag}</a>
+                        </li>
                       ))}
                     </ul>
                   )}
@@ -88,7 +90,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
         <section class="latest-writings" aria-label="Latest writings">
           <h2>
-            <a href={URLS.writing}>
+            <a href={URLS.writings}>
               Writings <span aria-hidden="true"><Fragment set:html={arrowRightIcon.default} /></span
               >
             </a>
@@ -189,7 +191,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   /* Card — bordered box with hover highlight */
-  .featured-writings > ul > li {
+  .featured-writings .card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -203,21 +205,21 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     transition: border-color 0.3s ease-in-out;
   }
 
-  .featured-writings > ul > li:focus-within {
+  .featured-writings .card:focus-within {
     outline: 1px solid var(--color-border-hover);
     outline-offset: 0.25rem;
   }
 
-  .featured-writings > ul > li:hover {
+  .featured-writings .card:hover {
     border-color: var(--color-border-hover);
   }
 
   /* Card link — wraps title + description */
-  .featured-writings li a {
+  .featured-writings .card > a {
     text-decoration: none;
   }
 
-  .featured-writings li a::after {
+  .featured-writings .card > a::after {
     content: "";
     position: absolute;
     top: 0;
@@ -227,12 +229,12 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     z-index: 1;
   }
 
-  .featured-writings li a:focus {
+  .featured-writings .card > a:focus {
     outline: none;
   }
 
   /* Card title — fixed height for consistent card alignment */
-  .featured-writings li h2 {
+  .featured-writings .card h2 {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 1.5rem;
@@ -244,7 +246,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   /* Card description — capped height to keep cards uniform */
-  .featured-writings li p {
+  .featured-writings .card p {
     font-size: 1.0625rem;
     line-height: 1.53;
     color: var(--color-surface-700);
@@ -262,13 +264,27 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     gap: 0.75rem;
   }
 
-  .featured-writings .tags li {
+  .featured-writings .tags li a {
+    display: block;
+    padding: 0.4rem 0.8rem;
+    text-decoration: none;
     font-size: 0.875rem;
     line-height: 1;
-    padding: 0.4rem 0.8rem;
     border-radius: 9999px;
     background: var(--color-surface-100);
     color: var(--color-surface-700);
+  }
+
+  .featured-writings .tags li a:hover {
+    background: var(--color-surface-200);
+    color: var(--color-surface-800);
+  }
+
+  .featured-writings .tags li a:focus-visible {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.125rem;
+    background: var(--color-surface-200);
+    color: var(--color-surface-800);
   }
 
   /* -------------------------
@@ -328,16 +344,23 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     line-height: 1.3333;
     text-decoration: none;
     color: var(--color-text);
-    transition: color 0.3s ease-in-out;
+  }
+
+  .latest-writings li a:link {
+    color: var(--color-text);
+  }
+
+  .latest-writings li a:visited {
+    color: var(--color-surface-400);
+  }
+
+  .latest-writings li a:hover {
+    color: var(--color-surface-600);
   }
 
   .latest-writings li a:focus-visible {
     outline: 1px solid var(--color-border-hover);
     outline-offset: 0.25rem;
     color: var(--color-text);
-  }
-
-  .latest-writings li a:hover {
-    color: var(--color-surface-500);
   }
 </style>
