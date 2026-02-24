@@ -253,7 +253,7 @@ const { Content } = await render(writing);
   }
 
   /* Images */
-  .prose :global(img) {
+  .prose :global(:not(figure) > img) {
     border-radius: 0.25rem;
     margin-block: 1.5rem;
   }
@@ -267,7 +267,6 @@ const { Content } = await render(writing);
     font-size: 0.875rem;
     color: var(--color-surface-500);
     text-align: center;
-    margin-block-start: 0.5rem;
   }
 
   /* Tables */

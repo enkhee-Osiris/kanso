@@ -12,3 +12,18 @@ const { caption, ...props } = Astro.props;
   <BaseImage {...props} />
   {caption && <figcaption>{caption}</figcaption>}
 </figure>
+
+<style>
+  figure {
+    margin-block: 1.5rem;
+  }
+
+  figure :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  figure :global(figcaption) {
+    margin-block: 1rem;
+  }
+</style>
