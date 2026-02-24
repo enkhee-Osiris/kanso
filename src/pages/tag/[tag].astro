@@ -2,11 +2,8 @@
 import { getCollection } from "astro:content";
 
 import Head from "@/components/Head.astro";
-import { URLS } from "@/constants";
+import { TITLES, DESCRIPTIONS, URLS } from "@/constants";
 import { getTagsWithWritings, getSortedWritings } from "@/utils/data";
-
-const TITLE = "";
-const DESCRIPTION = "";
 
 export async function getStaticPaths() {
   const allWritings = await getCollection("writing");
@@ -26,7 +23,7 @@ const { tag, writings } = Astro.props;
 <!doctype html>
 <html lang="en">
   <head>
-    <Head title={TITLE} description={DESCRIPTION} />
+    <Head title={TITLES.tag(tag)} description={DESCRIPTIONS.tag(tag)} />
   </head>
 
   <body>

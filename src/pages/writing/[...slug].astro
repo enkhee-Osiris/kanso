@@ -6,6 +6,7 @@ import Footer from "@/components/Footer.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import TagChip from "@/components/TagChip.astro";
+import { TITLES, DESCRIPTIONS } from "@/constants";
 
 const quoteIcon = await import("@/assets/icons/quote.svg?raw");
 const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(quoteIcon.default)}")`;
@@ -22,7 +23,6 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"writing">;
 
 const writing = Astro.props;
-const PAGE_TITLE = "";
 const publishedDate = writing.data.pubDatetime;
 
 const { Content } = await render(writing);
@@ -31,7 +31,10 @@ const { Content } = await render(writing);
 <!doctype html>
 <html lang="en">
   <head>
-    <Head title={PAGE_TITLE} description={writing.data.description} />
+    <Head
+      title={TITLES.writing(writing.data.title)}
+      description={DESCRIPTIONS.writing(writing.data.description)}
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital@0;1&display=swap"
       rel="stylesheet"

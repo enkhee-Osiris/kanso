@@ -5,10 +5,10 @@ import FloatingNav from "@/components/FloatingNav.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import {
+  DESCRIPTIONS,
   HOME_FEATURED_WRITINGS_LIMIT,
   HOME_LATEST_WRITINGS_LIMIT,
-  SITE_DESCRIPTION,
-  SITE_TITLE,
+  TITLES,
   URLS,
 } from "@/constants";
 import { getFeaturedWritings, getNonFeaturedWritings } from "@/utils/data";
@@ -28,7 +28,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 <!doctype html>
 <html lang="en">
   <head>
-    <Head title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <Head title={TITLES.home} description={DESCRIPTIONS.home} />
   </head>
 
   <body>

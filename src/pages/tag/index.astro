@@ -2,21 +2,18 @@
 import { getCollection } from "astro:content";
 
 import Head from "@/components/Head.astro";
-import { URLS } from "@/constants";
+import { DESCRIPTIONS, TITLES, URLS } from "@/constants";
 import { getTagsWithWritings } from "@/utils/data";
 
 const allWritings = await getCollection("writing");
 
 const tagsWithWritings = getTagsWithWritings(allWritings);
-
-const TITLE = "";
-const DESCRIPTION = "";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <Head title={TITLE} description={DESCRIPTION} />
+    <Head title={TITLES.tags} description={DESCRIPTIONS.tags} />
   </head>
 
   <body>
