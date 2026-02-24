@@ -25,7 +25,7 @@ export default defineEcConfig({
   },
   plugins: [pluginLineNumbers()],
   styleOverrides: {
-    codeFontFamily: `"JetBrains Mono" ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`,
+    codeFontFamily: `"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`,
     codeFontSize: "0.8125rem",
     codeLineHeight: "1.6",
   },
