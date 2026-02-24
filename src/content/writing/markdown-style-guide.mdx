@@ -1,0 +1,288 @@
+---
+title: "Markdown Style Guide"
+description: "A reference for all supported markdown elements and how they render."
+pubDatetime: 2026-02-23T00:00:00.000Z
+tags: ["reference", "html", "astro"]
+draft: true
+---
+
+import Image from "@/components/Image.astro";
+
+## Headings
+
+## Heading 2
+
+### Heading 3
+
+#### Heading 4
+
+##### Heading 5
+
+###### Heading 6
+
+---
+
+## Emphasis
+
+This is **bold text** and this is _italic text_ and this is ~~strikethrough~~.
+
+You can also combine **_bold and italic_** together.
+
+```md
+This is **bold text** and this is _italic text_ and this is ~~strikethrough~~.
+
+You can also combine **_bold and italic_** together.
+```
+
+---
+
+## Paragraph
+
+A paragraph is simply one or more consecutive lines of text, separated by one or more blank lines. It should wrap naturally and maintain comfortable line lengths for reading.
+
+This is the second paragraph. Notice the blank line above which separates them.
+
+---
+
+## Blockquote
+
+> Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.
+>
+> ~ <cite>Bernard M. Baruch</cite>
+
+> Nested blockquotes are also possible.
+>
+> > This is a nested blockquote inside the outer one.
+
+```md
+> Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.
+>
+> ~ <cite>Bernard M. Baruch</cite>
+
+> Nested blockquotes are also possible.
+>
+> > This is a nested blockquote inside the outer one.
+```
+
+---
+
+## References
+
+An example containing a clickable reference[^1] with a link to the source.
+
+Second example containing a reference[^2] with a link to the source.
+
+[^1]: Reference first footnote with a return to content link.
+
+[^2]: Second reference with a link.
+
+```md
+An example containing a clickable reference[^1] with a link to the source.
+
+Second example containing a reference[^2] with a link to the source.
+
+[^1]: Reference first footnote with a return to content link.
+
+[^2]: Second reference with a link.
+```
+
+---
+
+## Links
+
+[enkhee-Osiris's personal blog](https://enkhee-Osiris.github.io/)
+
+```md
+[enkhee-Osiris's personal blog](https://enkhee-Osiris.github.io/)
+```
+
+---
+
+## Image
+
+![Placeholder image](https://placehold.co/720x400)
+
+```md
+![Placeholder image](https://placehold.co/720x400)
+```
+
+<Image
+  src="https://placehold.co/1440x800"
+  alt="placeholder image"
+  caption="Placeholder image"
+  inferSize
+/>
+
+```mdx
+import Image from "@/components/Image.astro";
+
+<Image
+  src="https://placehold.co/1440x800"
+  alt="placeholder image"
+  caption="Placeholder image"
+  inferSize
+/>
+```
+
+---
+
+## Table
+
+| Name    | Type   | Default |
+| ------- | ------ | ------- |
+| title   | string | —       |
+| visible | bool   | true    |
+| count   | number | 0       |
+
+Right-aligned and centered columns:
+
+| Item   | Qty | Price |
+| :----- | --: | :---: |
+| Apples |  12 | $1.20 |
+| Bread  |   1 | $3.50 |
+| Milk   |   2 | $2.80 |
+
+```mdx
+| Name    | Type   | Default |
+| ------- | ------ | ------- |
+| title   | string | —       |
+| visible | bool   | true    |
+| count   | number | 0       |
+
+Right-aligned and centered columns:
+
+| Item   | Qty | Price |
+| :----- | --: | :---: |
+| Apples |  12 | $1.20 |
+| Bread  |   1 | $3.50 |
+| Milk   |   2 | $2.80 |
+```
+
+---
+
+## Code
+
+Inline `code` looks like this.
+
+```ts
+interface WritingProps {
+  title: string;
+  description: string;
+  pubDatetime: Date;
+  tags: string[];
+}
+
+function getWritings(writings: WritingProps[]): WritingProps[] {
+  return writings
+    .filter(w => !w.draft)
+    .sort((a, b) => b.pubDatetime.getTime() - a.pubDatetime.getTime());
+}
+```
+
+```css title="global.css"
+:root {
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+  --font-body: "PT Serif", serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1a1a1a;
+    --color-text: #f5f5f5;
+  }
+}
+```
+
+```bash title="Terminal example"
+npm run dev
+npm run build
+```
+
+---
+
+## Lists
+
+### Ordered list
+
+1. First item
+2. Second item
+3. Third item
+   1. Nested first
+   2. Nested second
+
+```md
+1. First item
+2. Second item
+3. Third item
+   1. Nested first
+   2. Nested second
+```
+
+### Unordered list
+
+- List item one
+- List item two
+- List item three
+  - Nested item
+  - Another nested item
+
+```md
+- List item one
+- List item two
+- List item three
+  - Nested item
+  - Another nested item
+```
+
+### Task list
+
+- [x] Completed task
+- [ ] Incomplete task
+- [ ] Another incomplete task
+
+```md
+- [x] Completed task
+- [ ] Incomplete task
+- [ ] Another incomplete task
+```
+
+---
+
+## Other Elements
+
+### Abbreviation
+
+The <abbr title="HyperText Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
+
+```md
+The <abbr title="HyperText Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
+```
+
+### Subscript and Superscript
+
+H<sub>2</sub>O is water and X<sup>2</sup> is X squared.
+
+The chemical formula for caffeine is C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>.
+
+```md
+H<sub>2</sub>O is water and X<sup>2</sup> is X squared.
+
+The chemical formula for caffeine is C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>.
+```
+
+### Keyboard
+
+Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open the command palette.
+
+```md
+Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open the command palette.
+```
+
+### Mark
+
+This is <mark>highlighted text</mark> using the mark element.
+
+```md
+This is <mark>highlighted text</mark> using the mark element.
+```

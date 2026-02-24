@@ -1,0 +1,36 @@
+---
+import { URLS } from "@/constants";
+
+interface Props {
+  tag: string;
+}
+
+const { tag } = Astro.props;
+---
+
+<a href={URLS.tag(tag)} class="tag-chip">{`#${tag}`}</a>
+
+<style>
+  .tag-chip {
+    display: inline-block;
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    line-height: 1;
+    border-radius: 9999px;
+    background: var(--color-surface-100);
+    color: var(--color-surface-700);
+  }
+
+  .tag-chip:hover {
+    background: var(--color-surface-200);
+    color: var(--color-surface-900);
+  }
+
+  .tag-chip:focus-visible {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.125rem;
+    background: var(--color-surface-200);
+    color: var(--color-surface-900);
+  }
+</style>

@@ -1,7 +1,14 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 
-import Writing from "@/layouts/Writing.astro";
+import FloatingNav from "@/components/FloatingNav.astro";
+import Footer from "@/components/Footer.astro";
+import FullscreenNav from "@/components/FullscreenNav.astro";
+import Head from "@/components/Head.astro";
+import TagChip from "@/components/TagChip.astro";
+
+const quoteIcon = await import("@/assets/icons/quote.svg?raw");
+const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(quoteIcon.default)}")`;
 
 export async function getStaticPaths() {
   const writings = await getCollection("writing");
@@ -15,10 +22,382 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"writing">;
 
 const writing = Astro.props;
+const PAGE_TITLE = "";
+const publishedDate = writing.data.pubDatetime;
 
 const { Content } = await render(writing);
 ---
 
-<Writing title={writing.data.title} description={writing.data.description}>
-  <Content />
-</Writing>
+<!doctype html>
+<html lang="en">
+  <head>
+    <Head title={PAGE_TITLE} description={writing.data.description} />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <main>
+      <article class="container">
+        <div class="intro">
+          <time datetime={publishedDate.toISOString()}>
+            {
+              publishedDate.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })
+            }
+          </time>
+
+          <h1>{writing.data.title}</h1>
+
+          <div class="tags">
+            {writing.data.tags.map(tag => <TagChip tag={tag} />)}
+          </div>
+        </div>
+
+        <div class="prose">
+          <Content />
+        </div>
+      </article>
+    </main>
+
+    <FloatingNav />
+    <FullscreenNav />
+    <Footer />
+  </body>
+</html>
+
+<style define:vars={{ svgDataUri }}>
+  .container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding-block: clamp(4rem, 10vw, 15rem);
+    margin-inline: auto;
+    max-width: 55rem;
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 44rem;
+    margin-inline: auto;
+    gap: 1rem;
+  }
+
+  .intro time {
+    color: var(--color-surface-500);
+    font-size: 1.5rem;
+    line-height: 1.4;
+  }
+
+  .intro h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-optical-sizing: auto;
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* -------------------------
+   * Prose — markdown content styles
+   * ------------------------- */
+  .prose {
+    margin-block-start: 9.125rem;
+  }
+
+  .prose :global(h1),
+  .prose :global(h2),
+  .prose :global(h3),
+  .prose :global(h4),
+  .prose :global(h5),
+  .prose :global(h6) {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-optical-sizing: auto;
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+
+  .prose :global(h1) {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-block: 9.125rem 1.5rem;
+  }
+
+  .prose :global(h2) {
+    font-size: 2.0625rem;
+    line-height: 1.21;
+    margin-block: 7.5rem 1.25rem;
+  }
+
+  .prose :global(h3) {
+    font-size: 1.75rem;
+    line-height: 1.29;
+    margin-block: 6rem 1rem;
+  }
+
+  .prose :global(h4) {
+    font-size: 1.5rem;
+    line-height: 1.3333;
+    margin-block: 4.5rem 1rem;
+  }
+
+  .prose :global(h5) {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    margin-block: 3rem 1rem;
+  }
+
+  .prose :global(h6) {
+    font-size: 1.0625rem;
+    line-height: 1.41;
+    margin-block: 2rem 1rem;
+  }
+
+  .prose :global(p) {
+    margin-block-end: 1rem;
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+
+  .prose :global(hr) {
+    border: none;
+    border-block-start: 1px solid var(--color-border);
+    margin-block: 6rem;
+  }
+
+  .prose :global(strong) {
+    font-weight: 700;
+  }
+
+  .prose :global(em) {
+    font-style: italic;
+  }
+
+  .prose :global(del) {
+    text-decoration: line-through;
+  }
+
+  /* Blockquote */
+  .prose :global(blockquote) {
+    color: var(--color-surface-700);
+    position: relative;
+    padding-inline-start: 1rem;
+    margin-block: 1.2rem;
+    font-style: italic;
+  }
+
+  .prose :global(blockquote cite) {
+    font-size: 0.875rem;
+  }
+
+  .prose :global(blockquote::before) {
+    content: "";
+    position: absolute;
+    inset-inline-start: 6px;
+    inset-block: 0;
+    width: 4px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-border) calc(50% - 0.75rem),
+      transparent calc(50% - 0.75rem),
+      transparent calc(50% + 0.75rem),
+      var(--color-border) calc(50% + 0.75rem)
+    );
+  }
+
+  .prose :global(blockquote::after) {
+    content: "";
+    position: absolute;
+    inset-block-start: calc(50% - 0.5rem);
+    inset-inline-start: 0;
+    width: 1rem;
+    height: 1rem;
+    z-index: 1;
+    background-color: var(--color-text);
+    mask-image: var(--svgDataUri);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+  }
+
+  .prose :global(blockquote blockquote) {
+    margin-block-start: 0.8rem;
+  }
+
+  /* Anchor */
+  .prose :global(a) {
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-hover);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.15rem;
+  }
+
+  .prose :global(a:hover),
+  .prose :global(a:focus-visible) {
+    color: var(--color-surface-600);
+  }
+
+  /* Images */
+  .prose :global(img) {
+    border-radius: 0.25rem;
+    margin-block: 1.5rem;
+  }
+
+  .prose :global(figure) {
+    margin-block: 1.5rem;
+  }
+
+  .prose :global(figcaption) {
+    font-style: italic;
+    font-size: 0.875rem;
+    color: var(--color-surface-500);
+    text-align: center;
+    margin-block-start: 0.5rem;
+  }
+
+  /* Tables */
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .prose :global(th) {
+    font-size: 1.0625rem;
+    text-align: start;
+    border-block-end: 2px solid var(--color-border);
+    padding: 0.5rem 0.75rem;
+  }
+
+  .prose :global(td) {
+    font-size: 0.875rem;
+    border-block-end: 1px solid var(--color-border);
+    color: var(--color-surface-700);
+    padding: 0.5rem 0.75rem;
+  }
+
+  .prose :global(tr:last-child td) {
+    border-block-end: none;
+  }
+
+  /* Inline code */
+  .prose :global(:not(pre) > code) {
+    background: var(--color-code-bg);
+    color: var(--color-code-text);
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  /* Code blocks (expressive-code) */
+  .prose :global(.expressive-code) {
+    margin-block: 1.5rem;
+  }
+
+  /* Lists */
+  .prose :global(ul),
+  .prose :global(ol) {
+    max-width: 44rem;
+    margin-block: 1rem;
+    margin-inline: auto;
+    padding-inline-start: 1.5rem;
+  }
+
+  .prose :global(ul) {
+    list-style-type: disc;
+  }
+
+  .prose :global(ol) {
+    list-style-type: decimal;
+  }
+
+  .prose :global(li) {
+    margin-block-end: 0.3rem;
+  }
+
+  .prose :global(li ul),
+  .prose :global(li ol) {
+    margin-block: 0.3rem;
+  }
+
+  /* Task list (checkboxes) */
+  .prose :global(ul:has(input[type="checkbox"])) {
+    list-style: none;
+    padding-inline-start: 0;
+  }
+
+  .prose :global(li:has(> input[type="checkbox"])) {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  /* Other inline elements */
+  .prose :global(abbr[title]) {
+    text-decoration: underline dotted;
+    cursor: help;
+  }
+
+  .prose :global(kbd) {
+    display: inline-block;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 0 var(--color-border);
+  }
+
+  .prose :global(mark) {
+    background: var(--color-mark-bg);
+    color: var(--color-mark-text);
+    padding-inline: 0.15rem;
+    border-radius: 0.15rem;
+  }
+
+  .prose :global(sub),
+  .prose :global(sup) {
+    font-size: 0.75rem;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  .prose :global(sub a),
+  .prose :global(sup a) {
+    text-decoration-thickness: 1px;
+  }
+
+  .prose :global(sup) {
+    inset-block-start: -0.5rem;
+  }
+
+  .prose :global(sub) {
+    inset-block-end: -0.25rem;
+  }
+
+  .prose :global(.footnotes p) {
+    margin-block-end: 0;
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  .prose :global(.footnotes ul),
+  .prose :global(.footnotes ol) {
+    max-width: none;
+    margin-inline: 0;
+  }
+</style>

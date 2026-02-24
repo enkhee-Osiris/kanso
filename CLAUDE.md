@@ -31,22 +31,24 @@ This is an Astro 5 site with a minimal, content-focused design.
 
 **Navigation:** `FloatingNav.astro` is a fixed right-side bar (z-index 100) with menu toggle, search link, and theme toggle. `FullscreenNav.astro` is a full-screen overlay (z-index 90) with centered nav links (Home, Writings, About, Search) — visibility is CSS-driven via `html[data-menu-open]` (set by FloatingNav's menu toggle). Page scroll is locked when the overlay is open (`overflow: hidden` on `html`). Both components are included on every page.
 
-**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `Footer.astro` (copyright line) for site chrome. Writings specifically use the `Writing.astro` layout which wraps this pattern.
+**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `Footer.astro` (copyright line) for site chrome. The writing detail page (`src/pages/writing/[...slug].astro`) is self-contained — it imports components directly rather than using a layout wrapper. Markdown content is rendered inside a `.prose` div with scoped `:global()` styles for all typography elements.
 
 **Key integrations:**
 
 - `@astrojs/mdx` — MDX support for writings
 - `@astrojs/sitemap` — Auto-generated sitemap
 - `@astrojs/rss` — RSS feed at `/rss.xml` (see `src/pages/rss.xml.ts`)
-- `astro-expressive-code` — Code blocks with Dracula/Solarized Light themes and line numbers (`ec.config.mjs`)
+- `astro-expressive-code` — Code blocks with Kanagawa Wave/Lotus themes, JetBrains Mono font, line numbers (`ec.config.mjs`). Uses `themeCssSelector` to map theme type to `[data-theme="dark"]`/`[data-theme="light"]`.
 - `sharp` — Image optimization
 
-**Styling:** Global styles in `src/styles/global.css` (imported via `Head.astro`). Fonts: Lora (display/headings) and PT Serif (body) loaded via Google Fonts. CSS variables on `:root` for colors (`--color-surface-*`), fonts (`--font-body`, `--font-display`), and semantic tokens (`--color-bg`, `--color-text`, `--color-border`). Dark mode via `prefers-color-scheme` with `html[data-theme]` override. Component-scoped styles use `<style>` tags in `.astro` files.
+**Styling:** Global styles in `src/styles/global.css` (imported via `Head.astro`). Fonts: Lora (display/headings), PT Serif (body), JetBrains Mono (code) loaded via Google Fonts. CSS variables on `:root` for colors (`--color-surface-*`), fonts (`--font-body`, `--font-display`), and semantic tokens (`--color-bg`, `--color-text`, `--color-border`, `--color-code-bg`, `--color-code-text`, `--color-mark-bg`, `--color-mark-text`). Dark mode via `prefers-color-scheme` with `html[data-theme]` override. Theme variables are defined in four blocks: `:root`, `@media (prefers-color-scheme: dark)`, `html[data-theme="light"]`, `html[data-theme="dark"]`. Component-scoped styles use `<style>` tags in `.astro` files.
 
-**SVG icons:** Stored in `src/assets/icons/` and imported via `?raw` suffix + `set:html` directive (e.g., `const icon = await import("@/assets/icons/name.svg?raw")`).
+**SVG icons:** Stored in `src/assets/icons/` and imported via `?raw` suffix + `set:html` directive (e.g., `const icon = await import("@/assets/icons/name.svg?raw")`). For CSS usage (e.g., blockquote decoration), SVGs are embedded as data URIs with `mask-image` so `background-color` can use CSS variables for theme-aware coloring.
+
+**Components:** `TagChip.astro` renders a pill-shaped tag link using `URLS.tag()`. `Image.astro` wraps Astro's `<Image>` with optional `<figure>`/`<figcaption>`.
 
 **Links:** The site uses `base: "/kanso"` in `astro.config.mjs`. Internal links must use `import.meta.env.BASE_URL` as prefix or use `URLS` constants.
 
-**Site constants:** `src/constants.ts` exports `SITE_TITLE`, `SITE_DESCRIPTION`, `AUTHOR`, `HOME_LATEST_WRITINGS_LIMIT`, `HOME_FEATURED_WRITINGS_LIMIT`, and `URLS` (route map with `home`, `writings`, `writing()`, `search`, `about`). The site URL is configured in `astro.config.mjs`.
+**Site constants:** `src/constants.ts` exports `SITE_TITLE`, `SITE_DESCRIPTION`, `AUTHOR`, `HOME_LATEST_WRITINGS_LIMIT`, `HOME_FEATURED_WRITINGS_LIMIT`, `FULL_URL`, and `URLS` (route map with `home`, `writings`, `writing()`, `tags`, `tag()`, `search`, `about`). The site URL is configured in `astro.config.mjs`.
 
 **TypeScript:** Extends `astro/tsconfigs/strict` (provides `strict`, `noEmit`, `verbatimModuleSyntax`, etc.). Additional: `target: ES2022`, `noImplicitReturns`, path aliases (`@/components/*`, `@/layouts/*`, `@/styles/*`, `@/utils/*`, `@/assets/*`, `@/constants`), and `@astrojs/ts-plugin`.

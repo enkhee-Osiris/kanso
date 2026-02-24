@@ -1,0 +1,14 @@
+---
+import { Image as BaseImage, type LocalImageProps, type RemoteImageProps } from "astro:assets";
+
+type Props = (LocalImageProps | RemoteImageProps) & {
+  caption?: string;
+};
+
+const { caption, ...props } = Astro.props;
+---
+
+<figure>
+  <BaseImage {...props} />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
