@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 
 import FloatingNav from "@/components/FloatingNav.astro";
 import Footer from "@/components/Footer.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import SkipLink from "@/components/SkipLink.astro";
@@ -51,15 +52,7 @@ const { Content } = await render(writing);
     <main id="main-content">
       <article class="container">
         <div class="intro">
-          <time datetime={publishedDate.toISOString()}>
-            {
-              publishedDate.toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })
-            }
-          </time>
+          <FormattedDate date={publishedDate} />
 
           <h1>{writing.data.title}</h1>
 
@@ -86,14 +79,10 @@ const { Content } = await render(writing);
                 {relatedWritings.map(writing => (
                   <li>
                     <a href={URLS.writing(writing.id)}>
-                      <time datetime={writing.data.pubDatetime.toISOString()}>
-                        {writing.data.pubDatetime.toLocaleDateString("en-US", {
-                          year: "2-digit",
-                          month: "numeric",
-                          day: "numeric",
-                        })}
-                      </time>
-
+                      <FormattedDate
+                        date={writing.data.pubDatetime}
+                        formatOptions={{ year: "2-digit", month: "numeric", day: "numeric" }}
+                      />
                       <span>{writing.data.title}</span>
                     </a>
                   </li>
@@ -130,7 +119,7 @@ const { Content } = await render(writing);
     gap: 1rem;
   }
 
-  .intro time {
+  .intro :global(time) {
     color: var(--color-surface-500);
     font-size: 1.5rem;
     line-height: 1.4;
@@ -505,7 +494,7 @@ const { Content } = await render(writing);
     color: var(--color-surface-600);
   }
 
-  .related time {
+  .related :global(time) {
     position: absolute;
     padding-block-start: 0.5625rem;
     inset-inline-end: 100%;
@@ -518,8 +507,8 @@ const { Content } = await render(writing);
     transition: opacity 0.2s ease;
   }
 
-  .related a:hover time,
-  .related a:focus-visible time {
+  .related a:hover :global(time),
+  .related a:focus-visible :global(time) {
     opacity: 1;
   }
 </style>

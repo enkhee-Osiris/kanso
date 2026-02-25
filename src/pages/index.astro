@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 
 import FloatingNav from "@/components/FloatingNav.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import SkipLink from "@/components/SkipLink.astro";
@@ -106,14 +107,10 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
               latestWritings.map(writing => (
                 <li>
                   <a href={URLS.writing(writing.id)}>
-                    <time datetime={writing.data.pubDatetime.toISOString()}>
-                      {writing.data.pubDatetime.toLocaleDateString("en-US", {
-                        year: "2-digit",
-                        month: "numeric",
-                        day: "numeric",
-                      })}
-                    </time>
-
+                    <FormattedDate
+                      date={writing.data.pubDatetime}
+                      formatOptions={{ year: "2-digit", month: "numeric", day: "numeric" }}
+                    />
                     <span>{writing.data.title}</span>
                   </a>
                 </li>
@@ -397,7 +394,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     color: var(--color-surface-600);
   }
 
-  .latest-writings li time {
+  .latest-writings li :global(time) {
     position: absolute;
     padding-block-start: 0.5625rem;
     inset-inline-end: 100%;
@@ -410,8 +407,8 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     transition: opacity 0.2s ease;
   }
 
-  .latest-writings li a:hover time,
-  .latest-writings li a:focus-visible time {
+  .latest-writings li a:hover :global(time),
+  .latest-writings li a:focus-visible :global(time) {
     opacity: 1;
   }
 </style>
