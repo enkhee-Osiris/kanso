@@ -1,9 +1,11 @@
 ---
+import { AUTHOR } from "@/constants";
+
 const year = new Date().getFullYear();
 ---
 
 <footer>
-  <p>&copy; {year} Enkherdene Bolormaa</p>
+  <p>&copy; {year} {AUTHOR}</p>
 </footer>
 
 <style>
@@ -12,6 +14,6 @@ const year = new Date().getFullYear();
     text-align: center;
     font-size: 0.875rem;
     font-style: italic;
-    color: var(--color-surface-400);
+    color: var(--color-surface-700);
   }
 </style>
