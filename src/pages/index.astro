@@ -272,7 +272,12 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     z-index: 2;
     display: flex;
     align-self: flex-start;
+    flex-wrap: wrap;
     gap: 0.75rem;
+  }
+
+  .featured-writings .tags li {
+    display: inline-block;
   }
 
   .featured-writings .tags li a {
@@ -280,10 +285,15 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     padding: 0.4rem 0.8rem;
     text-decoration: none;
     font-size: 0.875rem;
-    line-height: 1;
+    line-height: 1.21;
     border-radius: 9999px;
     background: var(--color-surface-100);
     color: var(--color-surface-700);
+  }
+
+  .featured-writings .tags li a::before {
+    content: "#";
+    margin-inline-end: 1px;
   }
 
   .featured-writings .tags li a:hover {

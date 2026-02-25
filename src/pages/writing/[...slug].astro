@@ -63,9 +63,15 @@ const { Content } = await render(writing);
 
           <h1>{writing.data.title}</h1>
 
-          <div class="tags">
-            {writing.data.tags.map(tag => <TagChip tag={tag} />)}
-          </div>
+          <ul class="tags" role="list">
+            {
+              writing.data.tags.map(tag => (
+                <li>
+                  <TagChip tag={tag} />
+                </li>
+              ))
+            }
+          </ul>
         </div>
 
         <div class="prose">
@@ -141,7 +147,11 @@ const { Content } = await render(writing);
   .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 1rem;
+  }
+
+  .tags li {
+    display: inline-block;
   }
 
   /* -------------------------

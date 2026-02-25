@@ -8,18 +8,23 @@ interface Props {
 const { tag } = Astro.props;
 ---
 
-<a href={URLS.tag(tag)} class="tag-chip">{`#${tag}`}</a>
+<a href={URLS.tag(tag)} class="tag-chip">{tag}</a>
 
 <style>
   .tag-chip {
-    display: inline-block;
+    display: block;
     text-decoration: none;
     padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
-    line-height: 1;
+    font-size: 1.0625rem;
+    line-height: 1.21;
     border-radius: 9999px;
     background: var(--color-surface-100);
     color: var(--color-surface-700);
+  }
+
+  .tag-chip::before {
+    content: "#";
+    margin-inline-end: 1px;
   }
 
   .tag-chip:hover {
