@@ -6,7 +6,8 @@ import Footer from "@/components/Footer.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import TagChip from "@/components/TagChip.astro";
-import { TITLES, DESCRIPTIONS } from "@/constants";
+import { TITLES, DESCRIPTIONS, URLS, RELATED_WRITINGS_LIMIT } from "@/constants";
+import { getRelatedWritings } from "@/utils/data";
 
 const quoteIcon = await import("@/assets/icons/quote.svg?raw");
 const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(quoteIcon.default)}")`;
@@ -24,6 +25,8 @@ type Props = CollectionEntry<"writing">;
 
 const writing = Astro.props;
 const publishedDate = writing.data.pubDatetime;
+const allWritings = await getCollection("writing");
+const relatedWritings = getRelatedWritings(writing, allWritings, RELATED_WRITINGS_LIMIT);
 
 const { Content } = await render(writing);
 ---
@@ -39,6 +42,7 @@ const { Content } = await render(writing);
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital@0;1&display=swap"
       rel="stylesheet"
     />
+    <style set:html={`.prose blockquote::after { mask-image: ${svgDataUri}; }`}></style>
   </head>
 
   <body>
@@ -65,6 +69,31 @@ const { Content } = await render(writing);
         <div class="prose">
           <Content />
         </div>
+
+        {
+          relatedWritings.length > 0 && (
+            <section class="related" aria-label="Related writings">
+              <h2>More writings</h2>
+              <ul role="list">
+                {relatedWritings.map(writing => (
+                  <li>
+                    <a href={URLS.writing(writing.id)}>
+                      <time datetime={writing.data.pubDatetime.toISOString()}>
+                        {writing.data.pubDatetime.toLocaleDateString("en-US", {
+                          year: "2-digit",
+                          month: "numeric",
+                          day: "numeric",
+                        })}
+                      </time>
+
+                      <span>{writing.data.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
       </article>
     </main>
 
@@ -74,7 +103,7 @@ const { Content } = await render(writing);
   </body>
 </html>
 
-<style define:vars={{ svgDataUri }}>
+<style>
   .container {
     display: flex;
     flex: 1;
@@ -230,7 +259,6 @@ const { Content } = await render(writing);
     height: 1rem;
     z-index: 1;
     background-color: var(--color-text);
-    mask-image: var(--svgDataUri);
     mask-size: contain;
     mask-repeat: no-repeat;
   }
@@ -401,5 +429,85 @@ const { Content } = await render(writing);
   .prose :global(.footnotes ol) {
     max-width: none;
     margin-inline: 0;
+  }
+
+  /* -------------------------
+   * Related writings
+   * ------------------------- */
+  .related {
+    width: 100%;
+    margin-inline: auto;
+    margin-block-start: 9.125rem;
+    border-block-start: 1px solid var(--color-border);
+    padding-block-start: 3rem;
+  }
+
+  .related h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-optical-sizing: auto;
+    font-size: 1.0625rem;
+    line-height: 1.41;
+    margin-block-end: 2rem;
+    color: var(--color-surface-400);
+  }
+
+  .related ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .related a {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+  }
+
+  .related a:focus-visible {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.5rem;
+    color: var(--color-text);
+    border-radius: 0.125rem;
+  }
+
+  .related a span {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-optical-sizing: auto;
+    font-size: 1.5rem;
+    line-height: 1.3333;
+    color: var(--color-text);
+  }
+
+  .related a:link span {
+    color: var(--color-text);
+  }
+
+  .related a:visited span {
+    color: var(--color-surface-400);
+  }
+
+  .related a:hover span,
+  .related a:focus-visible span {
+    color: var(--color-surface-600);
+  }
+
+  .related time {
+    position: absolute;
+    padding-block-start: 0.5625rem;
+    inset-inline-end: 100%;
+    margin-inline-end: 1rem;
+    white-space: nowrap;
+    color: var(--color-surface-500);
+    font-size: 0.875rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .related a:hover time,
+  .related a:focus-visible time {
+    opacity: 1;
   }
 </style>

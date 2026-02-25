@@ -12,6 +12,7 @@ export const SITE_TITLE = "Kanso";
 export const SITE_DESCRIPTION = "A minimal writing theme for Astro";
 export const HOME_LATEST_WRITINGS_LIMIT = 5;
 export const HOME_FEATURED_WRITINGS_LIMIT = 2;
+export const RELATED_WRITINGS_LIMIT = 5;
 export const AUTHOR = "Enkherdene Bolormaa";
 
 export const URLS = {

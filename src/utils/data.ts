@@ -22,6 +22,21 @@ export function getNonFeaturedWritings(writings: Writing[], limit?: number) {
   return limit ? filtered.slice(0, limit) : filtered;
 }
 
+export function getRelatedWritings(current: Writing, writings: Writing[], limit = 5) {
+  const currentTags = new Set(current.data.tags);
+
+  return writings
+    .filter(w => w.id !== current.id)
+    .map(w => ({
+      writing: w,
+      shared: w.data.tags.filter(t => currentTags.has(t)).length,
+    }))
+    .filter(w => w.shared > 0)
+    .sort((a, b) => b.shared - a.shared || byDateDesc(a.writing, b.writing))
+    .slice(0, limit)
+    .map(w => w.writing);
+}
+
 export function getTagsWithWritings(writings: Writing[]) {
   const tagMap = new Map<string, Writing[]>();
 

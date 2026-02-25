@@ -11,6 +11,9 @@ export default defineConfig({
   base: "/kanso",
   trailingSlash: "always",
   integrations: [expressiveCode(), mdx(), sitemap()],
+  image: {
+    responsiveStyles: true,
+  },
   experimental: {
     svgo: true,
   },

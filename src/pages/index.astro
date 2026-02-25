@@ -100,7 +100,17 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
             {
               latestWritings.map(writing => (
                 <li>
-                  <a href={URLS.writing(writing.id)}>{writing.data.title}</a>
+                  <a href={URLS.writing(writing.id)}>
+                    <time datetime={writing.data.pubDatetime.toISOString()}>
+                      {writing.data.pubDatetime.toLocaleDateString("en-US", {
+                        year: "2-digit",
+                        month: "numeric",
+                        day: "numeric",
+                      })}
+                    </time>
+
+                    <span>{writing.data.title}</span>
+                  </a>
                 </li>
               ))
             }
@@ -222,10 +232,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   .featured-writings .card > a::after {
     content: "";
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     z-index: 1;
   }
 
@@ -243,7 +250,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     height: 4rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 1rem;
+    margin-block-end: 1rem;
   }
 
   /* Card description — capped height to keep cards uniform */
@@ -302,7 +309,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     font-optical-sizing: auto;
     font-size: 1.0625rem;
     line-height: 1.41;
-    margin-bottom: 2rem;
+    margin-block-end: 2rem;
   }
 
   .latest-writings h2 a {
@@ -320,6 +327,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     outline: 1px solid var(--color-border-hover);
     outline-offset: 0.25rem;
     color: var(--color-text);
+    border-radius: 0.125rem;
   }
 
   .latest-writings h2 a:hover {
@@ -340,30 +348,55 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .latest-writings li a {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+  }
+
+  .latest-writings li a:focus-visible {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.5rem;
+    color: var(--color-text);
+    border-radius: 0.125rem;
+  }
+
+  .latest-writings li a span {
     font-family: var(--font-display);
     font-weight: 700;
     font-optical-sizing: auto;
     font-size: 1.5rem;
     line-height: 1.3333;
-    text-decoration: none;
     color: var(--color-text);
   }
 
-  .latest-writings li a:link {
+  .latest-writings li a:link span {
     color: var(--color-text);
   }
 
-  .latest-writings li a:visited {
+  .latest-writings li a:visited span {
     color: var(--color-surface-400);
   }
 
-  .latest-writings li a:hover {
+  .latest-writings li a:hover span,
+  .latest-writings li a:focus-visible span {
     color: var(--color-surface-600);
   }
 
-  .latest-writings li a:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
-    color: var(--color-text);
+  .latest-writings li time {
+    position: absolute;
+    padding-block-start: 0.5625rem;
+    inset-inline-end: 100%;
+    margin-inline-end: 1rem;
+    white-space: nowrap;
+    color: var(--color-surface-500);
+    font-size: 0.875rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .latest-writings li a:hover time,
+  .latest-writings li a:focus-visible time {
+    opacity: 1;
   }
 </style>
