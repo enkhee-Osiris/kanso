@@ -9,7 +9,12 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
 ---
 
 <nav class="floating-nav" aria-label="Site navigation">
-  <button id="menu-toggle" type="button" aria-expanded="false" aria-label="Open menu"></button>
+  <button
+    id="menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-label="Open menu"
+    aria-controls="fullscreen-nav"></button>
 
   <a href={URLS.search} aria-label="Search">
     <Fragment set:html={searchIcon.default} />
