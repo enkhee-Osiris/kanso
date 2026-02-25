@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 
 import Head from "@/components/Head.astro";
+import SkipLink from "@/components/SkipLink.astro";
 import { DESCRIPTIONS, TITLES, URLS } from "@/constants";
 import { getTagsWithWritings } from "@/utils/data";
 
@@ -17,7 +18,8 @@ const tagsWithWritings = getTagsWithWritings(allWritings);
   </head>
 
   <body>
-    <main>
+    <SkipLink />
+    <main id="main-content">
       <section class="tags" aria-label="Tags with writings">
         <ul role="list">
           {

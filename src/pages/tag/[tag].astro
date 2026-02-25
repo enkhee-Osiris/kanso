@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 
 import Head from "@/components/Head.astro";
+import SkipLink from "@/components/SkipLink.astro";
 import { TITLES, DESCRIPTIONS, URLS } from "@/constants";
 import { getTagsWithWritings, getSortedWritings } from "@/utils/data";
 
@@ -27,7 +28,8 @@ const { tag, writings } = Astro.props;
   </head>
 
   <body>
-    <main>
+    <SkipLink />
+    <main id="main-content">
       <section class="writings" aria-label="Writings">
         <h2>{tag} - Writings</h2>
 

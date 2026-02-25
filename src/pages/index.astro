@@ -4,10 +4,12 @@ import { getCollection } from "astro:content";
 import FloatingNav from "@/components/FloatingNav.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
+import SkipLink from "@/components/SkipLink.astro";
 import {
   DESCRIPTIONS,
   HOME_FEATURED_WRITINGS_LIMIT,
   HOME_LATEST_WRITINGS_LIMIT,
+  SOCIAL,
   TITLES,
   URLS,
 } from "@/constants";
@@ -32,7 +34,8 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   </head>
 
   <body>
-    <main>
+    <SkipLink />
+    <main id="main-content">
       <div class="container">
         <section class="intro" aria-label="Introduction">
           <div>
@@ -45,17 +48,17 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
           <ul role="list">
             <li>
-              <a href="#" aria-label="GitHub">
+              <a href={SOCIAL.github} aria-label="GitHub">
                 <Fragment set:html={githubIcon.default} />
               </a>
             </li>
             <li>
-              <a href="#" aria-label="LinkedIn">
+              <a href={SOCIAL.linkedin} aria-label="LinkedIn">
                 <Fragment set:html={linkedinIcon.default} />
               </a>
             </li>
             <li>
-              <a href="#" aria-label="Email">
+              <a href={SOCIAL.email} aria-label="Email">
                 <Fragment set:html={mailIcon.default} />
               </a>
             </li>

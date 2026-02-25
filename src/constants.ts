@@ -15,6 +15,12 @@ export const HOME_FEATURED_WRITINGS_LIMIT = 2;
 export const RELATED_WRITINGS_LIMIT = 5;
 export const AUTHOR = "Enkherdene Bolormaa";
 
+export const SOCIAL = {
+  github: "https://github.com/enkhee-Osiris",
+  linkedin: "https://linkedin.com/in/enkhee",
+  email: "mailto:hello@example.com",
+};
+
 export const URLS = {
   home: `${CLEAN_BASE}/`,
   writings: `${CLEAN_BASE}/writing${URL_ENDING}`,

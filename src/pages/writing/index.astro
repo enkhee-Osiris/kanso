@@ -6,6 +6,7 @@ import Footer from "@/components/Footer.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
+import SkipLink from "@/components/SkipLink.astro";
 import { DESCRIPTIONS, TITLES, URLS } from "@/constants";
 import { getSortedWritings } from "@/utils/data";
 
@@ -21,7 +22,8 @@ const writings = getSortedWritings(allWritings);
   </head>
 
   <body>
-    <main>
+    <SkipLink />
+    <main id="main-content">
       <section>
         <ul>
           {

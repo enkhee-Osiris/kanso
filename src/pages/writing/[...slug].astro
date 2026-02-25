@@ -5,6 +5,7 @@ import FloatingNav from "@/components/FloatingNav.astro";
 import Footer from "@/components/Footer.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
+import SkipLink from "@/components/SkipLink.astro";
 import TagChip from "@/components/TagChip.astro";
 import { TITLES, DESCRIPTIONS, URLS, RELATED_WRITINGS_LIMIT } from "@/constants";
 import { getRelatedWritings } from "@/utils/data";
@@ -46,7 +47,8 @@ const { Content } = await render(writing);
   </head>
 
   <body>
-    <main>
+    <SkipLink />
+    <main id="main-content">
       <article class="container">
         <div class="intro">
           <time datetime={publishedDate.toISOString()}>
