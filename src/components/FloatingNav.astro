@@ -27,7 +27,7 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
   .floating-nav {
     position: fixed;
     top: 50%;
-    right: 1.5rem;
+    inset-inline-end: 1.5rem;
     transform: translateY(-50%);
     z-index: 100;
     display: flex;
@@ -126,17 +126,41 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
     }
   });
 
+  function openMenu() {
+    menuToggle.setAttribute("aria-expanded", "true");
+    document.documentElement.setAttribute("data-menu-open", "");
+    updateMenuToggle();
+
+    document.querySelectorAll("main, footer").forEach(el => {
+      el.setAttribute("inert", "");
+    });
+  }
+
+  function closeMenu() {
+    menuToggle.setAttribute("aria-expanded", "false");
+    document.documentElement.removeAttribute("data-menu-open");
+    updateMenuToggle();
+
+    document.querySelectorAll("main, footer").forEach(el => {
+      el.removeAttribute("inert");
+    });
+
+    menuToggle.focus();
+  }
+
   menuToggle.addEventListener("click", () => {
     const expanded = menuToggle.getAttribute("aria-expanded") === "true";
 
-    menuToggle.setAttribute("aria-expanded", String(!expanded));
-
     if (expanded) {
-      document.documentElement.removeAttribute("data-menu-open");
+      closeMenu();
     } else {
-      document.documentElement.setAttribute("data-menu-open", "");
+      openMenu();
     }
+  });
 
-    updateMenuToggle();
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && menuToggle.getAttribute("aria-expanded") === "true") {
+      closeMenu();
+    }
   });
 </script>
