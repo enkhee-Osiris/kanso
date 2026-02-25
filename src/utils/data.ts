@@ -55,3 +55,22 @@ export function getTagsWithWritings(writings: Writing[]) {
 
   return Array.from(tagMap, ([tag, writings]) => ({ tag, writings }));
 }
+
+export function getWritingsByYear(writings: Writing[]) {
+  const yearMap = new Map<number, Writing[]>();
+
+  for (const writing of writings) {
+    const year = writing.data.pubDatetime.getFullYear();
+    if (!yearMap.has(year)) {
+      yearMap.set(year, []);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    yearMap.get(year)!.push(writing);
+  }
+
+  return Array.from(yearMap, ([year, writings]) => ({
+    year,
+    writings: getSortedWritings(writings),
+  })).sort((a, b) => b.year - a.year);
+}
