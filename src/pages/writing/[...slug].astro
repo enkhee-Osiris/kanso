@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 
+import BackLink from "@/components/BackLink.astro";
 import FloatingNav from "@/components/FloatingNav.astro";
 import Footer from "@/components/Footer.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
@@ -51,20 +52,24 @@ const { Content } = await render(writing);
     <SkipLink />
     <main id="main-content">
       <article class="container">
-        <div class="intro">
-          <FormattedDate date={publishedDate} />
+        <div class="article-header">
+          <BackLink />
 
-          <h1>{writing.data.title}</h1>
+          <div class="article-meta">
+            <FormattedDate date={publishedDate} />
 
-          <ul class="tags" role="list">
-            {
-              writing.data.tags.map(tag => (
-                <li>
-                  <TagChip tag={tag} />
-                </li>
-              ))
-            }
-          </ul>
+            <h1 class="article-title">{writing.data.title}</h1>
+
+            <ul class="article-tags" role="list">
+              {
+                writing.data.tags.map(tag => (
+                  <li>
+                    <TagChip tag={tag} />
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
         </div>
 
         <div class="prose">
@@ -73,17 +78,18 @@ const { Content } = await render(writing);
 
         {
           relatedWritings.length > 0 && (
-            <section class="related" aria-label="Related writings">
-              <h2>More writings</h2>
-              <ul role="list">
+            <section class="related-writings" aria-label="Related writings">
+              <h2 class="related-heading">More writings</h2>
+
+              <ul class="related-list" role="list">
                 {relatedWritings.map(writing => (
-                  <li>
-                    <a href={URLS.writing(writing.id)}>
+                  <li class="related-item">
+                    <a href={URLS.writing(writing.id)} class="related-link">
                       <FormattedDate
                         date={writing.data.pubDatetime}
                         formatOptions={{ year: "2-digit", month: "numeric", day: "numeric" }}
                       />
-                      <span>{writing.data.title}</span>
+                      <span class="related-title">{writing.data.title}</span>
                     </a>
                   </li>
                 ))}
@@ -101,6 +107,9 @@ const { Content } = await render(writing);
 </html>
 
 <style>
+  /* -------------------------
+   * Article Layout
+   * ------------------------- */
   .container {
     display: flex;
     flex: 1;
@@ -110,22 +119,29 @@ const { Content } = await render(writing);
     max-width: 55rem;
   }
 
-  .intro {
-    display: flex;
-    flex-direction: column;
+  /* -------------------------
+   * Article Header
+   * ------------------------- */
+  .article-header {
     width: 100%;
     max-width: 44rem;
     margin-inline: auto;
+    margin-block-end: 3rem;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
   }
 
-  .intro :global(time) {
+  .article-meta :global(time) {
     color: var(--color-surface-500);
     font-size: 1.5rem;
     line-height: 1.4;
   }
 
-  .intro h1 {
+  .article-title {
     font-family: var(--font-display);
     font-weight: 700;
     font-optical-sizing: auto;
@@ -133,22 +149,24 @@ const { Content } = await render(writing);
     line-height: 1.2;
   }
 
-  .tags {
+  .article-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
   }
 
-  .tags li {
+  .article-tags li {
     display: inline-block;
   }
 
   /* -------------------------
-   * Prose — markdown content styles
+   * Article Content (Prose)
    * ------------------------- */
   .prose {
     margin-block-start: 9.125rem;
   }
+
+  /* Headings */
 
   .prose :global(h1),
   .prose :global(h2),
@@ -199,11 +217,14 @@ const { Content } = await render(writing);
     margin-block: 2rem 1rem;
   }
 
+  /* Paragraphs */
   .prose :global(p) {
     margin-block-end: 1rem;
     max-width: 44rem;
     margin-inline: auto;
   }
+
+  /* Horizontal rule */
 
   .prose :global(hr) {
     border: none;
@@ -211,6 +232,7 @@ const { Content } = await render(writing);
     margin-block: 6rem;
   }
 
+  /* Text emphasis */
   .prose :global(strong) {
     font-weight: 700;
   }
@@ -268,7 +290,7 @@ const { Content } = await render(writing);
     margin-block-start: 0.8rem;
   }
 
-  /* Anchor */
+  /* Links */
   .prose :global(a) {
     text-decoration: underline;
     text-decoration-color: var(--color-border-hover);
@@ -420,6 +442,7 @@ const { Content } = await render(writing);
     inset-block-end: -0.25rem;
   }
 
+  /* Footnotes */
   .prose :global(.footnotes p) {
     margin-block-end: 0;
     max-width: none;
@@ -433,9 +456,9 @@ const { Content } = await render(writing);
   }
 
   /* -------------------------
-   * Related writings
+   * Related Writings
    * ------------------------- */
-  .related {
+  .related-writings {
     width: 100%;
     margin-inline: auto;
     margin-block-start: 9.125rem;
@@ -443,7 +466,7 @@ const { Content } = await render(writing);
     padding-block-start: 3rem;
   }
 
-  .related h2 {
+  .related-heading {
     font-family: var(--font-display);
     font-weight: 700;
     font-optical-sizing: auto;
@@ -453,48 +476,48 @@ const { Content } = await render(writing);
     color: var(--color-surface-600);
   }
 
-  .related ul {
+  .related-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
 
-  .related a {
+  .related-link {
     display: inline-block;
     position: relative;
     text-decoration: none;
   }
 
-  .related a:focus-visible {
+  .related-link:focus-visible {
     outline: 1px solid var(--color-border-hover);
     outline-offset: 0.5rem;
-    color: var(--color-text);
     border-radius: 0.125rem;
   }
 
-  .related a span {
+  .related-title {
     font-family: var(--font-display);
     font-weight: 700;
     font-optical-sizing: auto;
     font-size: 1.5rem;
     line-height: 1.3333;
     color: var(--color-text);
+    display: block;
   }
 
-  .related a:link span {
+  .related-link:link .related-title {
     color: var(--color-text);
   }
 
-  .related a:visited span {
+  .related-link:visited .related-title {
     color: var(--color-surface-400);
   }
 
-  .related a:hover span,
-  .related a:focus-visible span {
+  .related-link:hover .related-title,
+  .related-link:focus-visible .related-title {
     color: var(--color-surface-600);
   }
 
-  .related :global(time) {
+  .related-link :global(time) {
     position: absolute;
     padding-block-start: 0.5625rem;
     inset-inline-end: 100%;
@@ -507,8 +530,8 @@ const { Content } = await render(writing);
     transition: opacity 0.2s ease;
   }
 
-  .related a:hover :global(time),
-  .related a:focus-visible :global(time) {
+  .related-link:hover :global(time),
+  .related-link:focus-visible :global(time) {
     opacity: 1;
   }
 </style>
