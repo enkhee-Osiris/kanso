@@ -50,8 +50,8 @@ p {
 
 /* Improve link defaults */
 a {
-  text-decoration-skip-ink: auto;
   color: currentColor;
+  text-decoration-skip-ink: auto;
 }
 
 /* Remove list styles on ul, ol with a list role */

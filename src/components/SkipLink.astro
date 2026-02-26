@@ -1,20 +1,27 @@
 <a href="#main-content" class="skip-link">Skip to content</a>
 
 <style>
+  /* -------------------------
+   * Module — Skip Link
+   * Visually hidden until focused; slides in from top
+   * ------------------------- */
   .skip-link {
     position: absolute;
-    inset-inline-start: 0;
+    transform: translateY(-100%);
+    z-index: 200;
+    transition: transform 0.15s ease;
     inset-block-start: 0;
-    padding: 0.75rem 1.5rem;
+    inset-inline-start: 0;
     background: var(--color-bg);
+    padding: 0.75rem 1.5rem;
     color: var(--color-text);
     font-size: 0.875rem;
     text-decoration: none;
-    z-index: 200;
-    transform: translateY(-100%);
-    transition: transform 0.15s ease;
   }
 
+  /* -------------------------
+   * State — Focused
+   * ------------------------- */
   .skip-link:focus {
     transform: translateY(0);
     outline: 2px solid var(--color-border-hover);

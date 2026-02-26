@@ -130,6 +130,9 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 </html>
 
 <style>
+  /* -------------------------
+   * Theme — Local Variables
+   * ------------------------- */
   :root {
     --home-padding-y: 15rem;
     --home-section-gap: 9rem;
@@ -139,37 +142,37 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   /* -------------------------
-   * Page Layout
+   * Layout — Page Container
    * Vertically stacked sections with generous spacing
    * ------------------------- */
   .container {
     display: flex;
     flex: 1;
     flex-direction: column;
-    padding-block: var(--home-padding-y);
-    margin-inline: auto;
-    max-width: 48rem;
     gap: var(--home-section-gap);
+    margin-inline: auto;
+    padding-block: var(--home-padding-y);
+    max-width: 48rem;
   }
 
   /* -------------------------
-   * Intro — Name, bio, and social links
-   * Narrower than container for visual hierarchy
+   * Module — Intro
+   * Name, bio, and social links; narrower than container for visual hierarchy
    * ------------------------- */
   .intro {
     display: flex;
     flex-direction: column;
+    gap: 2.5rem;
     margin-inline: auto;
     width: var(--home-content-width);
-    gap: 2.5rem;
   }
 
   .intro-title {
-    font-family: var(--font-display);
     font-weight: 700;
-    font-optical-sizing: auto;
     font-size: 1.75rem;
     line-height: 1.29;
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
   }
 
   .intro-bio {
@@ -179,15 +182,15 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     line-height: 1.29;
   }
 
-  /* Social icon links — horizontal row of SVG icons */
+  /* Social icon links */
   .intro-social {
     display: flex;
     gap: 1.75rem;
   }
 
   .intro-social-link {
-    color: var(--color-surface-400);
     transition: color var(--home-transition);
+    color: var(--color-surface-400);
   }
 
   .intro-social-link :global(svg) {
@@ -206,27 +209,27 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   /* -------------------------
-   * Featured Writings — Two side-by-side writing cards
-   * Each card has a title, description, and tag pills
+   * Module — Featured Writings
+   * Two side-by-side writing cards with title, description, and tag pills
    * ------------------------- */
   .featured-list {
     display: flex;
     gap: var(--home-card-gap);
   }
 
-  /* Card — bordered box with hover highlight */
+  /* Card */
   .featured-card {
-    position: relative;
     display: flex;
-    flex-direction: column;
+    position: relative;
     flex: 1;
-    padding-inline: 1.25rem;
-    padding-block: 1.75rem;
-    border: 1px solid var(--color-border);
-    border-radius: 1.25rem;
+    flex-direction: column;
     justify-content: space-between;
     gap: 2.25rem;
     transition: border-color var(--home-transition);
+    border: 1px solid var(--color-border);
+    border-radius: 1.25rem;
+    padding-inline: 1.25rem;
+    padding-block: 1.75rem;
   }
 
   .featured-card:focus-within {
@@ -238,53 +241,53 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     border-color: var(--color-border-hover);
   }
 
-  /* Card link — wraps title + description */
+  /* Card link */
   .featured-card-link {
     text-decoration: none;
   }
 
   .featured-card-link::after {
-    content: "";
     position: absolute;
-    inset: 0;
     z-index: 1;
+    inset: 0;
+    content: "";
   }
 
   .featured-card-link:focus {
     outline: none;
   }
 
-  /* Card title — fixed height for consistent card alignment */
+  /* Card title */
   .featured-title {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-optical-sizing: auto;
-    font-size: 1.5rem;
-    line-height: 1.3333;
+    margin-block-end: 1rem;
     height: 4rem;
     overflow: hidden;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.3333;
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
     text-overflow: ellipsis;
-    margin-block-end: 1rem;
   }
 
-  /* Card description — capped height to keep cards uniform */
+  /* Card description */
   .featured-description {
-    font-size: 1.0625rem;
-    line-height: 1.53;
-    color: var(--color-surface-700);
     max-height: 8.125rem;
     overflow: hidden;
+    color: var(--color-surface-700);
+    font-size: 1.0625rem;
+    line-height: 1.53;
     text-overflow: ellipsis;
   }
 
-  /* Tag pills — small rounded labels below each card */
+  /* Tag pills */
   .featured-tags {
-    position: relative;
-    z-index: 2;
     display: flex;
-    align-self: flex-start;
+    position: relative;
     flex-wrap: wrap;
+    align-self: flex-start;
     gap: 0.75rem;
+    z-index: 2;
   }
 
   .featured-tags li {
@@ -293,18 +296,18 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
   .featured-tags li a {
     display: block;
-    padding: 0.4rem 0.8rem;
-    text-decoration: none;
-    font-size: 0.875rem;
-    line-height: 1;
     border-radius: 9999px;
     background: var(--color-surface-100);
+    padding: 0.4rem 0.8rem;
     color: var(--color-surface-700);
+    font-size: 0.875rem;
+    line-height: 1;
+    text-decoration: none;
   }
 
   .featured-tags li a::before {
-    content: "#";
     margin-inline-end: 1px;
+    content: "#";
   }
 
   .featured-tags li a:hover,
@@ -319,7 +322,8 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   /* -------------------------
-   * Latest Writings — "Writings →" heading + writing title list
+   * Module — Latest Writings
+   * "Writings →" heading link + writing title list
    * ------------------------- */
   .latest-writings {
     margin-inline: auto;
@@ -327,23 +331,23 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .latest-heading {
-    font-family: var(--font-display);
+    margin-block-end: 2rem;
     font-weight: 700;
-    font-optical-sizing: auto;
     font-size: 1.0625rem;
     line-height: 1.41;
-    margin-block-end: 2rem;
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
   }
 
   .latest-heading-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    text-decoration: none;
-    color: var(--color-surface-600);
     transition:
       color var(--home-transition),
       gap 0.2s ease;
+    color: var(--color-surface-600);
+    text-decoration: none;
   }
 
   .latest-heading-link:hover,
@@ -371,7 +375,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     height: 1.25rem;
   }
 
-  /* Writing list — vertical stack of title links */
+  /* Writing list */
   .latest-list {
     display: flex;
     flex-direction: column;
@@ -391,12 +395,12 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .latest-title {
-    font-family: var(--font-display);
+    color: var(--color-text);
     font-weight: 700;
-    font-optical-sizing: auto;
     font-size: 1.5rem;
     line-height: 1.3333;
-    color: var(--color-text);
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
   }
 
   .latest-link:link .latest-title {
@@ -414,15 +418,15 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
   .latest-link :global(time) {
     position: absolute;
-    padding-block-start: 0.5625rem;
-    inset-inline-end: 100%;
+    opacity: 0;
+    transition: opacity var(--home-transition);
     margin-inline-end: 1rem;
-    white-space: nowrap;
+    inset-inline-end: 100%;
+    padding-block-start: 0.5625rem;
     color: var(--color-surface-700);
     font-size: 0.875rem;
     line-height: 1;
-    opacity: 0;
-    transition: opacity var(--home-transition);
+    white-space: nowrap;
   }
 
   .latest-link:hover :global(time),

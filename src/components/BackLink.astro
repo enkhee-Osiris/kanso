@@ -11,23 +11,30 @@ const { href = URLS.writings, label = "Back to writings" } = Astro.props;
 </a>
 
 <style>
+  /* -------------------------
+   * Module — Back Link
+   * Icon + label with animated gap on hover
+   * ------------------------- */
   .back-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    text-decoration: none;
-    color: var(--color-surface-500);
-    font-size: 0.875rem;
     transition:
       color 0.3s ease-in-out,
       gap 0.2s ease;
     margin-block-end: 1rem;
+    color: var(--color-surface-500);
+    font-size: 0.875rem;
+    text-decoration: none;
   }
 
+  /* -------------------------
+   * State — Interactive
+   * ------------------------- */
   .back-link:hover,
   .back-link:focus-visible {
-    color: var(--color-text);
     gap: 0.75rem;
+    color: var(--color-text);
   }
 
   .back-link:focus-visible {
@@ -36,6 +43,9 @@ const { href = URLS.writings, label = "Back to writings" } = Astro.props;
     border-radius: 0.125rem;
   }
 
+  /* -------------------------
+   * Module — Icon
+   * ------------------------- */
   .back-link-icon {
     display: flex;
     width: 1rem;

@@ -11,22 +11,29 @@ const { tag } = Astro.props;
 <a href={URLS.tag(tag)} class="tag-chip">{tag}</a>
 
 <style>
+  /* -------------------------
+   * Module — Tag Chip
+   * Pill-shaped tag link with # prefix
+   * ------------------------- */
   .tag-chip {
     display: block;
-    text-decoration: none;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.875rem;
-    line-height: 1;
     border-radius: 9999px;
     background: var(--color-surface-100);
+    padding: 0.4rem 0.8rem;
     color: var(--color-surface-700);
+    font-size: 0.875rem;
+    line-height: 1;
+    text-decoration: none;
   }
 
   .tag-chip::before {
-    content: "#";
     margin-inline-end: 1px;
+    content: "#";
   }
 
+  /* -------------------------
+   * State — Interactive
+   * ------------------------- */
   .tag-chip:hover {
     background: var(--color-surface-200);
     color: var(--color-surface-900);

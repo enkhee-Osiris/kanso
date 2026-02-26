@@ -13,21 +13,29 @@ import { URLS } from "@/constants";
 </nav>
 
 <style>
+  /* -------------------------
+   * Layout — Nav Container
+   * Full-viewport overlay, hidden by default
+   * ------------------------- */
   .fullscreen-nav {
-    position: fixed;
-    inset: 0;
-    z-index: 90;
     display: flex;
-    align-items: center;
+    position: fixed;
     justify-content: center;
-    background: var(--color-bg);
+    align-items: center;
     visibility: hidden;
     opacity: 0;
+    z-index: 90;
     transition:
       opacity 0.3s ease-in-out,
       visibility 0.3s;
+    inset: 0;
+    background: var(--color-bg);
   }
 
+  /* -------------------------
+   * State — Menu Open
+   * Triggered by html[data-menu-open] attribute set by FloatingNav
+   * ------------------------- */
   :global(html[data-menu-open]) {
     overflow: hidden;
   }
@@ -37,26 +45,35 @@ import { URLS } from "@/constants";
     opacity: 1;
   }
 
+  /* -------------------------
+   * Module — Nav List
+   * ------------------------- */
   ul {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
+  /* -------------------------
+   * Module — Nav Links
+   * ------------------------- */
   a {
-    font-family: var(--font-display);
+    transition: color 0.3s ease-in-out;
+    color: var(--color-text);
     font-weight: 700;
     font-size: 2.5rem;
     line-height: 1.2;
+    font-family: var(--font-display);
     text-decoration: none;
-    color: var(--color-text);
-    transition: color 0.3s ease-in-out;
   }
 
+  /* -------------------------
+   * State — Interactive
+   * ------------------------- */
   a:hover {
     color: var(--color-surface-500);
   }

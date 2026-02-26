@@ -1,3 +1,7 @@
+/* -------------------------
+ * Theme — Design Tokens
+ * Light mode defaults, color palette, and font stacks
+ * ------------------------- */
 :root {
   color-scheme: light dark;
 
@@ -29,8 +33,11 @@
   --color-border-hover: var(--color-surface-300, #b2b2b2);
 }
 
+/* -------------------------
+ * Theme — Dark Mode (System Preference)
+ * Activated via prefers-color-scheme media query
+ * ------------------------- */
 @media (prefers-color-scheme: dark) {
-  /* Dark Theme */
   :root {
     --color-surface-100: #1a1a1a;
     --color-surface-200: #333333;
@@ -54,6 +61,10 @@
   }
 }
 
+/* -------------------------
+ * Theme — Light (Manual Override)
+ * Explicit data-theme attribute overrides system preference
+ * ------------------------- */
 html[data-theme="light"] {
   --color-surface-100: #e5e5e5;
   --color-surface-200: #cccccc;
@@ -76,6 +87,9 @@ html[data-theme="light"] {
   --color-border-hover: var(--color-surface-300, #b2b2b2);
 }
 
+/* -------------------------
+ * Theme — Dark (Manual Override)
+ * ------------------------- */
 html[data-theme="dark"] {
   --color-surface-100: #1a1a1a;
   --color-surface-200: #333333;
@@ -98,33 +112,44 @@ html[data-theme="dark"] {
   --color-border-hover: var(--color-surface-300, #4d4d4d);
 }
 
+/* -------------------------
+ * Base — Document
+ * Element-level defaults for body, main, and inline code
+ * ------------------------- */
 body {
-  font-family: var(--font-body);
-  text-align: left;
+  background-color: var(--color-bg);
   color: var(--color-text);
+  font-style: normal;
+  font-weight: 400;
   font-size: 17px;
   line-height: 1.55;
-  font-weight: 400;
-  font-style: normal;
-  background-color: var(--color-bg);
+  font-family: var(--font-body);
+  text-align: left;
 }
 
 main {
-  width: 100%;
-  min-height: 100svh;
   display: flex;
   position: relative;
+  width: 100%;
+  min-height: 100svh;
 }
 
 main :not(pre) > code {
+  font-family:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   white-space: nowrap;
 }
 
+/* -------------------------
+ * State — Motion Preferences
+ * Disable all transitions and animations for users who prefer reduced motion
+ * ------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
