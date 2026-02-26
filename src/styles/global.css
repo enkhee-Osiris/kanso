@@ -18,8 +18,8 @@
   --color-surface-800: #333333;
   --color-surface-900: #1a1a1a;
 
-  --color-code-bg: #e5e5e5;
-  --color-code-text: #9a4623;
+  --color-code-bg: #eff1f5;
+  --color-code-text: #4c4f69;
   --color-mark-bg: #fef08a;
   --color-mark-text: #1a1a1a;
 
@@ -42,8 +42,8 @@
     --color-surface-800: #cccccc;
     --color-surface-900: #e5e5e5;
 
-    --color-code-bg: #313131;
-    --color-code-text: var(--color-surface-900);
+    --color-code-bg: #303446;
+    --color-code-text: #c6d0f5;
     --color-mark-bg: #854d0e;
     --color-mark-text: #fef9c3;
 
@@ -65,8 +65,8 @@ html[data-theme="light"] {
   --color-surface-800: #333333;
   --color-surface-900: #1a1a1a;
 
-  --color-code-bg: #e5e5e5;
-  --color-code-text: #9a4623;
+  --color-code-bg: #eff1f5;
+  --color-code-text: #4c4f69;
   --color-mark-bg: #fef08a;
   --color-mark-text: #1a1a1a;
 
@@ -87,8 +87,8 @@ html[data-theme="dark"] {
   --color-surface-800: #cccccc;
   --color-surface-900: #e5e5e5;
 
-  --color-code-bg: #313131;
-  --color-code-text: var(--color-surface-900);
+  --color-code-bg: #303446;
+  --color-code-text: #c6d0f5;
   --color-mark-bg: #854d0e;
   --color-mark-text: #fef9c3;
 

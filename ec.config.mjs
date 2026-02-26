@@ -4,7 +4,7 @@ import { defineEcConfig } from "astro-expressive-code";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 
 export default defineEcConfig({
-  themes: ["kanagawa-wave", "kanagawa-lotus"],
+  themes: ["catppuccin-frappe", "catppuccin-latte"],
   themeCssSelector: theme => {
     const type = theme.type === "dark" ? "dark" : "light";
     return `[data-theme="${type}"]`;
