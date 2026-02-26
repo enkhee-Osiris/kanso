@@ -106,6 +106,25 @@ const { Content } = await render(writing);
   </body>
 </html>
 
+<script>
+  // Update the back link if the user navigated here from a tag page
+  const backLink = document.querySelector<HTMLAnchorElement>(".back-link");
+  const backLinkText = document.querySelector<HTMLElement>(".back-link-text");
+
+  if (backLink && backLinkText && document.referrer) {
+    const ref = new URL(document.referrer);
+
+    if (ref.origin === location.origin) {
+      const tagMatch = ref.pathname.match(/\/tag\/([^/]+)\/?$/);
+
+      if (tagMatch) {
+        backLink.href = ref.pathname;
+        backLinkText.textContent = `Back to #${tagMatch[1]}`;
+      }
+    }
+  }
+</script>
+
 <style>
   /* -------------------------
    * Theme — Local Variables
