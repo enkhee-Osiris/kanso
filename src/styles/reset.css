@@ -70,6 +70,19 @@ h6 {
   text-wrap: balance;
 }
 
+/* Text emphasis */
+strong {
+  font-weight: 700;
+}
+
+em {
+  font-style: italic;
+}
+
+del {
+  text-decoration: line-through;
+}
+
 /* Improve paragraph readability */
 p {
   text-wrap: pretty;
