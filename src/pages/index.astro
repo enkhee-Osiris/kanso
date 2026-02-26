@@ -39,85 +39,89 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     <main id="main-content">
       <div class="container">
         <section class="intro" aria-label="Introduction">
-          <div>
-            <h1>Enkherdene Bolormaa</h1>
-            <p>
+          <div class="intro-content">
+            <h1 class="intro-title">Enkherdene Bolormaa</h1>
+            <p class="intro-bio">
               Software engineer focused on design. <br />Exploring the space between design and
               code.
             </p>
           </div>
 
-          <ul role="list">
+          <ul class="intro-social" role="list">
             <li>
-              <a href={SOCIAL.github} aria-label="GitHub">
+              <a class="intro-social-link" href={SOCIAL.github} aria-label="GitHub">
                 <Fragment set:html={githubIcon.default} />
               </a>
             </li>
             <li>
-              <a href={SOCIAL.linkedin} aria-label="LinkedIn">
+              <a class="intro-social-link" href={SOCIAL.linkedin} aria-label="LinkedIn">
                 <Fragment set:html={linkedinIcon.default} />
               </a>
             </li>
             <li>
-              <a href={SOCIAL.email} aria-label="Email">
+              <a class="intro-social-link" href={SOCIAL.email} aria-label="Email">
                 <Fragment set:html={mailIcon.default} />
               </a>
             </li>
           </ul>
         </section>
 
-        <section class="featured-writings" aria-label="Featured writings">
-          <ul role="list">
-            {
-              featuredWritings.map(writing => (
-                <li class="card">
-                  <a href={URLS.writing(writing.id)}>
-                    <h2>{writing.data.title}</h2>
+        {
+          featuredWritings.length > 0 && (
+            <section class="featured-writings" aria-label="Featured writings">
+              <ul class="featured-list" role="list">
+                {featuredWritings.map(writing => (
+                  <li class="featured-card card">
+                    <a class="featured-card-link" href={URLS.writing(writing.id)}>
+                      <h2 class="featured-title">{writing.data.title}</h2>
 
-                    <p>{writing.data.description}</p>
-                  </a>
+                      <p class="featured-description">{writing.data.description}</p>
+                    </a>
 
-                  {Array.isArray(writing.data.tags) && writing.data.tags.length > 0 && (
-                    <ul class="tags" role="list">
-                      {writing.data.tags.map(tag => (
-                        <li>
-                          <a href={URLS.tag(tag)}>{tag}</a>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))
-            }
-          </ul>
-        </section>
+                    {Array.isArray(writing.data.tags) && writing.data.tags.length > 0 && (
+                      <ul class="featured-tags tags" role="list">
+                        {writing.data.tags.map(tag => (
+                          <li>
+                            <a href={URLS.tag(tag)}>{tag}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
 
-        <section class="latest-writings" aria-label="Latest writings">
-          <h2>
-            <a href={URLS.writings}>
-              Writings
-              <span aria-hidden="true">
-                <Fragment set:html={arrowRightIcon.default} />
-              </span>
-            </a>
-          </h2>
+        {
+          latestWritings.length > 0 && (
+            <section class="latest-writings" aria-label="Latest writings">
+              <h2 class="latest-heading">
+                <a class="latest-heading-link" href={URLS.writings}>
+                  Writings
+                  <span class="latest-icon" aria-hidden="true">
+                    <Fragment set:html={arrowRightIcon.default} />
+                  </span>
+                </a>
+              </h2>
 
-          <ul role="list">
-            {
-              latestWritings.map(writing => (
-                <li>
-                  <a href={URLS.writing(writing.id)}>
-                    <FormattedDate
-                      date={writing.data.pubDatetime}
-                      formatOptions={{ year: "2-digit", month: "numeric", day: "numeric" }}
-                    />
-                    <span>{writing.data.title}</span>
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </section>
+              <ul class="latest-list" role="list">
+                {latestWritings.map(writing => (
+                  <li>
+                    <a class="latest-link" href={URLS.writing(writing.id)}>
+                      <FormattedDate
+                        date={writing.data.pubDatetime}
+                        formatOptions={{ year: "2-digit", month: "numeric", day: "numeric" }}
+                      />
+                      <span class="latest-title">{writing.data.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
       </div>
     </main>
     <FloatingNav />
@@ -126,6 +130,14 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 </html>
 
 <style>
+  :root {
+    --home-padding-y: 15rem;
+    --home-section-gap: 9rem;
+    --home-content-width: 36rem;
+    --home-card-gap: 2.25rem;
+    --home-transition: 0.3s ease-in-out;
+  }
+
   /* -------------------------
    * Page Layout
    * Vertically stacked sections with generous spacing
@@ -134,10 +146,10 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     display: flex;
     flex: 1;
     flex-direction: column;
-    padding-block: 15rem;
+    padding-block: var(--home-padding-y);
     margin-inline: auto;
     max-width: 48rem;
-    gap: 9rem;
+    gap: var(--home-section-gap);
   }
 
   /* -------------------------
@@ -148,11 +160,11 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     display: flex;
     flex-direction: column;
     margin-inline: auto;
-    width: 36rem;
+    width: var(--home-content-width);
     gap: 2.5rem;
   }
 
-  .intro h1 {
+  .intro-title {
     font-family: var(--font-display);
     font-weight: 700;
     font-optical-sizing: auto;
@@ -160,7 +172,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     line-height: 1.29;
   }
 
-  .intro p {
+  .intro-bio {
     padding-top: 1rem;
     color: var(--color-surface-700);
     font-size: 1.75rem;
@@ -168,28 +180,28 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   /* Social icon links — horizontal row of SVG icons */
-  .intro ul {
+  .intro-social {
     display: flex;
     gap: 1.75rem;
   }
 
-  .intro ul a {
+  .intro-social-link {
     color: var(--color-surface-400);
-    transition: color 0.3s ease-in-out;
+    transition: color var(--home-transition);
   }
 
-  .intro ul a :global(svg) {
+  .intro-social-link :global(svg) {
     width: 2rem;
     height: 2rem;
   }
 
-  .intro ul a:focus-visible {
+  .intro-social-link:focus-visible {
     outline: 1px solid var(--color-border-hover);
     outline-offset: 0.25rem;
     color: var(--color-text);
   }
 
-  .intro ul a:hover {
+  .intro-social-link:hover {
     color: var(--color-text);
   }
 
@@ -197,13 +209,13 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
    * Featured Writings — Two side-by-side writing cards
    * Each card has a title, description, and tag pills
    * ------------------------- */
-  .featured-writings ul {
+  .featured-list {
     display: flex;
-    gap: 2.25rem;
+    gap: var(--home-card-gap);
   }
 
   /* Card — bordered box with hover highlight */
-  .featured-writings .card {
+  .featured-card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -214,36 +226,36 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     border-radius: 1.25rem;
     justify-content: space-between;
     gap: 2.25rem;
-    transition: border-color 0.3s ease-in-out;
+    transition: border-color var(--home-transition);
   }
 
-  .featured-writings .card:focus-within {
+  .featured-card:focus-within {
     outline: 1px solid var(--color-border-hover);
     outline-offset: 0.25rem;
   }
 
-  .featured-writings .card:hover {
+  .featured-card:hover {
     border-color: var(--color-border-hover);
   }
 
   /* Card link — wraps title + description */
-  .featured-writings .card > a {
+  .featured-card-link {
     text-decoration: none;
   }
 
-  .featured-writings .card > a::after {
+  .featured-card-link::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 1;
   }
 
-  .featured-writings .card > a:focus {
+  .featured-card-link:focus {
     outline: none;
   }
 
   /* Card title — fixed height for consistent card alignment */
-  .featured-writings .card h2 {
+  .featured-title {
     font-family: var(--font-display);
     font-weight: 700;
     font-optical-sizing: auto;
@@ -256,7 +268,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   /* Card description — capped height to keep cards uniform */
-  .featured-writings .card p {
+  .featured-description {
     font-size: 1.0625rem;
     line-height: 1.53;
     color: var(--color-surface-700);
@@ -266,7 +278,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   /* Tag pills — small rounded labels below each card */
-  .featured-writings .tags {
+  .featured-tags {
     position: relative;
     z-index: 2;
     display: flex;
@@ -275,11 +287,11 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     gap: 0.75rem;
   }
 
-  .featured-writings .tags li {
+  .featured-tags li {
     display: inline-block;
   }
 
-  .featured-writings .tags li a {
+  .featured-tags li a {
     display: block;
     padding: 0.4rem 0.8rem;
     text-decoration: none;
@@ -290,21 +302,20 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     color: var(--color-surface-700);
   }
 
-  .featured-writings .tags li a::before {
+  .featured-tags li a::before {
     content: "#";
     margin-inline-end: 1px;
   }
 
-  .featured-writings .tags li a:hover {
+  .featured-tags li a:hover,
+  .featured-tags li a:focus-visible {
     background: var(--color-surface-200);
     color: var(--color-surface-900);
   }
 
-  .featured-writings .tags li a:focus-visible {
+  .featured-tags li a:focus-visible {
     outline: 1px solid var(--color-border-hover);
     outline-offset: 0.125rem;
-    background: var(--color-surface-200);
-    color: var(--color-surface-900);
   }
 
   /* -------------------------
@@ -312,10 +323,10 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
    * ------------------------- */
   .latest-writings {
     margin-inline: auto;
-    width: 36rem;
+    width: var(--home-content-width);
   }
 
-  .latest-writings h2 {
+  .latest-heading {
     font-family: var(--font-display);
     font-weight: 700;
     font-optical-sizing: auto;
@@ -324,55 +335,62 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     margin-block-end: 2rem;
   }
 
-  .latest-writings h2 a {
+  .latest-heading-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
     color: var(--color-surface-600);
     transition:
-      color 0.3s ease-in-out,
+      color var(--home-transition),
       gap 0.2s ease;
   }
 
-  .latest-writings h2 a:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
+  .latest-heading-link:hover,
+  .latest-heading-link:focus-visible {
     color: var(--color-text);
-    border-radius: 0.125rem;
   }
 
-  .latest-writings h2 a:hover {
-    color: var(--color-text);
+  .latest-heading-link:hover {
     gap: 1rem;
   }
 
-  .latest-writings h2 a :global(svg) {
+  .latest-heading-link:focus-visible {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.25rem;
+    border-radius: 0.125rem;
+  }
+
+  .latest-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .latest-icon :global(svg) {
     width: 1.25rem;
     height: 1.25rem;
   }
 
   /* Writing list — vertical stack of title links */
-  .latest-writings ul {
+  .latest-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
 
-  .latest-writings li a {
+  .latest-link {
     display: inline-block;
     position: relative;
     text-decoration: none;
   }
 
-  .latest-writings li a:focus-visible {
+  .latest-link:focus-visible {
     outline: 1px solid var(--color-border-hover);
     outline-offset: 0.5rem;
-    color: var(--color-text);
     border-radius: 0.125rem;
   }
 
-  .latest-writings li a span {
+  .latest-title {
     font-family: var(--font-display);
     font-weight: 700;
     font-optical-sizing: auto;
@@ -381,20 +399,20 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     color: var(--color-text);
   }
 
-  .latest-writings li a:link span {
+  .latest-link:link .latest-title {
     color: var(--color-text);
   }
 
-  .latest-writings li a:visited span {
+  .latest-link:visited .latest-title {
     color: var(--color-surface-400);
   }
 
-  .latest-writings li a:hover span,
-  .latest-writings li a:focus-visible span {
+  .latest-link:hover .latest-title,
+  .latest-link:focus-visible .latest-title {
     color: var(--color-surface-600);
   }
 
-  .latest-writings li :global(time) {
+  .latest-link :global(time) {
     position: absolute;
     padding-block-start: 0.5625rem;
     inset-inline-end: 100%;
@@ -404,11 +422,11 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     font-size: 0.875rem;
     line-height: 1;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--home-transition);
   }
 
-  .latest-writings li a:hover :global(time),
-  .latest-writings li a:focus-visible :global(time) {
+  .latest-link:hover :global(time),
+  .latest-link:focus-visible :global(time) {
     opacity: 1;
   }
 </style>
