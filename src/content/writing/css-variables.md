@@ -2,7 +2,7 @@
 title: "CSS Custom Properties as Design Tokens"
 description: "How CSS variables bridge the gap between design systems and implementation."
 pubDatetime: 2026-01-28T00:00:00.000Z
-tags: ["css", "design systems"]
+tags: ["css", "design-systems"]
 ---
 
 CSS custom properties have fundamentally changed how we think about design tokens in the browser. They're not just variables — they're a contract between design and code.
