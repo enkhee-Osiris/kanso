@@ -107,7 +107,7 @@ const { Content } = await render(writing);
 </html>
 
 <script>
-  // Update the back link if the user navigated here from a tag page
+  // Update the back link if the user navigated here from a tag page or tags index
   const backLink = document.querySelector<HTMLAnchorElement>(".back-link");
   const backLinkText = document.querySelector<HTMLElement>(".back-link-text");
 
@@ -116,10 +116,14 @@ const { Content } = await render(writing);
 
     if (ref.origin === location.origin) {
       const tagMatch = ref.pathname.match(/\/tag\/([^/]+)\/?$/);
+      const isTagsIndex = /\/tag\/?$/.test(ref.pathname);
 
       if (tagMatch) {
         backLink.href = ref.pathname;
         backLinkText.textContent = `Back to #${tagMatch[1]}`;
+      } else if (isTagsIndex) {
+        backLink.href = ref.pathname;
+        backLinkText.textContent = "Back to tags";
       }
     }
   }
