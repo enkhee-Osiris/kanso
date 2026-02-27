@@ -38,7 +38,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 
 **Navigation:** `FloatingNav.astro` is a fixed right-side bar (z-index 100) with menu toggle, search link, and theme toggle. `FullscreenNav.astro` is a full-screen overlay (z-index 90) with centered nav links (Home, Writings, About, Search) — visibility is CSS-driven via `html[data-menu-open]` (set by FloatingNav's menu toggle). Page scroll is locked when the overlay is open (`overflow: hidden` on `html`). Both components are included on every page.
 
-**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `SkipLink.astro` (skip to `#main-content`, z-index 200) + `Footer.astro` (copyright line) for site chrome. The writing detail page (`src/pages/writing/[...slug].astro`) is self-contained — it imports components directly rather than using a layout wrapper. Markdown content is rendered inside a `.prose` div with scoped `:global()` styles for all typography elements. The writing detail page also includes a related writings section (filtered by shared tags, limited to `RELATED_WRITINGS_LIMIT`) and a client-side script that uses `document.referrer` to detect navigation from a tag page — if detected, the `BackLink` href and label are updated to point back to that tag page instead of the default writings list.
+**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `SkipLink.astro` (skip to `#main-content`, z-index 200) + `Footer.astro` (copyright line) for site chrome. The writing detail page (`src/pages/writing/[...slug].astro`) is self-contained — it imports components directly rather than using a layout wrapper. Markdown content is rendered inside a `.prose` div with scoped `:global()` styles for all typography elements. The writing detail page also includes a related writings section (filtered by shared tags, limited to `RELATED_WRITINGS_LIMIT`) and a client-side script that uses `document.referrer` to detect navigation from a tag page (`/tag/[slug]` → "Back to #slug") or the tags index (`/tag/` → "Back to tags") — if detected, the `BackLink` href and label are updated accordingly instead of the default writings list.
 
 **Key integrations:**
 
@@ -60,6 +60,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `Image.astro` — wraps Astro's `<Image>` with `<figure>`/optional `<figcaption>`, fills container width with `height: auto`
 - `BackLink.astro` — back navigation link with arrow-left icon; accepts `href` (default: `URLS.writings`) and `label` (default: `"Back to writings"`) props
 - `FormattedDate.astro` — renders a `<time>` element; accepts `date: Date` and optional `formatOptions: Intl.DateTimeFormatOptions` (default: `{ year: "numeric", month: "short", day: "numeric" }`)
+- `WritingsByYear.astro` — reusable year-grouped writings list (two-column grid: sticky year label + writing entries with date and title); used on writings index, tag index, and tag detail pages
 - `SkipLink.astro` — skip-to-content link targeting `#main-content`, visually hidden until focused, z-index 200
 
 **Pages:**
@@ -67,7 +68,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `src/pages/index.astro` — homepage with featured cards and latest writings list
 - `src/pages/writing/index.astro` — all writings, year-grouped with date + title
 - `src/pages/writing/[...slug].astro` — writing detail with prose styles, related writings, and referrer-aware back link
-- `src/pages/tag/index.astro` — all tags; each row shows `#tag` name left, count right, with border separators
+- `src/pages/tag/index.astro` — all tags as pill-shaped chips (`#name` + count badge), sorted by count desc then alphabetical; includes `WritingsByYear` section below
 - `src/pages/tag/[tag].astro` — writings filtered by tag; heading is `#{tag}`, year-grouped list
 - `src/pages/rss.xml.ts` — RSS feed
 - `src/pages/about.astro` — not yet created
@@ -84,4 +85,4 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `TITLES` — static strings for fixed pages + `writing(title)` and `tag(tag)` functions
 - `DESCRIPTIONS` — static strings for fixed pages + `writing(description)` and `tag(tag)` functions
 
-**TypeScript:** Extends `astro/tsconfigs/strict` (provides `strict`, `noEmit`, `verbatimModuleSyntax`, etc.). Additional: `target: ES2022`, `noImplicitReturns`, path aliases (`@/components/*`, `@/layouts/*`, `@/styles/*`, `@/utils/*`, `@/assets/*`, `@/constants`), and `@astrojs/ts-plugin`.
+**TypeScript:** Extends `astro/tsconfigs/strict` (provides `strict`, `noEmit`, `verbatimModuleSyntax`, etc.). Additional: `target: ES2023`, `lib: ["ES2023", "ES2023.Array", "DOM", "DOM.Iterable"]` (enables `toSorted`/`toReversed`/`toSpliced`), `noImplicitReturns`, path aliases (`@/components/*`, `@/layouts/*`, `@/styles/*`, `@/utils/*`, `@/assets/*`, `@/constants`), and `@astrojs/ts-plugin`.
