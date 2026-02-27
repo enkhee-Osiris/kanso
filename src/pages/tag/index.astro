@@ -12,9 +12,8 @@ import { getTagsWithWritings, getWritingsByYear } from "@/utils/data";
 
 const allWritings = await getCollection("writing");
 
-// TODO: sort by how many writings that tag has then alphabetical;
-const tagsWithWritings = getTagsWithWritings(allWritings).sort((a, b) =>
-  a.tag.localeCompare(b.tag)
+const tagsWithWritings = getTagsWithWritings(allWritings).sort(
+  (a, b) => b.writings.length - a.writings.length || a.tag.localeCompare(b.tag)
 );
 
 const writingsByYear = getWritingsByYear(allWritings);
