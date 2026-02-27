@@ -53,7 +53,9 @@ export function getTagsWithWritings(writings: Writing[]) {
     }
   }
 
-  return Array.from(tagMap, ([tag, writings]) => ({ tag, writings }));
+  return Array.from(tagMap, ([tag, writings]) => ({ tag, writings })).toSorted(
+    (a, b) => b.writings.length - a.writings.length || a.tag.localeCompare(b.tag)
+  );
 }
 
 export function getWritingsByYear(writings: Writing[]) {

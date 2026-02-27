@@ -12,9 +12,7 @@ import { getTagsWithWritings, getWritingsByYear } from "@/utils/data";
 
 const allWritings = await getCollection("writing");
 
-const tagsWithWritings = getTagsWithWritings(allWritings).toSorted(
-  (a, b) => b.writings.length - a.writings.length || a.tag.localeCompare(b.tag)
-);
+const tagsWithWritings = getTagsWithWritings(allWritings);
 
 const writingsByYear = getWritingsByYear(allWritings);
 ---

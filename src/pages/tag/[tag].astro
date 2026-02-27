@@ -14,9 +14,7 @@ import { getSortedWritings, getTagsWithWritings, getWritingsByYear } from "@/uti
 export async function getStaticPaths() {
   const allWritings = await getCollection("writing");
   const sortedWritings = getSortedWritings(allWritings);
-  const tagsWithWritings = getTagsWithWritings(sortedWritings).toSorted(
-    (a, b) => b.writings.length - a.writings.length || a.tag.localeCompare(b.tag)
-  );
+  const tagsWithWritings = getTagsWithWritings(sortedWritings);
 
   return tagsWithWritings.map(({ tag, writings }) => ({
     params: { tag },
