@@ -177,7 +177,7 @@ interface WritingProps {
 function getWritings(writings: WritingProps[]): WritingProps[] {
   return writings
     .filter(w => !w.draft)
-    .sort((a, b) => b.pubDatetime.getTime() - a.pubDatetime.getTime());
+    .toSorted((a, b) => b.pubDatetime.getTime() - a.pubDatetime.getTime());
 }
 ```
 

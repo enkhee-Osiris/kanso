@@ -36,7 +36,7 @@ The query layer is deliberately minimal. You get an array of entries and filter 
 const writings = await getCollection("writing");
 const published = writings
   .filter(w => !w.data.draft)
-  .sort((a, b) => b.data.pubDatetime.getTime() - a.data.pubDatetime.getTime());
+  .toSorted((a, b) => b.data.pubDatetime.getTime() - a.data.pubDatetime.getTime());
 ```
 
 There's no magic here. It's TypeScript all the way down. Your IDE autocompletes `w.data.title` because the schema told it that field exists.

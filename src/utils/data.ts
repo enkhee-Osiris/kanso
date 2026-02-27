@@ -7,17 +7,17 @@ function byDateDesc(a: Writing, b: Writing) {
 }
 
 export function getSortedWritings(writings: Writing[]) {
-  return [...writings].sort(byDateDesc);
+  return writings.toSorted(byDateDesc);
 }
 
 export function getFeaturedWritings(writings: Writing[], limit?: number) {
-  const filtered = writings.filter(b => b.data.featured).sort(byDateDesc);
+  const filtered = writings.filter(b => b.data.featured).toSorted(byDateDesc);
 
   return limit ? filtered.slice(0, limit) : filtered;
 }
 
 export function getNonFeaturedWritings(writings: Writing[], limit?: number) {
-  const filtered = writings.filter(b => !b.data.featured).sort(byDateDesc);
+  const filtered = writings.filter(b => !b.data.featured).toSorted(byDateDesc);
 
   return limit ? filtered.slice(0, limit) : filtered;
 }
@@ -32,7 +32,7 @@ export function getRelatedWritings(current: Writing, writings: Writing[], limit 
       shared: w.data.tags.filter(t => currentTags.has(t)).length,
     }))
     .filter(w => w.shared > 0)
-    .sort((a, b) => b.shared - a.shared || byDateDesc(a.writing, b.writing))
+    .toSorted((a, b) => b.shared - a.shared || byDateDesc(a.writing, b.writing))
     .slice(0, limit)
     .map(w => w.writing);
 }
@@ -72,5 +72,5 @@ export function getWritingsByYear(writings: Writing[]) {
   return Array.from(yearMap, ([year, writings]) => ({
     year,
     writings: getSortedWritings(writings),
-  })).sort((a, b) => b.year - a.year);
+  })).toSorted((a, b) => b.year - a.year);
 }
