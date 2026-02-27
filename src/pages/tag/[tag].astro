@@ -1,15 +1,19 @@
 ---
 import { getCollection } from "astro:content";
 
+import BackLink from "@/components/BackLink.astro";
+import FloatingNav from "@/components/FloatingNav.astro";
+import Footer from "@/components/Footer.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import SkipLink from "@/components/SkipLink.astro";
-import { TITLES, DESCRIPTIONS, URLS } from "@/constants";
-import { getTagsWithWritings, getSortedWritings } from "@/utils/data";
+import { DESCRIPTIONS, TITLES, URLS } from "@/constants";
+import { getSortedWritings, getTagsWithWritings, getWritingsByYear } from "@/utils/data";
 
 export async function getStaticPaths() {
   const allWritings = await getCollection("writing");
   const sortedWritings = getSortedWritings(allWritings);
-
   const tagsWithWritings = getTagsWithWritings(sortedWritings);
 
   return tagsWithWritings.map(({ tag, writings }) => ({
@@ -19,6 +23,9 @@ export async function getStaticPaths() {
 }
 
 const { tag, writings } = Astro.props;
+const writingsByYear = getWritingsByYear(writings);
+
+let gridRow = 1;
 ---
 
 <!doctype html>
@@ -30,19 +37,153 @@ const { tag, writings } = Astro.props;
   <body>
     <SkipLink />
     <main id="main-content">
-      <section class="writings" aria-label="Writings">
-        <h2>{tag} - Writings</h2>
+      <section class="container" aria-label={`Writings tagged with ${tag}`}>
+        <BackLink href={URLS.tags} label="Back to tags" />
 
-        <ul role="list">
+        <h1 class="heading">#{tag}</h1>
+
+        <dl class="writings-list">
           {
-            writings.map(writing => (
-              <li>
-                <a href={URLS.writing(writing.id)}>{writing.data.title}</a>
-              </li>
-            ))
+            writingsByYear.map(({ year, writings }) => {
+              const span = writings.length;
+              const yearGridRow = gridRow;
+              gridRow += span;
+
+              return [
+                <dt class="writing-year" style={`grid-row: ${yearGridRow} / span ${span}`}>
+                  {year}
+                </dt>,
+
+                ...writings.map(writing => (
+                  <dd class="writing-item">
+                    <a href={URLS.writing(writing.id)} class="writing-link">
+                      <span class="date">
+                        <FormattedDate
+                          date={writing.data.pubDatetime}
+                          formatOptions={{ month: "short", day: "numeric" }}
+                        />
+                      </span>
+
+                      <span class="title">{writing.data.title}</span>
+                    </a>
+                  </dd>
+                )),
+              ];
+            })
           }
-        </ul>
+        </dl>
       </section>
     </main>
+    <FloatingNav />
+    <FullscreenNav />
+    <Footer />
   </body>
 </html>
+
+<style>
+  /* -------------------------
+   * Theme — Local Variables
+   * ------------------------- */
+  :root {
+    --tag-padding-y: 8rem;
+    --tag-list-gap-row: 1rem;
+    --tag-list-gap-column: 2rem;
+  }
+
+  /* -------------------------
+   * Layout — Page Container
+   * ------------------------- */
+  .container {
+    margin-inline: auto;
+    padding-block: var(--tag-padding-y);
+    width: 100%;
+    max-width: 48rem;
+  }
+
+  .heading {
+    margin-block-end: 1.5rem;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+
+  /* -------------------------
+   * Module — Writings List
+   * Year label + writing entries in a two-column grid
+   * ------------------------- */
+  .writings-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--tag-list-gap-row) var(--tag-list-gap-column);
+  }
+
+  .writing-year {
+    position: sticky;
+    top: 0;
+    grid-column: 1;
+    padding-block: 0.25rem;
+    width: 4.0625rem;
+    color: var(--color-surface-600);
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    text-align: right;
+  }
+
+  .writing-item {
+    grid-column: 2;
+  }
+
+  /* -------------------------
+   * Module — Writing Link
+   * Date + title stacked vertically
+   * ------------------------- */
+  .writing-link {
+    display: block;
+    text-decoration: none;
+  }
+
+  .date {
+    display: block;
+    margin-block-end: 0.25rem;
+    color: var(--color-surface-700);
+    font-size: 0.875rem;
+    line-height: 1.21;
+  }
+
+  .title {
+    display: block;
+    color: var(--color-text);
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.3333;
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+
+  /* -------------------------
+   * State — Interactive
+   * ------------------------- */
+  .writing-link:focus-visible {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.5rem;
+    border-radius: 0.125rem;
+  }
+
+  .writing-link:link .title {
+    color: var(--color-text);
+  }
+
+  .writing-link:visited .title {
+    color: var(--color-surface-400);
+  }
+
+  .writing-link:hover .title,
+  .writing-link:focus-visible .title {
+    color: var(--color-surface-600);
+  }
+</style>

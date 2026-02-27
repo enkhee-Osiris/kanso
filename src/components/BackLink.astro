@@ -2,6 +2,12 @@
 import { URLS } from "@/constants";
 
 const arrowLeftIcon = await import("@/assets/icons/arrow-left.svg?raw");
+
+interface Props {
+  href?: string;
+  label?: string;
+}
+
 const { href = URLS.writings, label = "Back to writings" } = Astro.props;
 ---
 

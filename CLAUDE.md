@@ -25,7 +25,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is an Astro 5 site with a minimal, content-focused design.
 
-**Content system:** Writings live in `src/content/writing/` as `.md`/`.mdx` files. The collection schema is defined in `src/content.config.ts` — frontmatter requires `title`, `description`, `pubDatetime` (ISO 8601), `author` (defaults to `AUTHOR` constant), `tags` (defaults to `["others"]`), and optionally `modDatetime`, `ogImage`, `featured` (boolean), and `draft` (boolean). Writings are queried via `getCollection('writing')` and rendered through `src/pages/writing/[...slug].astro`.
+**Content system:** Writings live in `src/content/writing/` as `.md`/`.mdx` files. The collection schema is defined in `src/content.config.ts` — frontmatter requires `title`, `description`, `pubDatetime` (ISO 8601), `author` (defaults to `AUTHOR` constant), `tags` (defaults to `["others"]`), and optionally `modDatetime`, `ogImage`, `featured` (boolean), and `draft` (boolean). Tags are validated against `/^[a-z-]+$/` (lowercase letters and hyphens only — no spaces, no uppercase). Writings are queried via `getCollection('writing')` and rendered through `src/pages/writing/[...slug].astro`.
 
 **Data utilities:** `src/utils/data.ts` exports helper functions for querying writings:
 
@@ -38,7 +38,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 
 **Navigation:** `FloatingNav.astro` is a fixed right-side bar (z-index 100) with menu toggle, search link, and theme toggle. `FullscreenNav.astro` is a full-screen overlay (z-index 90) with centered nav links (Home, Writings, About, Search) — visibility is CSS-driven via `html[data-menu-open]` (set by FloatingNav's menu toggle). Page scroll is locked when the overlay is open (`overflow: hidden` on `html`). Both components are included on every page.
 
-**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `SkipLink.astro` (skip to `#main-content`, z-index 200) + `Footer.astro` (copyright line) for site chrome. The writing detail page (`src/pages/writing/[...slug].astro`) is self-contained — it imports components directly rather than using a layout wrapper. Markdown content is rendered inside a `.prose` div with scoped `:global()` styles for all typography elements. The writing detail page also includes a related writings section (filtered by shared tags, limited to `RELATED_WRITINGS_LIMIT`).
+**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `SkipLink.astro` (skip to `#main-content`, z-index 200) + `Footer.astro` (copyright line) for site chrome. The writing detail page (`src/pages/writing/[...slug].astro`) is self-contained — it imports components directly rather than using a layout wrapper. Markdown content is rendered inside a `.prose` div with scoped `:global()` styles for all typography elements. The writing detail page also includes a related writings section (filtered by shared tags, limited to `RELATED_WRITINGS_LIMIT`) and a client-side script that uses `document.referrer` to detect navigation from a tag page — if detected, the `BackLink` href and label are updated to point back to that tag page instead of the default writings list.
 
 **Key integrations:**
 
@@ -64,12 +64,13 @@ This is an Astro 5 site with a minimal, content-focused design.
 
 **Pages:**
 
-- `src/pages/index.astro` — homepage with featured and latest writings
-- `src/pages/writing/index.astro` — all writings list
-- `src/pages/writing/[...slug].astro` — writing detail with prose styles and related writings
-- `src/pages/tag/index.astro` — all tags with writing counts
-- `src/pages/tag/[tag].astro` — writings filtered by tag
+- `src/pages/index.astro` — homepage with featured cards and latest writings list
+- `src/pages/writing/index.astro` — all writings, year-grouped with date + title
+- `src/pages/writing/[...slug].astro` — writing detail with prose styles, related writings, and referrer-aware back link
+- `src/pages/tag/index.astro` — all tags; each row shows `#tag` name left, count right, with border separators
+- `src/pages/tag/[tag].astro` — writings filtered by tag; heading is `#{tag}`, year-grouped list
 - `src/pages/rss.xml.ts` — RSS feed
+- `src/pages/about.astro` — not yet created
 
 **Links:** The site uses `base: "/kanso"` in `astro.config.mjs`. Internal links must use `import.meta.env.BASE_URL` as prefix or use `URLS` constants.
 
