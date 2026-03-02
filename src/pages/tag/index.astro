@@ -39,7 +39,7 @@ const writingsByYear = getWritingsByYear(allWritings);
 
                     <span
                       class="tag-count"
-                      aria-label={`${writings.length} {writings.length === 1 ? "writing" : "writings"}`}
+                      aria-label={`${writings.length} ${writings.length === 1 ? "writing" : "writings"}`}
                     >
                       {writings.length}
                     </span>
