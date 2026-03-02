@@ -3,6 +3,7 @@
 import eslint from "@eslint/js";
 import tsEslint from "typescript-eslint";
 import astroEslintParser from "astro-eslint-parser";
+import globals from "globals";
 import astro from "eslint-plugin-astro";
 import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
@@ -159,6 +160,14 @@ export default [
     rules: {
       "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/explicit-function-return-type": "off",
+    },
+  },
+
+  {
+    // Node.js scripts
+    files: ["scripts/**/*.mjs", "scripts/**/*.js"],
+    languageOptions: {
+      globals: globals.node,
     },
   },
 

@@ -5,13 +5,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 - `npm run dev` — Start dev server at localhost:4321
-- `npm run build` — Production build to `./dist/`
+- `npm run dev:search` — Build + copy pagefind index to `public/pagefind/` + start dev server (search functional in dev)
+- `npm run build` — Production build to `./dist/` (runs `astro check && astro build && pagefind`)
 - `npm run preview` — Preview production build locally
+- `npm run clean` — Remove `dist/`, `.astro/`, `public/pagefind/`
 - `npm run generate` — Run `astro sync` to generate content collection types
 - `npm run format` — Format all files with Prettier
 - `npm run format:check` — Check formatting without writing
 - `npm run lint` — Run ESLint
 - `npm run lint:fix` — Run ESLint with auto-fix
+- `npm run lighthouse` — Lighthouse audit against production build (run `npm run build` first, or pass `-- --build`)
 
 ## Tooling
 
@@ -47,6 +50,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `@astrojs/rss` — RSS feed at `/rss.xml` (see `src/pages/rss.xml.ts`)
 - `astro-expressive-code` — Code blocks with Kanagawa Wave/Lotus themes, JetBrains Mono font, line numbers (`ec.config.mjs`). Uses `themeCssSelector` to map theme type to `[data-theme="dark"]`/`[data-theme="light"]`.
 - `sharp` — Image optimization
+- `pagefind` (devDep) + `@pagefind/default-ui` — Static full-text search. `pagefind` CLI runs after `astro build` to index `dist/`. Config in `pagefind.json` (`site: "dist"`, `root_selector: "main"`). Bundle lands in `dist/pagefind/` → served at `/kanso/pagefind/`. Non-writing pages (homepage, listing pages, search page itself) are excluded via `data-pagefind-ignore="all"` on `<main>`. Search page at `src/pages/search.astro` — syncs `?q=` URL param on load (`ui.triggerSearch`) and on input (`history.replaceState`). Dev workflow: `npm run dev:search` builds, copies index to `public/pagefind/` (gitignored), then starts dev server.
 
 **CSS comments:** Style blocks use SMACSS-style section headers throughout. Format: `/* -------------------------\n * [Category] — [Name]\n * [Optional description]\n * ------------------------- */`. Categories: **Theme** (variables, color tokens), **Base** (element defaults), **Layout** (major structural containers), **Module** (components and sub-elements), **State** (interactive states, media queries, attribute-driven states). CSS declaration order is enforced by `prettier-plugin-css-order` (concentric-css) — do not manually reorder; run `npm run format` instead.
 
@@ -70,6 +74,8 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `src/pages/writing/[...slug].astro` — writing detail with prose styles, related writings, and referrer-aware back link
 - `src/pages/tag/index.astro` — all tags as pill-shaped chips (`#name` + count badge), sorted by count desc then alphabetical; includes `WritingsByYear` section below
 - `src/pages/tag/[tag].astro` — same layout as tag index (all tag chips + `WritingsByYear`), with the active tag chip highlighted via `aria-current="page"` (inverted colors, `order: -1` to appear first)
+- `src/pages/search.astro` — search page using `PagefindUI`; `<main data-pagefind-ignore="all">` excludes it from the index; pagefind CSS variables overridden with site tokens on `#search`
+- `src/pages/robots.txt.ts` — API route generating `robots.txt`; disallows `${base}search/` and `${base}pagefind/`; uses `FULL_URL.pathname` for the base path prefix
 - `src/pages/rss.xml.ts` — RSS feed
 - `src/pages/about.astro` — not yet created
 
@@ -84,5 +90,9 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `URLS` — route map (`home`, `writings`, `writing(slug)`, `tags`, `tag(slug)`, `search`, `about`), all prefixed with `BASE_URL`
 - `TITLES` — static strings for fixed pages + `writing(title)` and `tag(tag)` functions
 - `DESCRIPTIONS` — static strings for fixed pages + `writing(description)` and `tag(tag)` functions
+
+**Type declarations:** `src/env.d.ts` holds the `/// <reference types="astro/client" />` triple-slash and any third-party module declarations that lack `@types` packages (e.g. `declare module "@pagefind/default-ui"`).
+
+**Lighthouse:** `scripts/lighthouse.mjs` runs Lighthouse programmatically via `lighthouse` + `chrome-launcher` (both devDeps). Discovers Chrome automatically: `CHROME_PATH` env → Playwright cache (`~/Library/Caches/ms-playwright`) → system installs. Prints a color-coded score table (green ≥90, yellow ≥50, red <50) and failing audit details. Exits with code 1 if any score is below 90 — safe to use in CI. Pass `-- --build` to build before auditing.
 
 **TypeScript:** Extends `astro/tsconfigs/strict` (provides `strict`, `noEmit`, `verbatimModuleSyntax`, etc.). Additional: `target: ES2023`, `lib: ["ES2023", "ES2023.Array", "DOM", "DOM.Iterable"]` (enables `toSorted`/`toReversed`/`toSpliced`), `noImplicitReturns`, path aliases (`@/components/*`, `@/layouts/*`, `@/styles/*`, `@/utils/*`, `@/assets/*`, `@/constants`), and `@astrojs/ts-plugin`.
