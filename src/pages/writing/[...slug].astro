@@ -55,7 +55,7 @@ const { Content } = await render(writing);
     <main id="main-content">
       <article class="container">
         <div class="article-header">
-          <BackLink />
+          <BackLink href={URLS.writings} label="Back to writings" />
 
           <div class="article-meta">
             <FormattedDate date={publishedDate} />
@@ -109,7 +109,6 @@ const { Content } = await render(writing);
 </html>
 
 <script>
-  // Update the back link if the user navigated here from a tag page or tags index
   const backLink = document.querySelector<HTMLAnchorElement>(".back-link");
   const backLinkText = document.querySelector<HTMLElement>(".back-link-text");
 
@@ -117,15 +116,25 @@ const { Content } = await render(writing);
     const ref = new URL(document.referrer);
 
     if (ref.origin === location.origin) {
+      const base = import.meta.env.BASE_URL;
+
       const tagMatch = ref.pathname.match(/\/tag\/([^/]+)\/?$/);
-      const isTagsIndex = /\/tag\/?$/.test(ref.pathname);
+      const isTagsPage = /\/tag\/?$/.test(ref.pathname);
+      const isSearchPage = /\/search\/?$/.test(ref.pathname);
+      const isHomePage = ref.pathname === base || ref.pathname === base.replace(/\/$/, "");
 
       if (tagMatch) {
         backLink.href = ref.pathname;
         backLinkText.textContent = `Back to #${tagMatch[1]}`;
-      } else if (isTagsIndex) {
+      } else if (isTagsPage) {
         backLink.href = ref.pathname;
         backLinkText.textContent = "Back to tags";
+      } else if (isSearchPage) {
+        backLink.href = ref.pathname + ref.search;
+        backLinkText.textContent = "Back to search";
+      } else if (isHomePage) {
+        backLink.href = ref.pathname;
+        backLinkText.textContent = "Back to home";
       }
     }
   }
