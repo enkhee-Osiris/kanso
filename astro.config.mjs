@@ -13,6 +13,8 @@ export default defineConfig({
   integrations: [expressiveCode(), mdx(), sitemap()],
   image: {
     responsiveStyles: true,
+    domains: ["placehold.co"],
+    remotePatterns: [{ protocol: "https" }],
   },
   experimental: {
     svgo: true,
