@@ -23,18 +23,39 @@ function escapeXml(str: string): string {
     .replace(/'/g, "&apos;");
 }
 
+/**
+ * Breaks a title string into lines that fit within a character-count budget.
+ *
+ * Words are packed greedily: each word is appended to the current line until
+ * adding the next word would exceed `charsPerLine`, at which point a new line
+ * starts. Once `maxLines` lines are full, wrapping stops regardless of
+ * remaining words.
+ *
+ * If the title was truncated (not all words fit), the last line is suffixed
+ * with `…`. The ellipsis replaces the final character when the line is already
+ * at the character limit, so the result never exceeds `charsPerLine`.
+ *
+ * @param title        - Raw title string (may contain multiple spaces).
+ * @param charsPerLine - Maximum number of characters allowed per line.
+ * @param maxLines     - Maximum number of lines to return.
+ * @returns              An array of lines, length ≤ `maxLines`.
+ */
 function wrapTitle(title: string, charsPerLine: number, maxLines: number): string[] {
   const words = title.split(/\s+/);
   const lines: string[] = [];
+
   let current = "";
   let overflow = false;
 
   for (const word of words) {
     if (overflow) break;
+
     const candidate = current ? `${current} ${word}` : word;
+
     if (candidate.length > charsPerLine && current) {
       lines.push(current);
       current = word;
+
       if (lines.length >= maxLines) {
         overflow = true;
         break;
@@ -49,8 +70,10 @@ function wrapTitle(title: string, charsPerLine: number, maxLines: number): strin
   }
 
   const totalWordsConsumed = lines.join(" ").split(/\s+/).length;
+
   if (totalWordsConsumed < words.length) {
     const lastLine = lines[lines.length - 1];
+
     if (lastLine) {
       lines[lines.length - 1] =
         lastLine.length <= charsPerLine - 1
@@ -67,15 +90,16 @@ function buildSvg(data: OgImageData): string {
 
   let fontSize: number;
   let charsPerLine: number;
+
   if (title.length <= 40) {
     fontSize = 68;
-    charsPerLine = 22;
+    charsPerLine = 24;
   } else if (title.length <= 70) {
     fontSize = 52;
-    charsPerLine = 30;
+    charsPerLine = 32;
   } else {
     fontSize = 40;
-    charsPerLine = 38;
+    charsPerLine = 40;
   }
 
   const lineHeight = fontSize * 1.25;
@@ -133,7 +157,9 @@ export async function generateOgImage(data: OgImageData): Promise<Uint8Array<Arr
   const buf = await sharp(Buffer.from(buildSvg(data)))
     .png()
     .toBuffer();
+
   const out = new Uint8Array(buf.length);
   out.set(buf);
+
   return out;
 }
