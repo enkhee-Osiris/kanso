@@ -189,8 +189,13 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .intro-social-link {
+    display: block;
     transition: color var(--home-transition);
     color: var(--color-surface-400);
+  }
+
+  .intro-social-link a {
+    display: block;
   }
 
   .intro-social-link :global(svg) {
@@ -201,6 +206,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   .intro-social-link:focus-visible {
     outline: 1px solid var(--color-border-hover);
     outline-offset: 0.25rem;
+    border-radius: 0.125rem;
     color: var(--color-text);
   }
 
@@ -332,12 +338,11 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .latest-heading {
-    margin-block-end: 2rem;
-    font-weight: 700;
-    font-size: 1.0625rem;
-    line-height: 1.41;
-    font-family: var(--font-display);
-    font-optical-sizing: auto;
+    margin-block-end: 1.5rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   .latest-heading-link {

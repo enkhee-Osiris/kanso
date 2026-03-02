@@ -179,7 +179,7 @@ const { Content } = await render(writing);
   .article-meta :global(time) {
     grid-row: 1;
     padding-block: 0.45rem;
-    color: var(--color-surface-500);
+    color: var(--color-surface-600);
     font-size: 1.5rem;
     line-height: 1.4;
   }
@@ -361,7 +361,7 @@ const { Content } = await render(writing);
   }
 
   .prose :global(figcaption) {
-    color: var(--color-surface-500);
+    color: var(--color-surface-600);
     font-style: italic;
     font-size: var(--article-font-size-sm);
     text-align: center;
@@ -515,13 +515,12 @@ const { Content } = await render(writing);
   }
 
   .related-heading {
-    margin-block-end: 2rem;
+    margin-block-end: 1.5rem;
     color: var(--color-surface-600);
-    font-weight: 700;
-    font-size: var(--article-font-size-md);
-    line-height: 1.41;
-    font-family: var(--font-display);
-    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   .related-list {
