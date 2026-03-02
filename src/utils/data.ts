@@ -1,6 +1,10 @@
-import type { CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 type Writing = CollectionEntry<"writing">;
+
+export function getPublishedWritings() {
+  return getCollection("writing", (w: Writing) => !w.data.draft);
+}
 
 function byDateDesc(a: Writing, b: Writing) {
   return b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf();

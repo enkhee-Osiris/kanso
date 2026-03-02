@@ -1,6 +1,4 @@
 ---
-import { getCollection } from "astro:content";
-
 import BackLink from "@/components/BackLink.astro";
 import FloatingNav from "@/components/FloatingNav.astro";
 import Footer from "@/components/Footer.astro";
@@ -9,10 +7,15 @@ import Head from "@/components/Head.astro";
 import SkipLink from "@/components/SkipLink.astro";
 import WritingsByYear from "@/components/WritingsByYear.astro";
 import { DESCRIPTIONS, TITLES, URLS } from "@/constants";
-import { getSortedWritings, getTagsWithWritings, getWritingsByYear } from "@/utils/data";
+import {
+  getPublishedWritings,
+  getSortedWritings,
+  getTagsWithWritings,
+  getWritingsByYear,
+} from "@/utils/data";
 
 export async function getStaticPaths() {
-  const allWritings = await getCollection("writing");
+  const allWritings = await getPublishedWritings();
   const sortedWritings = getSortedWritings(allWritings);
   const tagsWithWritings = getTagsWithWritings(sortedWritings);
 

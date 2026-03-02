@@ -1,15 +1,13 @@
 ---
-import { getCollection } from "astro:content";
-
 import FormattedDate from "@/components/FormattedDate.astro";
 import { SOCIAL, URLS } from "@/constants";
-import { getSortedWritings } from "@/utils/data";
+import { getPublishedWritings, getSortedWritings } from "@/utils/data";
 
 const githubIcon = await import("@/assets/icons/github.svg?raw");
 const linkedinIcon = await import("@/assets/icons/linkedin.svg?raw");
 const mailIcon = await import("@/assets/icons/mail.svg?raw");
 
-const allWritings = await getCollection("writing");
+const allWritings = await getPublishedWritings();
 const latestWritings = getSortedWritings(allWritings).slice(0, 3);
 
 const currentPath = Astro.url.pathname;

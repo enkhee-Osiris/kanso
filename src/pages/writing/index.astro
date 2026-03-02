@@ -1,15 +1,13 @@
 ---
-import { getCollection } from "astro:content";
-
 import FloatingNav from "@/components/FloatingNav.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import SkipLink from "@/components/SkipLink.astro";
 import WritingsByYear from "@/components/WritingsByYear.astro";
 import { DESCRIPTIONS, TITLES } from "@/constants";
-import { getWritingsByYear } from "@/utils/data";
+import { getPublishedWritings, getWritingsByYear } from "@/utils/data";
 
-const allWritings = await getCollection("writing");
+const allWritings = await getPublishedWritings();
 const writingsByYear = getWritingsByYear(allWritings);
 ---
 

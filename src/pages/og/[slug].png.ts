@@ -1,18 +1,19 @@
 import type { APIRoute, GetStaticPaths } from "astro";
-import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
 
+import { getPublishedWritings } from "@/utils/data";
 import { generateOgImage } from "@/utils/og-image";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const writings = await getCollection("writing", (w: CollectionEntry<"writing">) => !w.data.draft);
+  const writings = await getPublishedWritings();
 
-  return writings.map((w: CollectionEntry<"writing">) => ({ params: { slug: w.id } }));
+  return writings.map(w => ({ params: { slug: w.id } }));
 };
 
 export const GET: APIRoute = async ({ params }) => {
-  const writings = await getCollection("writing");
-  const writing = writings.find((w: CollectionEntry<"writing">) => w.id === params.slug);
+  const writings = await getPublishedWritings();
+
+  const writing = writings.find(w => w.id === params.slug);
+
   if (!writing) return new Response("Not found", { status: 404 });
 
   const png = await generateOgImage({

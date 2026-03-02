@@ -1,6 +1,4 @@
 ---
-import { getCollection } from "astro:content";
-
 import FloatingNav from "@/components/FloatingNav.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
@@ -14,14 +12,14 @@ import {
   TITLES,
   URLS,
 } from "@/constants";
-import { getFeaturedWritings, getNonFeaturedWritings } from "@/utils/data";
+import { getFeaturedWritings, getNonFeaturedWritings, getPublishedWritings } from "@/utils/data";
 
 const githubIcon = await import("@/assets/icons/github.svg?raw");
 const arrowRightIcon = await import("@/assets/icons/arrow-right.svg?raw");
 const linkedinIcon = await import("@/assets/icons/linkedin.svg?raw");
 const mailIcon = await import("@/assets/icons/mail.svg?raw");
 
-const allWritings = await getCollection("writing");
+const allWritings = await getPublishedWritings();
 
 const featuredWritings = getFeaturedWritings(allWritings, HOME_FEATURED_WRITINGS_LIMIT);
 
