@@ -1,16 +1,12 @@
 import { resolve } from "node:path";
 
-import { Resvg } from "@resvg/resvg-js";
 import sharp from "sharp";
 
 import templateSvg from "@/assets/og/template.svg?raw";
 import { AUTHOR, FULL_URL } from "@/constants";
 
-// resvg: font files loaded directly, no fontconfig needed
-const fontFiles = [
-  resolve("src/assets/og/fonts/Lora-Bold.ttf"),
-  resolve("src/assets/og/fonts/PTSerif-Regular.ttf"),
-];
+process.env.PANGOCAIRO_BACKEND = "fontconfig";
+process.env.FONTCONFIG_PATH = resolve("src/assets/og");
 
 export interface OgImageData {
   title: string;
@@ -133,36 +129,11 @@ function buildSvg(data: OgImageData): string {
   return templateSvg.replace('<g id="content"/>', `<g id="content">${contentSvg}</g>`);
 }
 
-function toUint8Array(buf: Buffer): Uint8Array<ArrayBuffer> {
-  const out = new Uint8Array(buf.length);
-  out.set(buf);
-
-  return out;
-}
-
-// --- resvg renderer (working) ---
-
 export async function generateOgImage(data: OgImageData): Promise<Uint8Array<ArrayBuffer>> {
-  const resvg = new Resvg(buildSvg(data), {
-    font: { fontFiles, loadSystemFonts: false },
-  });
-
-  const buf = resvg.render().asPng();
-  const out = new Uint8Array(buf.length);
-  out.set(buf);
-
-  return out;
-}
-
-// --- Sharp renderer (experimental: tests PANGOCAIRO_BACKEND + fontconfig) ---
-
-export async function generateOgImageSharp(data: OgImageData): Promise<Uint8Array<ArrayBuffer>> {
-  process.env.PANGOCAIRO_BACKEND = "fontconfig";
-  process.env.FONTCONFIG_PATH = resolve("src/assets/og");
-
   const buf = await sharp(Buffer.from(buildSvg(data)))
     .png()
     .toBuffer();
-
-  return toUint8Array(buf);
+  const out = new Uint8Array(buf.length);
+  out.set(buf);
+  return out;
 }
