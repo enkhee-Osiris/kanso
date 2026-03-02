@@ -33,7 +33,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `getFeaturedWritings(writings, limit?)` — featured only, sorted by date
 - `getNonFeaturedWritings(writings, limit?)` — non-featured only, sorted by date
 - `getRelatedWritings(current, writings, limit?)` — writings sharing tags with the current entry, ranked by shared tag count then date
-- `getTagsWithWritings(writings)` — `{ tag, writings[] }` pairs for all tags
+- `getTagsWithWritings(writings)` — `{ tag, writings[] }` pairs for all tags, sorted by count descending then alphabetical
 - `getWritingsByYear(writings)` — `{ year, writings[] }` pairs sorted by year descending
 
 **Navigation:** `FloatingNav.astro` is a fixed right-side bar (z-index 100) with menu toggle, search link, and theme toggle. `FullscreenNav.astro` is a full-screen overlay (z-index 90) with centered nav links (Home, Writings, About, Search) — visibility is CSS-driven via `html[data-menu-open]` (set by FloatingNav's menu toggle). Page scroll is locked when the overlay is open (`overflow: hidden` on `html`). Both components are included on every page.
@@ -69,7 +69,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `src/pages/writing/index.astro` — all writings, year-grouped with date + title
 - `src/pages/writing/[...slug].astro` — writing detail with prose styles, related writings, and referrer-aware back link
 - `src/pages/tag/index.astro` — all tags as pill-shaped chips (`#name` + count badge), sorted by count desc then alphabetical; includes `WritingsByYear` section below
-- `src/pages/tag/[tag].astro` — writings filtered by tag; heading is `#{tag}`, year-grouped list
+- `src/pages/tag/[tag].astro` — same layout as tag index (all tag chips + `WritingsByYear`), with the active tag chip highlighted via `aria-current="page"` (inverted colors, `order: -1` to appear first)
 - `src/pages/rss.xml.ts` — RSS feed
 - `src/pages/about.astro` — not yet created
 
