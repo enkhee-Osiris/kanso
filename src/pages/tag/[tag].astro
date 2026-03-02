@@ -34,7 +34,7 @@ const writingsByYear = getWritingsByYear(writings);
 
   <body>
     <SkipLink />
-    <main id="main-content">
+    <main id="main-content" data-pagefind-ignore="all">
       <section class="container" aria-label={`Writings tagged with ${tag}`}>
         <div class="tags-meta">
           <BackLink href={URLS.tags} label="Back to tags" />

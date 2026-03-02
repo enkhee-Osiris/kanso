@@ -36,7 +36,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
   <body>
     <SkipLink />
-    <main id="main-content">
+    <main id="main-content" data-pagefind-ignore="all">
       <div class="container">
         <section class="intro" aria-label="Introduction">
           <div class="intro-content">
@@ -71,7 +71,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
             <section class="featured-writings" aria-label="Featured writings">
               <ul class="featured-list" role="list">
                 {featuredWritings.map(writing => (
-                  <li class="featured-card card">
+                  <li class="featured-card">
                     <a class="featured-card-link" href={URLS.writing(writing.id)}>
                       <h2 class="featured-title">{writing.data.title}</h2>
 
@@ -335,7 +335,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
   .latest-heading {
     margin-block-end: 1.5rem;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
