@@ -16,7 +16,6 @@ const writing = defineCollection({
       tags: z
         .array(z.string().regex(/^[a-z-]+$/, "Tag must contain only lowercase letters and hyphens"))
         .default(["others"]),
-      ogImage: image().or(z.string()).optional(),
       description: z.string(),
     }),
 });

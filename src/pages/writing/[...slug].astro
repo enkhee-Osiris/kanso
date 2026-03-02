@@ -9,7 +9,7 @@ import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import SkipLink from "@/components/SkipLink.astro";
 import TagChip from "@/components/TagChip.astro";
-import { TITLES, DESCRIPTIONS, URLS, RELATED_WRITINGS_LIMIT } from "@/constants";
+import { TITLES, DESCRIPTIONS, FULL_URL, URLS, RELATED_WRITINGS_LIMIT } from "@/constants";
 import { getRelatedWritings } from "@/utils/data";
 
 const quoteIcon = await import("@/assets/icons/quote.svg?raw");
@@ -28,6 +28,7 @@ type Props = CollectionEntry<"writing">;
 
 const writing = Astro.props;
 const publishedDate = writing.data.pubDatetime;
+const ogImageUrl = new URL(`og/${writing.id}.png`, FULL_URL).href;
 const allWritings = await getCollection("writing");
 const relatedWritings = getRelatedWritings(writing, allWritings, RELATED_WRITINGS_LIMIT);
 
@@ -40,6 +41,7 @@ const { Content } = await render(writing);
     <Head
       title={TITLES.writing(writing.data.title)}
       description={DESCRIPTIONS.writing(writing.data.description)}
+      image={ogImageUrl}
     />
     <link
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital@0;1&display=swap"

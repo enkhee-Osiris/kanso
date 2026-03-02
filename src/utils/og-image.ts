@@ -1,0 +1,148 @@
+import { resolve } from "node:path";
+
+import { Resvg } from "@resvg/resvg-js";
+
+import templateSvg from "@/assets/og/template.svg?raw";
+import { AUTHOR, FULL_URL } from "@/constants";
+
+// Resolved once at module init — resvg loads font files directly, no fontconfig needed
+const fontFiles = [
+  resolve("src/assets/og/fonts/Lora-Bold.ttf"),
+  resolve("src/assets/og/fonts/PTSerif-Regular.ttf"),
+];
+
+interface OgImageData {
+  title: string;
+  pubDatetime: Date;
+  tags: string[];
+}
+
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function wrapTitle(title: string, charsPerLine: number, maxLines: number): string[] {
+  const words = title.split(/\s+/);
+  const lines: string[] = [];
+  let current = "";
+  let overflow = false;
+
+  for (const word of words) {
+    if (overflow) break;
+    const candidate = current ? `${current} ${word}` : word;
+    if (candidate.length > charsPerLine && current) {
+      lines.push(current);
+      current = word;
+      if (lines.length >= maxLines) {
+        overflow = true;
+        break;
+      }
+    } else {
+      current = candidate;
+    }
+  }
+
+  if (!overflow && current) {
+    lines.push(current);
+  }
+
+  // If words were cut off, truncate the last line with ellipsis
+  const totalWordsConsumed = lines.join(" ").split(/\s+/).length;
+  if (totalWordsConsumed < words.length) {
+    const lastLine = lines[lines.length - 1];
+    if (lastLine) {
+      lines[lines.length - 1] =
+        lastLine.length <= charsPerLine - 1
+          ? `${lastLine}\u2026`
+          : `${lastLine.slice(0, charsPerLine - 1).trimEnd()}\u2026`;
+    }
+  }
+
+  return lines;
+}
+
+export async function generateOgImage(data: OgImageData): Promise<Uint8Array<ArrayBuffer>> {
+  const { title, pubDatetime } = data;
+
+  // Adaptive font size based on title length
+  let fontSize: number;
+  let charsPerLine: number;
+  if (title.length <= 40) {
+    fontSize = 68;
+    charsPerLine = 22;
+  } else if (title.length <= 70) {
+    fontSize = 52;
+    charsPerLine = 30;
+  } else {
+    fontSize = 40;
+    charsPerLine = 38;
+  }
+
+  const maxLines = 3;
+  const lineHeight = fontSize * 1.25;
+  const titleLines = wrapTitle(title, charsPerLine, maxLines);
+
+  const formattedDate = pubDatetime.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
+  const titleSpans = titleLines
+    .map((line, i) => `<tspan x="120" dy="${i === 0 ? 0 : lineHeight}">${escapeXml(line)}</tspan>`)
+    .join("");
+
+  const contentSvg = `
+    <text
+      x="120"
+      y="267"
+      font-family="Lora"
+      font-size="${fontSize}"
+      font-weight="bold"
+      fill="white"
+    >${titleSpans}</text>
+    <text
+      x="783"
+      y="526"
+      font-family="Lora"
+      font-size="28"
+      font-weight="bold"
+      fill="white"
+    >${escapeXml(AUTHOR)}</text>
+    <text
+      x="120"
+      y="560"
+      font-family="PT Serif"
+      font-size="17"
+      fill="white"
+      fill-opacity="0.6"
+    >${escapeXml(formattedDate)}</text>
+    <text
+      x="783"
+      y="560"
+      font-family="PT Serif"
+      font-size="17"
+      fill="white"
+      fill-opacity="0.6"
+    >${escapeXml(FULL_URL.href)}</text>
+  `;
+
+  const filledSvg = templateSvg.replace('<g id="content"/>', `<g id="content">${contentSvg}</g>`);
+
+  const resvg = new Resvg(filledSvg, {
+    font: {
+      fontFiles,
+      loadSystemFonts: false,
+    },
+  });
+
+  const buf = resvg.render().asPng();
+  const out = new Uint8Array(buf.length);
+  out.set(buf);
+  return out;
+}
