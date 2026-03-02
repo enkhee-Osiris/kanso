@@ -2,7 +2,7 @@ import type { APIRoute, GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 
-import { generateOgImage } from "@/utils/og-image";
+import { generateOgImageSharp } from "@/utils/og-image";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const writings = await getCollection("writing", (w: CollectionEntry<"writing">) => !w.data.draft);
@@ -15,7 +15,7 @@ export const GET: APIRoute = async ({ params }) => {
   const writing = writings.find((w: CollectionEntry<"writing">) => w.id === params.slug);
   if (!writing) return new Response("Not found", { status: 404 });
 
-  const png = await generateOgImage({
+  const png = await generateOgImageSharp({
     title: writing.data.title,
     pubDatetime: writing.data.pubDatetime,
     tags: writing.data.tags,

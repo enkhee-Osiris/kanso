@@ -1,17 +1,18 @@
 import { resolve } from "node:path";
 
 import { Resvg } from "@resvg/resvg-js";
+import sharp from "sharp";
 
 import templateSvg from "@/assets/og/template.svg?raw";
 import { AUTHOR, FULL_URL } from "@/constants";
 
-// Resolved once at module init — resvg loads font files directly, no fontconfig needed
+// resvg: font files loaded directly, no fontconfig needed
 const fontFiles = [
   resolve("src/assets/og/fonts/Lora-Bold.ttf"),
   resolve("src/assets/og/fonts/PTSerif-Regular.ttf"),
 ];
 
-interface OgImageData {
+export interface OgImageData {
   title: string;
   pubDatetime: Date;
   tags: string[];
@@ -51,7 +52,6 @@ function wrapTitle(title: string, charsPerLine: number, maxLines: number): strin
     lines.push(current);
   }
 
-  // If words were cut off, truncate the last line with ellipsis
   const totalWordsConsumed = lines.join(" ").split(/\s+/).length;
   if (totalWordsConsumed < words.length) {
     const lastLine = lines[lines.length - 1];
@@ -66,10 +66,9 @@ function wrapTitle(title: string, charsPerLine: number, maxLines: number): strin
   return lines;
 }
 
-export async function generateOgImage(data: OgImageData): Promise<Uint8Array<ArrayBuffer>> {
+function buildSvg(data: OgImageData): string {
   const { title, pubDatetime } = data;
 
-  // Adaptive font size based on title length
   let fontSize: number;
   let charsPerLine: number;
   if (title.length <= 40) {
@@ -83,9 +82,8 @@ export async function generateOgImage(data: OgImageData): Promise<Uint8Array<Arr
     charsPerLine = 38;
   }
 
-  const maxLines = 3;
   const lineHeight = fontSize * 1.25;
-  const titleLines = wrapTitle(title, charsPerLine, maxLines);
+  const titleLines = wrapTitle(title, charsPerLine, 3);
 
   const formattedDate = pubDatetime.toLocaleDateString("en-US", {
     year: "numeric",
@@ -132,17 +130,39 @@ export async function generateOgImage(data: OgImageData): Promise<Uint8Array<Arr
     >${escapeXml(FULL_URL.href)}</text>
   `;
 
-  const filledSvg = templateSvg.replace('<g id="content"/>', `<g id="content">${contentSvg}</g>`);
+  return templateSvg.replace('<g id="content"/>', `<g id="content">${contentSvg}</g>`);
+}
 
-  const resvg = new Resvg(filledSvg, {
-    font: {
-      fontFiles,
-      loadSystemFonts: false,
-    },
+function toUint8Array(buf: Buffer): Uint8Array<ArrayBuffer> {
+  const out = new Uint8Array(buf.length);
+  out.set(buf);
+
+  return out;
+}
+
+// --- resvg renderer (working) ---
+
+export async function generateOgImage(data: OgImageData): Promise<Uint8Array<ArrayBuffer>> {
+  const resvg = new Resvg(buildSvg(data), {
+    font: { fontFiles, loadSystemFonts: false },
   });
 
   const buf = resvg.render().asPng();
   const out = new Uint8Array(buf.length);
   out.set(buf);
+
   return out;
+}
+
+// --- Sharp renderer (experimental: tests PANGOCAIRO_BACKEND + fontconfig) ---
+
+export async function generateOgImageSharp(data: OgImageData): Promise<Uint8Array<ArrayBuffer>> {
+  process.env.PANGOCAIRO_BACKEND = "fontconfig";
+  process.env.FONTCONFIG_PATH = resolve("src/assets/og");
+
+  const buf = await sharp(Buffer.from(buildSvg(data)))
+    .png()
+    .toBuffer();
+
+  return toUint8Array(buf);
 }
