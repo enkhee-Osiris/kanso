@@ -37,7 +37,7 @@ function ButtonGroup({ buttons }) {
     <div className="flex gap-3">
       {" "}
       {/* 12px minimum gap */}
-      {buttons.map(btn => (
+      {buttons.map((btn) => (
         <button key={btn.id} className="min-w-[44px] min-h-[44px] px-4 py-2">
           {btn.label}
         </button>
@@ -93,7 +93,7 @@ function ProductCard({ product }) {
         { name: "activate", label: "View details" },
         { name: "addToCart", label: "Add to cart" },
       ]}
-      onAccessibilityAction={event => {
+      onAccessibilityAction={(event) => {
         switch (event.nativeEvent.actionName) {
           case "addToCart":
             addToCart(product);
@@ -116,7 +116,7 @@ function Counter() {
   const [count, setCount] = useState(0);
 
   const increment = () => {
-    setCount(prev => prev + 1);
+    setCount((prev) => prev + 1);
     AccessibilityInfo.announceForAccessibility(`Count is now ${count + 1}`);
   };
 
@@ -356,7 +356,7 @@ function SwipeableCard({ item, onDelete }) {
     <View
       accessible={true}
       accessibilityActions={[{ name: "delete", label: "Delete item" }]}
-      onAccessibilityAction={event => {
+      onAccessibilityAction={(event) => {
         if (event.nativeEvent.actionName === "delete") {
           onDelete(item);
         }
@@ -364,7 +364,10 @@ function SwipeableCard({ item, onDelete }) {
     >
       <Swipeable
         renderRightActions={() => (
-          <TouchableOpacity onPress={() => onDelete(item)} accessibilityLabel="Delete">
+          <TouchableOpacity
+            onPress={() => onDelete(item)}
+            accessibilityLabel="Delete"
+          >
             <Text>Delete</Text>
           </TouchableOpacity>
         )}
@@ -397,7 +400,10 @@ function AnimatedComponent() {
   useEffect(() => {
     AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
 
-    const subscription = AccessibilityInfo.addEventListener("reduceMotionChanged", setReduceMotion);
+    const subscription = AccessibilityInfo.addEventListener(
+      "reduceMotionChanged",
+      setReduceMotion,
+    );
 
     return () => subscription.remove();
   }, []);

@@ -76,7 +76,12 @@ function Accordion({ items }) {
                 <span aria-hidden="true">{isOpen ? "−" : "+"}</span>
               </button>
             </h3>
-            <div id={panelId} role="region" aria-labelledby={headingId} hidden={!isOpen}>
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={headingId}
+              hidden={!isOpen}
+            >
               {item.content}
             </div>
           </div>
@@ -131,7 +136,7 @@ function Tabs({ tabs }) {
             aria-controls={`panel-${index}`}
             tabIndex={index === activeIndex ? 0 : -1}
             onClick={() => setActiveIndex(index)}
-            onKeyDown={e => handleKeyDown(e, index)}
+            onKeyDown={(e) => handleKeyDown(e, index)}
           >
             {tab.label}
           </button>
@@ -165,7 +170,7 @@ function MenuButton({ label, items }) {
   const menuRef = useRef(null);
   const menuId = useId();
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
@@ -173,12 +178,12 @@ function MenuButton({ label, items }) {
           setIsOpen(true);
           setActiveIndex(0);
         } else {
-          setActiveIndex(prev => Math.min(prev + 1, items.length - 1));
+          setActiveIndex((prev) => Math.min(prev + 1, items.length - 1));
         }
         break;
       case "ArrowUp":
         e.preventDefault();
-        setActiveIndex(prev => Math.max(prev - 1, 0));
+        setActiveIndex((prev) => Math.max(prev - 1, 0));
         break;
       case "Escape":
         setIsOpen(false);
@@ -216,7 +221,13 @@ function MenuButton({ label, items }) {
       </button>
 
       {isOpen && (
-        <ul ref={menuRef} id={menuId} role="menu" aria-label={label} onKeyDown={handleKeyDown}>
+        <ul
+          ref={menuRef}
+          id={menuId}
+          role="menu"
+          aria-label={label}
+          onKeyDown={handleKeyDown}
+        >
           {items.map((item, index) => (
             <li
               key={index}
@@ -248,20 +259,22 @@ function Combobox({ options, onSelect, placeholder }) {
   const inputRef = useRef(null);
   const listboxId = useId();
 
-  const filteredOptions = options.filter(opt =>
-    opt.toLowerCase().includes(inputValue.toLowerCase())
+  const filteredOptions = options.filter((opt) =>
+    opt.toLowerCase().includes(inputValue.toLowerCase()),
   );
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
         setIsOpen(true);
-        setActiveIndex(prev => Math.min(prev + 1, filteredOptions.length - 1));
+        setActiveIndex((prev) =>
+          Math.min(prev + 1, filteredOptions.length - 1),
+        );
         break;
       case "ArrowUp":
         e.preventDefault();
-        setActiveIndex(prev => Math.max(prev - 1, 0));
+        setActiveIndex((prev) => Math.max(prev - 1, 0));
         break;
       case "Enter":
         if (activeIndex >= 0) {
@@ -276,7 +289,7 @@ function Combobox({ options, onSelect, placeholder }) {
     }
   };
 
-  const selectOption = option => {
+  const selectOption = (option) => {
     setInputValue(option);
     onSelect(option);
     setIsOpen(false);
@@ -291,11 +304,13 @@ function Combobox({ options, onSelect, placeholder }) {
         role="combobox"
         aria-expanded={isOpen}
         aria-controls={listboxId}
-        aria-activedescendant={activeIndex >= 0 ? `option-${activeIndex}` : undefined}
+        aria-activedescendant={
+          activeIndex >= 0 ? `option-${activeIndex}` : undefined
+        }
         aria-autocomplete="list"
         value={inputValue}
         placeholder={placeholder}
-        onChange={e => {
+        onChange={(e) => {
           setInputValue(e.target.value);
           setIsOpen(true);
           setActiveIndex(-1);
@@ -345,7 +360,12 @@ function AlertDialog({ isOpen, onConfirm, onCancel, title, message }) {
 
   return (
     <FocusTrap>
-      <div role="alertdialog" aria-modal="true" aria-labelledby={titleId} aria-describedby={descId}>
+      <div
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        aria-describedby={descId}
+      >
         <div className="backdrop" onClick={onCancel} />
 
         <div className="dialog">
@@ -372,7 +392,7 @@ function Toolbar({ items }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const toolbarRef = useRef(null);
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e) => {
     let newIndex = activeIndex;
 
     switch (e.key) {
@@ -398,7 +418,12 @@ function Toolbar({ items }) {
   };
 
   return (
-    <div ref={toolbarRef} role="toolbar" aria-label="Text formatting" onKeyDown={handleKeyDown}>
+    <div
+      ref={toolbarRef}
+      role="toolbar"
+      aria-label="Text formatting"
+      onKeyDown={handleKeyDown}
+    >
       {items.map((item, index) => (
         <button
           key={index}
@@ -475,7 +500,7 @@ function ValidationSummary({ errors }) {
 function ChatLog({ messages }) {
   return (
     <div role="log" aria-live="polite" aria-relevant="additions">
-      {messages.map(msg => (
+      {messages.map((msg) => (
         <div key={msg.id}>
           <span className="author">{msg.author}:</span>
           <span className="text">{msg.text}</span>

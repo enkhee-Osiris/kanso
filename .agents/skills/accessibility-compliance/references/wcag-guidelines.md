@@ -259,7 +259,7 @@ function Tooltip({ content, children }) {
         <div
           role="tooltip"
           // Dismissible: user can close without moving pointer
-          onKeyDown={e => e.key === "Escape" && setIsVisible(false)}
+          onKeyDown={(e) => e.key === "Escape" && setIsVisible(false)}
           // Hoverable: content stays visible when pointer moves to it
           onMouseEnter={() => setIsVisible(true)}
           onMouseLeave={() => setIsVisible(false)}
@@ -291,7 +291,7 @@ function CustomButton({ onClick, children }) {
       role="button"
       tabIndex={0}
       onClick={onClick}
-      onKeyDown={e => {
+      onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           onClick();
@@ -544,7 +544,7 @@ function CheckoutForm() {
         <input
           type="checkbox"
           checked={sameAsBilling}
-          onChange={e => {
+          onChange={(e) => {
             setSameAsBilling(e.target.checked);
             if (e.target.checked) setShipping(billing);
           }}
@@ -596,7 +596,7 @@ function CustomSlider({ value, min, max, label, onChange }) {
       aria-valuenow={value}
       aria-label={label}
       tabIndex={0}
-      onKeyDown={e => {
+      onKeyDown={(e) => {
         if (e.key === "ArrowRight") onChange(Math.min(value + 1, max));
         if (e.key === "ArrowLeft") onChange(Math.max(value - 1, min));
       }}
