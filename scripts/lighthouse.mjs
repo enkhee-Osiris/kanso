@@ -26,9 +26,10 @@ const THRESHOLD = 90;
 const PAGES = [
   { label: "Homepage", path: "/" },
   { label: "Writings", path: "/writing/" },
+  { label: "Writing detail", path: "/writing/markdown-style-guide/" },
   { label: "Tags", path: "/tag/" },
   { label: "Tag", path: "/tag/reference/" },
-  { label: "Writing detail", path: "/writing/markdown-style-guide/" },
+  { label: "About", path: "/about/" },
   { label: "Search", path: "/search/" },
 ];
 
