@@ -361,6 +361,12 @@ const { Content } = await render(writing);
     color: var(--color-surface-600);
   }
 
+  .prose :global(a:focus-visible) {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.15rem;
+    border-radius: 0.1rem;
+  }
+
   /* Images */
   .prose :global(:not(figure) > img) {
     margin-block: 1.5rem;

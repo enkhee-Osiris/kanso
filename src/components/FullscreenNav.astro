@@ -13,7 +13,7 @@ const latestWritings = getSortedWritings(allWritings).slice(0, 3);
 const currentPath = Astro.url.pathname;
 ---
 
-<nav id="fullscreen-nav" class="fullscreen-nav" aria-label="Main menu">
+<nav id="fullscreen-nav" class="fullscreen-nav" aria-label="Main menu" aria-hidden="true">
   <div class="nav-inner">
     <!-- LEFT: latest writings + social -->
     <div class="nav-left">
@@ -62,7 +62,7 @@ const currentPath = Astro.url.pathname;
     <!-- RIGHT: page nav links -->
     <ul class="nav-links" role="list">
       <li>
-        <a href={URLS.home} aria-current={currentPath === URLS.home ? "page" : undefined}> Home </a>
+        <a href={URLS.home} aria-current={currentPath === URLS.home ? "page" : undefined}>Home</a>
       </li>
       <li>
         <a
@@ -270,6 +270,9 @@ const currentPath = Astro.url.pathname;
 
   .nav-links a[aria-current="page"] {
     color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
   }
 
   /* -------------------------

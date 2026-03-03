@@ -170,6 +170,7 @@ async function main() {
 
   if (args.includes("--build")) {
     console.log("Building...");
+
     execSync("npm run build", { stdio: "inherit" });
   }
 

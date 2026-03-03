@@ -8,7 +8,7 @@ import { AUTHOR, FULL_URL } from "@/constants";
 process.env.PANGOCAIRO_BACKEND = "fontconfig";
 process.env.FONTCONFIG_PATH = resolve("src/assets/og");
 
-export interface OgImageData {
+interface OgImageData {
   title: string;
   pubDatetime: Date;
   tags: string[];

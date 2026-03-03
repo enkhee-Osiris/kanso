@@ -32,6 +32,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 
 **Data utilities:** `src/utils/data.ts` exports helper functions for querying writings:
 
+- `getPublishedWritings()` — wraps `getCollection("writing", w => !w.data.draft)`; use this everywhere instead of `getCollection` directly
 - `getSortedWritings(writings)` — sorted by date descending
 - `getFeaturedWritings(writings, limit?)` — featured only, sorted by date
 - `getNonFeaturedWritings(writings, limit?)` — non-featured only, sorted by date
@@ -41,7 +42,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 
 **Navigation:** `FloatingNav.astro` is a fixed right-side bar (z-index 100) with menu toggle, search link, and theme toggle. `FullscreenNav.astro` is a full-screen overlay (z-index 90) with centered nav links (Home, Writings, About, Search) — visibility is CSS-driven via `html[data-menu-open]` (set by FloatingNav's menu toggle). Page scroll is locked when the overlay is open (`overflow: hidden` on `html`). Both components are included on every page.
 
-**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `SkipLink.astro` (skip to `#main-content`, z-index 200) + `Footer.astro` (copyright line) for site chrome. The writing detail page (`src/pages/writing/[...slug].astro`) is self-contained — it imports components directly rather than using a layout wrapper. Markdown content is rendered inside a `.prose` div with scoped `:global()` styles for all typography elements. The writing detail page also includes a related writings section (filtered by shared tags, limited to `RELATED_WRITINGS_LIMIT`) and a client-side script that uses `document.referrer` to detect navigation from a tag page (`/tag/[slug]` → "Back to #slug") or the tags index (`/tag/` → "Back to tags") — if detected, the `BackLink` href and label are updated accordingly instead of the default writings list.
+**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `SkipLink.astro` (skip to `#main-content`, z-index 200) + `Footer.astro` (copyright line) for site chrome. The writing detail page (`src/pages/writing/[...slug].astro`) is self-contained — it imports components directly rather than using a layout wrapper. Markdown content is rendered inside a `.prose` div with scoped `:global()` styles for all typography elements. The writing detail page also includes a related writings section (filtered by shared tags, limited to `RELATED_WRITINGS_LIMIT`) and a client-side script that uses `document.referrer` to update the `BackLink` based on the previous same-origin page: `/tag/[slug]` → "Back to #slug", `/tag/` → "Back to tags", `/search/` → "Back to search" (preserving `?q=` param), `BASE_URL` root → "Back to home"; default is "Back to writings". The tag detail page (`/tag/[tag]`) has a similar script: navigating from a writing updates the back link to "Back to writing"; from home updates it to "Back to home".
 
 **Key integrations:**
 
@@ -49,7 +50,7 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `@astrojs/sitemap` — Auto-generated sitemap
 - `@astrojs/rss` — RSS feed at `/rss.xml` (see `src/pages/rss.xml.ts`)
 - `astro-expressive-code` — Code blocks with Kanagawa Wave/Lotus themes, JetBrains Mono font, line numbers (`ec.config.mjs`). Uses `themeCssSelector` to map theme type to `[data-theme="dark"]`/`[data-theme="light"]`.
-- `sharp` — Image optimization
+- `sharp` — SVG→PNG rasterisation for OG images (via librsvg/pango). Set `process.env.PANGOCAIRO_BACKEND = "fontconfig"` and `process.env.FONTCONFIG_PATH = resolve("src/assets/og")` at module top-level in `src/utils/og-image.ts` so pango uses the bundled fonts rather than CoreText on macOS. Font files live in `src/assets/og/fonts/`; `src/assets/og/fonts.conf` uses `prefix="cwd"` so paths resolve from the project root at build time.
 - `pagefind` (devDep) + `@pagefind/default-ui` — Static full-text search. `pagefind` CLI runs after `astro build` to index `dist/`. Config in `pagefind.json` (`site: "dist"`, `root_selector: "main"`). Bundle lands in `dist/pagefind/` → served at `/kanso/pagefind/`. Non-writing pages (homepage, listing pages, search page itself) are excluded via `data-pagefind-ignore="all"` on `<main>`. Search page at `src/pages/search.astro` — syncs `?q=` URL param on load (`ui.triggerSearch`) and on input (`history.replaceState`). Dev workflow: `npm run dev:search` builds, copies index to `public/pagefind/` (gitignored), then starts dev server.
 
 **CSS comments:** Style blocks use SMACSS-style section headers throughout. Format: `/* -------------------------\n * [Category] — [Name]\n * [Optional description]\n * ------------------------- */`. Categories: **Theme** (variables, color tokens), **Base** (element defaults), **Layout** (major structural containers), **Module** (components and sub-elements), **State** (interactive states, media queries, attribute-driven states). CSS declaration order is enforced by `prettier-plugin-css-order` (concentric-css) — do not manually reorder; run `npm run format` instead.
@@ -77,7 +78,8 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `src/pages/search.astro` — search page using `PagefindUI`; `<main data-pagefind-ignore="all">` excludes it from the index; pagefind CSS variables overridden with site tokens on `#search`
 - `src/pages/robots.txt.ts` — API route generating `robots.txt`; disallows `${base}search/` and `${base}pagefind/`; uses `FULL_URL.pathname` for the base path prefix
 - `src/pages/rss.xml.ts` — RSS feed
-- `src/pages/about.astro` — not yet created
+- `src/pages/og/[slug].png.ts` — static API route; generates a 1200×630 PNG for every published writing at build time using `generateOgImage()` from `src/utils/og-image.ts`
+- `src/pages/about.astro` — bio (name + paragraphs + social links), experience list (icon badge or company initial + company/role/period using `<time>`), projects list (bordered cards with title link, description, tech tags)
 
 **Links:** The site uses `base: "/kanso"` in `astro.config.mjs`. Internal links must use `import.meta.env.BASE_URL` as prefix or use `URLS` constants.
 

@@ -20,7 +20,8 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
     <Fragment set:html={searchIcon.default} />
   </a>
 
-  <button id="theme-toggle" type="button" aria-label="Switch to dark theme"></button>
+  <button id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false"
+  ></button>
 </nav>
 
 <template id="icon-menu"><Fragment set:html={menuIcon.default} /></template>
@@ -107,7 +108,7 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
     return systemDark.matches ? "dark" : "light";
   }
 
-  // Swap the icon template and update aria-label to reflect the next action
+  // Swap the icon template and update aria-label/aria-pressed to reflect state
   function updateThemeToggle() {
     const current = getEffectiveTheme();
     const template = current === "dark" ? sunTemplate : moonTemplate;
@@ -117,6 +118,7 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
       "aria-label",
       current === "dark" ? "Switch to light theme" : "Switch to dark theme"
     );
+    themeToggle.setAttribute("aria-pressed", current === "dark" ? "true" : "false");
   }
 
   // Swap menu/close icon and update aria-label based on expanded state
@@ -145,6 +147,8 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
     }
   });
 
+  const fullscreenNav = document.getElementById("fullscreen-nav");
+
   function openMenu() {
     menuToggle.setAttribute("aria-expanded", "true");
     document.documentElement.setAttribute("data-menu-open", "");
@@ -153,6 +157,9 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
     document.querySelectorAll("main, footer").forEach(el => {
       el.setAttribute("inert", "");
     });
+
+    fullscreenNav?.removeAttribute("aria-hidden");
+    fullscreenNav?.querySelector<HTMLElement>("a")?.focus();
   }
 
   function closeMenu() {
@@ -164,6 +171,7 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
       el.removeAttribute("inert");
     });
 
+    fullscreenNav?.setAttribute("aria-hidden", "true");
     menuToggle.focus();
   }
 

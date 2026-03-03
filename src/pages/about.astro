@@ -1,0 +1,518 @@
+---
+import FloatingNav from "@/components/FloatingNav.astro";
+import Footer from "@/components/Footer.astro";
+import FullscreenNav from "@/components/FullscreenNav.astro";
+import Head from "@/components/Head.astro";
+import SkipLink from "@/components/SkipLink.astro";
+import { AUTHOR, DESCRIPTIONS, SOCIAL, TITLES } from "@/constants";
+
+const githubIcon = await import("@/assets/icons/github.svg?raw");
+const linkedinIcon = await import("@/assets/icons/linkedin.svg?raw");
+const mailIcon = await import("@/assets/icons/mail.svg?raw");
+const arrowRightIcon = await import("@/assets/icons/arrow-right.svg?raw");
+
+interface Experience {
+  company: string;
+  role: string;
+  start: string;
+  end: string | null;
+  description: string;
+  icon?: string;
+}
+
+interface Project {
+  name: string;
+  description: string;
+  url: string;
+  tags: string[];
+}
+
+const experiences: Experience[] = [
+  {
+    company: "Acme Corp",
+    role: "Senior Software Engineer",
+    start: "2022",
+    end: null,
+    description:
+      "Leading frontend architecture and design system development. Building tools that bridge design and engineering.",
+  },
+  {
+    company: "Design Studio",
+    role: "Software Engineer",
+    start: "2019",
+    end: "2022",
+    description:
+      "Developed interactive web experiences and component libraries for clients in fintech and media.",
+  },
+  {
+    company: "Startup Inc",
+    role: "Junior Developer",
+    start: "2017",
+    end: "2019",
+    description:
+      "Built and maintained React applications. Contributed to product design and accessibility improvements.",
+  },
+];
+
+const projects: Project[] = [
+  {
+    name: "Kanso",
+    description:
+      "A minimal writing theme for Astro. Focused on typography, clean reading experience, and accessibility.",
+    url: "https://github.com/enkhee-Osiris/kanso",
+    tags: ["Astro", "TypeScript", "CSS"],
+  },
+  {
+    name: "Project Two",
+    description:
+      "An open-source component library with accessible, theme-aware UI primitives for React.",
+    url: "https://github.com/enkhee-Osiris",
+    tags: ["React", "TypeScript"],
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <Head title={TITLES.about} description={DESCRIPTIONS.about} />
+  </head>
+
+  <body>
+    <SkipLink />
+    <main id="main-content" data-pagefind-ignore="all">
+      <div class="container">
+        <section class="section" aria-label="About me">
+          <h1 class="name">{AUTHOR}</h1>
+
+          <div class="bio">
+            <p>
+              I'm a software engineer with a focus on design. I believe the best digital products
+              are built at the intersection of engineering precision and visual craft — where every
+              interaction is intentional and every detail earns its place.
+            </p>
+            <p>
+              My work spans frontend architecture, design systems, and the quiet details of
+              typography and motion that shape how people experience the web. I care about
+              accessibility, performance, and writing code that is as readable as it is effective.
+            </p>
+            <p>
+              Outside of work I write about things that sit at the boundary of design and
+              engineering. This site is a place for those thoughts.
+            </p>
+          </div>
+
+          <ul class="social-list" role="list" aria-label="Social links">
+            <li>
+              <a class="social-link" href={SOCIAL.github} target="_blank" rel="noopener noreferrer">
+                <span class="social-icon" aria-hidden="true">
+                  <Fragment set:html={githubIcon.default} />
+                </span>
+                <span>GitHub</span>
+                <span class="sr-only"> (opens in new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="social-link"
+                href={SOCIAL.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="social-icon" aria-hidden="true">
+                  <Fragment set:html={linkedinIcon.default} />
+                </span>
+                <span>LinkedIn</span>
+                <span class="sr-only"> (opens in new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a class="social-link" href={SOCIAL.email}>
+                <span class="social-icon" aria-hidden="true">
+                  <Fragment set:html={mailIcon.default} />
+                </span>
+                <span>Email</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="section" aria-labelledby="experience-heading">
+          <h2 class="section-heading" id="experience-heading">Experience</h2>
+
+          <ul class="experience-list" role="list">
+            {
+              experiences.map(exp => (
+                <li class="experience-item">
+                  <div class="exp-icon" aria-hidden="true">
+                    {exp.icon ? (
+                      <Fragment set:html={exp.icon} />
+                    ) : (
+                      <span class="exp-initial">{exp.company.charAt(0)}</span>
+                    )}
+                  </div>
+
+                  <div class="exp-content">
+                    <div class="exp-header">
+                      <h3 class="exp-company">{exp.company}</h3>
+                      <p class="exp-period">
+                        <time datetime={exp.start}>{exp.start}</time>
+                        {" — "}
+                        {exp.end ? <time datetime={exp.end}>{exp.end}</time> : "Present"}
+                      </p>
+                    </div>
+                    <p class="exp-role">{exp.role}</p>
+                    <p class="exp-description">{exp.description}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section class="section" aria-labelledby="projects-heading">
+          <h2 class="section-heading" id="projects-heading">Projects</h2>
+
+          <ul class="projects-list" role="list">
+            {
+              projects.map(project => (
+                <li>
+                  <article class="project-card">
+                    <header class="project-header">
+                      <h3 class="project-name">
+                        <a
+                          class="project-link"
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {project.name}
+                          <span class="sr-only"> (opens in new tab)</span>
+                        </a>
+                      </h3>
+                      <span class="project-arrow" aria-hidden="true">
+                        <Fragment set:html={arrowRightIcon.default} />
+                      </span>
+                    </header>
+
+                    <p class="project-description">{project.description}</p>
+
+                    {project.tags.length > 0 && (
+                      <ul class="project-tags" role="list">
+                        {project.tags.map(tag => (
+                          <li class="project-tag">{tag}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </article>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <FloatingNav />
+    <FullscreenNav />
+    <Footer />
+  </body>
+</html>
+
+<style>
+  /* -------------------------
+   * Theme — Local Variables
+   * ------------------------- */
+  :root {
+    --about-padding-y: 8rem;
+    --about-content-width: 36rem;
+    --about-section-gap: 6rem;
+    --about-transition: 0.3s ease-in-out;
+  }
+
+  /* -------------------------
+   * Layout — Page Container
+   * ------------------------- */
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--about-section-gap);
+    margin-inline: auto;
+    padding-block: var(--about-padding-y);
+    max-width: var(--about-content-width);
+  }
+
+  /* -------------------------
+   * Module — Bio
+   * Name heading, paragraphs, and social links
+   * ------------------------- */
+  .name {
+    margin-block-end: 2rem;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+
+  .bio {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-block-end: 2.5rem;
+    color: var(--color-surface-700);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+
+  /* -------------------------
+   * Module — Social Links
+   * Icon + label pairs; subtle hover color transition
+   * ------------------------- */
+  .social-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color var(--about-transition);
+    color: var(--color-surface-600);
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+
+  .social-icon {
+    display: flex;
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .social-icon :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* -------------------------
+   * Module — Section Heading
+   * Small-caps label for Experience / Projects sections
+   * ------------------------- */
+  .section-heading {
+    margin-block-end: 1.5rem;
+    color: var(--color-surface-600);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* -------------------------
+   * Module — Experience List
+   * Icon badge + company / role / period layout
+   * ------------------------- */
+  .experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .experience-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  /* Icon badge — shows SVG icon or company initial */
+  .exp-icon {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    background: var(--color-surface-100);
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .exp-icon :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .exp-initial {
+    color: var(--color-surface-600);
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: var(--font-display);
+    user-select: none;
+    text-transform: uppercase;
+  }
+
+  .exp-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-block-end: 0.25rem;
+  }
+
+  .exp-company {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .exp-period {
+    flex-shrink: 0;
+    color: var(--color-surface-500);
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .exp-role {
+    margin-block-end: 0.5rem;
+    color: var(--color-surface-600);
+    font-size: 0.875rem;
+  }
+
+  .exp-description {
+    color: var(--color-surface-700);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  /* -------------------------
+   * Module — Projects List
+   * Bordered cards with title link, description, and tech tags
+   * ------------------------- */
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .project-card {
+    transition: border-color var(--about-transition);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-block-end: 0.75rem;
+  }
+
+  .project-name {
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+
+  .project-link {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .project-arrow {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    transition:
+      transform 0.2s ease,
+      color var(--about-transition);
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-surface-400);
+  }
+
+  .project-arrow :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .project-description {
+    margin-block-end: 0.75rem;
+    color: var(--color-surface-700);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  /* Tech tag pills */
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-tag {
+    border-radius: 9999px;
+    background: var(--color-surface-100);
+    padding: 0.25rem 0.625rem;
+    color: var(--color-surface-600);
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+
+  /* -------------------------
+   * State — Interactive
+   * ------------------------- */
+  .social-link:hover,
+  .social-link:focus-visible {
+    color: var(--color-text);
+  }
+
+  .social-link:focus-visible {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.25rem;
+    border-radius: 0.125rem;
+  }
+
+  .project-card:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  .project-card:hover .project-arrow {
+    transform: translateX(0.25rem);
+    color: var(--color-text);
+  }
+
+  .project-link:hover {
+    color: var(--color-surface-700);
+  }
+
+  .project-link:focus-visible {
+    outline: 1px solid var(--color-border-hover);
+    outline-offset: 0.25rem;
+    border-radius: 0.125rem;
+  }
+
+  /* -------------------------
+   * Base — Utility
+   * Visually hidden but readable by screen readers
+   * ------------------------- */
+  .sr-only {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    margin: -1px;
+    border-width: 0;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+    white-space: nowrap;
+  }
+</style>
