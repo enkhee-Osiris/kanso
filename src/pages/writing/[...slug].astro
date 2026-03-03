@@ -362,9 +362,9 @@ const { Content } = await render(writing);
   }
 
   .prose :global(a:focus-visible) {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.15rem;
-    border-radius: 0.1rem;
+    outline: var(--focus-outline);
+    outline-offset: 0.15rem; /* matches text-underline-offset: 0.15rem */
+    border-radius: var(--focus-radius);
   }
 
   /* Images */
@@ -553,9 +553,9 @@ const { Content } = await render(writing);
   }
 
   .related-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.5rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset-lg);
+    border-radius: var(--focus-radius);
   }
 
   .related-title {
@@ -584,7 +584,7 @@ const { Content } = await render(writing);
   .related-link :global(time) {
     position: absolute;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--transition-motion);
     margin-inline-end: 1rem;
     inset-inline-end: 100%;
     padding-block-start: 0.5625rem;

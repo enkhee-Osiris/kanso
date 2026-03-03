@@ -112,9 +112,9 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
   }
 
   .pagefind-ui__result-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.5rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset-lg);
+    border-radius: var(--focus-radius);
   }
 
   .pagefind-ui__result-excerpt {
@@ -181,8 +181,8 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
   }
 
   .pagefind-ui__search-input:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
   }
 
   .pagefind-ui__search-input::placeholder {
@@ -204,13 +204,13 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
     color: var(--color-surface-500);
     font-weight: 700;
     font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--letter-spacing-caps);
     text-transform: uppercase;
   }
 
   .pagefind-ui__search-clear:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
   }
 
   .pagefind-ui__drawer {
@@ -233,7 +233,7 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
     font-weight: 600;
     font-size: 0.75rem;
     line-height: 1.3333;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--letter-spacing-caps);
     text-transform: uppercase;
   }
 
@@ -252,15 +252,15 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
     font: inherit;
     font-weight: 700;
     font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--letter-spacing-caps);
     text-align: center;
     text-transform: uppercase;
   }
 
   .pagefind-ui__button:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--focus-radius);
   }
 
   .pagefind-ui__button:hover {

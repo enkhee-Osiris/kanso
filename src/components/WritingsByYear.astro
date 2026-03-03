@@ -115,9 +115,9 @@ const { writingsByYear } = Astro.props;
    * State — Interactive
    * ------------------------- */
   .writing-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.5rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset-lg);
+    border-radius: var(--focus-radius);
   }
 
   .writing-link:link .title {

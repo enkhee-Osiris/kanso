@@ -9,7 +9,7 @@
     position: absolute;
     transform: translateY(-100%);
     z-index: 200;
-    transition: transform 0.15s ease;
+    transition: transform var(--transition-fast);
     inset-block-start: 0;
     inset-inline-start: 0;
     background: var(--color-bg);
@@ -24,7 +24,7 @@
    * ------------------------- */
   .skip-link:focus {
     transform: translateY(0);
-    outline: 2px solid var(--color-border-hover);
-    outline-offset: -2px;
+    outline: var(--focus-outline);
+    outline-offset: -2px; /* intentional: prevents outline clipping at viewport top */
   }
 </style>

@@ -136,7 +136,6 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     --home-section-gap: 6rem;
     --home-content-width: 36rem;
     --home-card-gap: 2.25rem;
-    --home-transition: 0.3s ease-in-out;
   }
 
   /* -------------------------
@@ -188,7 +187,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
   .intro-social-link {
     display: block;
-    transition: color var(--home-transition);
+    transition: color var(--transition);
     color: var(--color-surface-400);
   }
 
@@ -198,9 +197,9 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .intro-social-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--focus-radius);
     color: var(--color-text);
   }
 
@@ -225,7 +224,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     flex-direction: column;
     justify-content: space-between;
     gap: 2.25rem;
-    transition: border-color var(--home-transition);
+    transition: border-color var(--transition);
     border: 1px solid var(--color-border);
     border-radius: 1.25rem;
     padding-inline: 1.25rem;
@@ -233,8 +232,9 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .featured-card:focus-within {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: 1.25rem; /* matches card shape */
   }
 
   .featured-card:hover {
@@ -318,8 +318,8 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .featured-tags li a:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset-sm);
   }
 
   /* -------------------------
@@ -335,7 +335,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     margin-block-end: 1.5rem;
     font-weight: 700;
     font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--letter-spacing-caps);
     text-transform: uppercase;
   }
 
@@ -344,8 +344,8 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     align-items: center;
     gap: 0.5rem;
     transition:
-      color var(--home-transition),
-      gap 0.2s ease;
+      color var(--transition),
+      gap var(--transition-motion);
     color: var(--color-surface-600);
     text-decoration: none;
   }
@@ -360,9 +360,9 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .latest-heading-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--focus-radius);
   }
 
   .latest-icon {
@@ -389,9 +389,9 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   }
 
   .latest-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.5rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset-lg);
+    border-radius: var(--focus-radius);
   }
 
   .latest-title {
@@ -419,7 +419,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   .latest-link :global(time) {
     position: absolute;
     opacity: 0;
-    transition: opacity var(--home-transition);
+    transition: opacity var(--transition);
     margin-inline-end: 1rem;
     inset-inline-end: 100%;
     padding-block-start: 0.5625rem;

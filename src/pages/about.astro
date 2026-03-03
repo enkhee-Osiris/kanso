@@ -227,7 +227,6 @@ const projects: Project[] = [
     --about-padding-y: 8rem;
     --about-content-width: 36rem;
     --about-section-gap: 6rem;
-    --about-transition: 0.3s ease-in-out;
   }
 
   /* -------------------------
@@ -279,7 +278,7 @@ const projects: Project[] = [
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    transition: color var(--about-transition);
+    transition: color var(--transition);
     color: var(--color-surface-600);
     font-size: 0.875rem;
     text-decoration: none;
@@ -305,7 +304,7 @@ const projects: Project[] = [
     color: var(--color-surface-600);
     font-weight: 700;
     font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--letter-spacing-caps);
     text-transform: uppercase;
   }
 
@@ -400,7 +399,7 @@ const projects: Project[] = [
   }
 
   .project-card {
-    transition: border-color var(--about-transition);
+    transition: border-color var(--transition);
     border: 1px solid var(--color-border);
     border-radius: 0.75rem;
     padding: 1.25rem 1.5rem;
@@ -432,8 +431,8 @@ const projects: Project[] = [
     flex-shrink: 0;
     align-items: center;
     transition:
-      transform 0.2s ease,
-      color var(--about-transition);
+      transform var(--transition-motion),
+      color var(--transition);
     width: 1.25rem;
     height: 1.25rem;
     color: var(--color-surface-400);
@@ -476,9 +475,9 @@ const projects: Project[] = [
   }
 
   .social-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--focus-radius);
   }
 
   .project-card:hover {
@@ -495,9 +494,9 @@ const projects: Project[] = [
   }
 
   .project-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--focus-radius);
   }
 
   /* -------------------------

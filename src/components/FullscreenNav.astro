@@ -105,8 +105,8 @@ const currentPath = Astro.url.pathname;
     opacity: 0;
     z-index: 90;
     transition:
-      opacity 0.3s ease-in-out,
-      visibility 0.3s;
+      opacity var(--transition),
+      visibility var(--transition);
     inset: 0;
     background: var(--color-bg);
     padding: 4rem;
@@ -156,7 +156,7 @@ const currentPath = Astro.url.pathname;
     color: var(--color-surface-600);
     font-weight: 700;
     font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--letter-spacing-caps);
     text-transform: uppercase;
   }
 
@@ -203,7 +203,7 @@ const currentPath = Astro.url.pathname;
 
   .nav-social-link {
     display: block;
-    transition: color 0.3s ease-in-out;
+    transition: color var(--transition);
     color: var(--color-surface-400);
   }
 
@@ -224,7 +224,7 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav-links a {
-    transition: color 0.3s ease-in-out;
+    transition: color var(--transition);
     color: var(--color-text);
     font-weight: 700;
     font-size: 2.5rem;
@@ -242,9 +242,9 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav-writing-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--focus-radius);
   }
 
   .nav-social-link:hover,
@@ -253,9 +253,9 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav-social-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--focus-radius);
   }
 
   .nav-links a:hover {
@@ -263,9 +263,9 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav-links a:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--focus-radius);
   }
 
   .nav-links a[aria-current="page"] {

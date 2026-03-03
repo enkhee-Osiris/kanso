@@ -74,8 +74,9 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
 
   .floating-nav button:focus-visible,
   .floating-nav a:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.25rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+    border-radius: 9999px;
     color: var(--color-text);
   }
 

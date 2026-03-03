@@ -24,15 +24,15 @@ const { href, label } = Astro.props;
     align-items: center;
     gap: 0.5rem;
     transition:
-      color 0.3s ease-in-out,
-      gap 0.2s ease;
+      color var(--transition),
+      gap var(--transition-motion);
     margin-block-end: 1.5rem;
     padding-block: 0.25rem;
     min-height: 1.5rem;
     color: var(--color-surface-600);
     font-weight: 700;
     font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--letter-spacing-caps);
     text-decoration: none;
     text-transform: uppercase;
   }
@@ -47,9 +47,9 @@ const { href, label } = Astro.props;
   }
 
   .back-link:focus-visible {
-    outline: 1px solid var(--color-border-hover);
-    outline-offset: 0.5rem;
-    border-radius: 0.125rem;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset-lg);
+    border-radius: var(--focus-radius);
   }
 
   /* -------------------------
