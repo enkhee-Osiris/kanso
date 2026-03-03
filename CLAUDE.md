@@ -57,6 +57,20 @@ This is an Astro 5 site with a minimal, content-focused design.
 
 **Styling:** Global styles in `src/styles/global.css` (imported via `Head.astro`). Fonts: Lora (display/headings) and PT Serif (body) loaded globally via Google Fonts in `Head.astro`; JetBrains Mono (code) loaded only on the writing detail page. CSS variables on `:root` for colors (`--color-surface-*`), fonts (`--font-body`, `--font-display`), and semantic tokens (`--color-bg`, `--color-text`, `--color-border`, `--color-code-bg`, `--color-code-text`, `--color-mark-bg`, `--color-mark-text`). Dark mode via `prefers-color-scheme` with `html[data-theme]` override. Theme variables are defined in four blocks: `:root`, `@media (prefers-color-scheme: dark)`, `html[data-theme="light"]`, `html[data-theme="dark"]`. Component-scoped styles use `<style>` tags in `.astro` files.
 
+**Interaction tokens** (`src/styles/global.css`, `:root` block after design tokens — use these everywhere, never hardcode or create per-page locals):
+
+- `--focus-outline` — `1px solid var(--color-border-hover)`; use on all `:focus-visible` rules
+- `--focus-offset-sm` (`0.125rem`) — compact chips and tag links
+- `--focus-offset` (`0.25rem`) — default: icon buttons, inputs
+- `--focus-offset-lg` (`0.5rem`) — text links and large block links
+- `--focus-radius` (`0.125rem`) — focus ring corner radius for rectangular elements
+- `--transition-fast` (`0.15s ease`) — micro transitions (e.g. SkipLink slide)
+- `--transition` (`0.3s ease-in-out`) — standard colour/opacity fades
+- `--transition-motion` (`0.2s ease`) — physical movement (gap, transform)
+- `--letter-spacing-caps` (`0.1em`) — uppercase/small-caps labels
+
+Focus shape conventions: circular elements (FloatingNav buttons, TagChip) use `border-radius: 9999px` on `:focus-visible` (not `--focus-radius`). Prose links keep `outline-offset: 0.15rem` as a literal (matches `text-underline-offset`). SkipLink keeps `outline-offset: -2px` as a literal (prevents clipping at viewport top).
+
 **SVG icons:** Stored in `src/assets/icons/` and imported via `?raw` suffix + `set:html` directive (e.g., `const icon = await import("@/assets/icons/name.svg?raw")`). For CSS usage (e.g., blockquote decoration), SVGs are embedded as data URIs with `mask-image` so `background-color` can use CSS variables for theme-aware coloring.
 
 **Components:**
