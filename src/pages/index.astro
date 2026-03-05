@@ -47,18 +47,31 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
           <ul class="intro-social" role="list">
             <li>
-              <a class="intro-social-link" href={SOCIAL.github} aria-label="GitHub">
+              <a
+                class="intro-social-link"
+                href={SOCIAL.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Fragment set:html={githubIcon.default} />
+                <span class="sr-only">GitHub (opens in new tab)</span>
               </a>
             </li>
             <li>
-              <a class="intro-social-link" href={SOCIAL.linkedin} aria-label="LinkedIn">
+              <a
+                class="intro-social-link"
+                href={SOCIAL.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Fragment set:html={linkedinIcon.default} />
+                <span class="sr-only">LinkedIn (opens in new tab)</span>
               </a>
             </li>
             <li>
-              <a class="intro-social-link" href={SOCIAL.email} aria-label="Email">
+              <a class="intro-social-link" href={SOCIAL.email}>
                 <Fragment set:html={mailIcon.default} />
+                <span class="sr-only">Email</span>
               </a>
             </li>
           </ul>
@@ -69,22 +82,24 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
             <section class="featured-writings" aria-label="Featured writings">
               <ul class="featured-list" role="list">
                 {featuredWritings.map(writing => (
-                  <li class="featured-card">
-                    <a class="featured-card-link" href={URLS.writing(writing.id)}>
-                      <h2 class="featured-title">{writing.data.title}</h2>
+                  <li>
+                    <article class="featured-card">
+                      <a class="featured-card-link" href={URLS.writing(writing.id)}>
+                        <h2 class="featured-title">{writing.data.title}</h2>
 
-                      <p class="featured-description">{writing.data.description}</p>
-                    </a>
+                        <p class="featured-description">{writing.data.description}</p>
+                      </a>
 
-                    {Array.isArray(writing.data.tags) && writing.data.tags.length > 0 && (
-                      <ul class="featured-tags tags" role="list">
-                        {writing.data.tags.map(tag => (
-                          <li>
-                            <a href={URLS.tag(tag)}>{tag}</a>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                      {Array.isArray(writing.data.tags) && writing.data.tags.length > 0 && (
+                        <ul class="featured-tags tags" role="list">
+                          {writing.data.tags.map(tag => (
+                            <li>
+                              <a href={URLS.tag(tag)}>{tag}</a>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </article>
                   </li>
                 ))}
               </ul>
@@ -212,7 +227,8 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
    * Two side-by-side writing cards with title, description, and tag pills
    * ------------------------- */
   .featured-list {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: var(--home-card-gap);
   }
 
@@ -220,15 +236,17 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   .featured-card {
     display: flex;
     position: relative;
-    flex: 1;
     flex-direction: column;
     justify-content: space-between;
+    align-items: baseline;
     gap: 2.25rem;
     transition: border-color var(--transition);
     border: 1px solid var(--color-border);
     border-radius: 1.25rem;
     padding-inline: 1.25rem;
     padding-block: 1.75rem;
+    width: 100%;
+    height: 100%;
   }
 
   .featured-card:focus-within {
@@ -284,9 +302,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   /* Tag pills */
   .featured-tags {
     display: flex;
-    position: relative;
     flex-wrap: wrap;
-    align-self: flex-start;
     gap: 0.75rem;
     z-index: 2;
   }
