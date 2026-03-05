@@ -91,6 +91,12 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
     align-items: flex-start;
   }
 
+  .pagefind-ui__result-inner:focus-within {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset-lg);
+    border-radius: var(--focus-radius);
+  }
+
   .pagefind-ui__result-title {
     margin-block-end: 1rem;
     font-weight: 700;
@@ -107,14 +113,12 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
 
   .pagefind-ui__result-link:hover,
   .pagefind-ui__result-link:focus-visible {
-    color: var(--color-surface-600);
+    color: var(--color-accent);
     text-decoration: none;
   }
 
-  .pagefind-ui__result-link:focus-visible {
-    outline: var(--focus-outline);
-    outline-offset: var(--focus-offset-lg);
-    border-radius: var(--focus-radius);
+  .pagefind-ui__result-link:focus {
+    outline: none;
   }
 
   .pagefind-ui__result-excerpt {
@@ -230,7 +234,7 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
     box-sizing: content-box;
     padding-block: 1rem;
     color: var(--color-surface-600);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.75rem;
     line-height: 1.3333;
     letter-spacing: var(--letter-spacing-caps);

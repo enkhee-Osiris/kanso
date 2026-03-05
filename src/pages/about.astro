@@ -4,72 +4,12 @@ import Footer from "@/components/Footer.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import SkipLink from "@/components/SkipLink.astro";
-import { AUTHOR, DESCRIPTIONS, SOCIAL, TITLES } from "@/constants";
+import { AUTHOR, DESCRIPTIONS, EXPERIENCES, PROJECTS, SOCIAL, TITLES } from "@/constants";
 
 const githubIcon = await import("@/assets/icons/github.svg?raw");
 const linkedinIcon = await import("@/assets/icons/linkedin.svg?raw");
 const mailIcon = await import("@/assets/icons/mail.svg?raw");
 const arrowRightIcon = await import("@/assets/icons/arrow-right.svg?raw");
-
-interface Experience {
-  company: string;
-  role: string;
-  start: string;
-  end: string | null;
-  description: string;
-  icon?: string;
-}
-
-interface Project {
-  name: string;
-  description: string;
-  url: string;
-  tags: string[];
-}
-
-const experiences: Experience[] = [
-  {
-    company: "Acme Corp",
-    role: "Senior Software Engineer",
-    start: "2022",
-    end: null,
-    description:
-      "Leading frontend architecture and design system development. Building tools that bridge design and engineering.",
-  },
-  {
-    company: "Design Studio",
-    role: "Software Engineer",
-    start: "2019",
-    end: "2022",
-    description:
-      "Developed interactive web experiences and component libraries for clients in fintech and media.",
-  },
-  {
-    company: "Startup Inc",
-    role: "Junior Developer",
-    start: "2017",
-    end: "2019",
-    description:
-      "Built and maintained React applications. Contributed to product design and accessibility improvements.",
-  },
-];
-
-const projects: Project[] = [
-  {
-    name: "Kanso",
-    description:
-      "A minimal writing theme for Astro. Focused on typography, clean reading experience, and accessibility.",
-    url: "https://github.com/enkhee-Osiris/kanso",
-    tags: ["Astro", "TypeScript", "CSS"],
-  },
-  {
-    name: "Project Two",
-    description:
-      "An open-source component library with accessible, theme-aware UI primitives for React.",
-    url: "https://github.com/enkhee-Osiris",
-    tags: ["React", "TypeScript"],
-  },
-];
 ---
 
 <!doctype html>
@@ -112,6 +52,7 @@ const projects: Project[] = [
                 <span class="sr-only"> (opens in new tab)</span>
               </a>
             </li>
+
             <li>
               <a
                 class="social-link"
@@ -126,6 +67,7 @@ const projects: Project[] = [
                 <span class="sr-only"> (opens in new tab)</span>
               </a>
             </li>
+
             <li>
               <a class="social-link" href={SOCIAL.email}>
                 <span class="social-icon" aria-hidden="true">
@@ -142,7 +84,7 @@ const projects: Project[] = [
 
           <ul class="experience-list" role="list">
             {
-              experiences.map(exp => (
+              EXPERIENCES.map(exp => (
                 <li class="experience-item">
                   <div class="exp-icon" aria-hidden="true">
                     {exp.icon ? (
@@ -161,6 +103,7 @@ const projects: Project[] = [
                         {exp.end ? <time datetime={exp.end}>{exp.end}</time> : "Present"}
                       </p>
                     </div>
+
                     <p class="exp-role">{exp.role}</p>
                     <p class="exp-description">{exp.description}</p>
                   </div>
@@ -175,25 +118,20 @@ const projects: Project[] = [
 
           <ul class="projects-list" role="list">
             {
-              projects.map(project => (
+              PROJECTS.map(project => (
                 <li>
                   <article class="project-card">
-                    <header class="project-header">
-                      <h3 class="project-name">
-                        <a
-                          class="project-link"
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {project.name}
-                          <span class="sr-only"> (opens in new tab)</span>
-                        </a>
-                      </h3>
-                      <span class="project-arrow" aria-hidden="true">
-                        <Fragment set:html={arrowRightIcon.default} />
-                      </span>
-                    </header>
+                    <h3 class="project-name">
+                      <a
+                        class="project-link"
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {project.name}
+                        <span class="sr-only"> (opens in new tab)</span>
+                      </a>
+                    </h3>
 
                     <p class="project-description">{project.description}</p>
 
@@ -275,7 +213,7 @@ const projects: Project[] = [
   }
 
   .social-link {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.5rem;
     transition: color var(--transition);
@@ -365,7 +303,7 @@ const projects: Project[] = [
 
   .exp-company {
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 1.0625rem;
     line-height: 1.4;
   }
 
@@ -399,21 +337,15 @@ const projects: Project[] = [
   }
 
   .project-card {
+    position: relative;
     transition: border-color var(--transition);
     border: 1px solid var(--color-border);
     border-radius: 0.75rem;
     padding: 1.25rem 1.5rem;
   }
 
-  .project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-block-end: 0.75rem;
-  }
-
   .project-name {
+    margin-block-end: 1rem;
     font-weight: 700;
     font-size: 1.25rem;
     line-height: 1.4;
@@ -426,28 +358,18 @@ const projects: Project[] = [
     text-decoration: none;
   }
 
-  .project-arrow {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    transition:
-      transform var(--transition-motion),
-      color var(--transition);
-    width: 1.25rem;
-    height: 1.25rem;
-    color: var(--color-surface-400);
-  }
-
-  .project-arrow :global(svg) {
-    width: 100%;
-    height: 100%;
+  .project-link::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    content: "";
   }
 
   .project-description {
-    margin-block-end: 0.75rem;
+    margin-block-end: 2.25rem;
     color: var(--color-surface-700);
-    font-size: 0.9375rem;
-    line-height: 1.6;
+    font-size: 1.0625rem;
+    line-height: 1.53;
   }
 
   /* Tech tag pills */
@@ -460,9 +382,9 @@ const projects: Project[] = [
   .project-tag {
     border-radius: 9999px;
     background: var(--color-surface-100);
-    padding: 0.25rem 0.625rem;
+    padding: 0.4rem 0.8rem;
     color: var(--color-surface-600);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     line-height: 1;
   }
 
@@ -484,34 +406,13 @@ const projects: Project[] = [
     border-color: var(--color-border-hover);
   }
 
-  .project-card:hover .project-arrow {
-    transform: translateX(0.25rem);
-    color: var(--color-text);
-  }
-
-  .project-link:hover {
-    color: var(--color-surface-700);
-  }
-
-  .project-link:focus-visible {
+  .project-card:focus-within {
     outline: var(--focus-outline);
     outline-offset: var(--focus-offset);
-    border-radius: var(--focus-radius);
+    border-radius: 0.75rem;
   }
 
-  /* -------------------------
-   * Base — Utility
-   * Visually hidden but readable by screen readers
-   * ------------------------- */
-  .sr-only {
-    position: absolute;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    margin: -1px;
-    border-width: 0;
-    padding: 0;
-    width: 1px;
-    height: 1px;
-    white-space: nowrap;
+  .project-link:focus {
+    outline: none;
   }
 </style>

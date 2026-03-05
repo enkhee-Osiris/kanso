@@ -8,6 +8,19 @@
   --color-black: #000000;
   --color-white: #ffffff;
 
+  /* Focus outlines, transitions, and typography utilities */
+  --focus-outline: 1px solid var(--color-border-hover);
+  --focus-offset-sm: 0.125rem; /* tag chips, compact labels      */
+  --focus-offset: 0.25rem; /* default: icon buttons, inputs  */
+  --focus-offset-lg: 0.5rem; /* text links, large blocks       */
+  --focus-radius: 0.125rem; /* focus ring corner radius       */
+
+  --transition-fast: 0.15s ease; /* micro (skip link slide)        */
+  --transition: 0.3s ease-in-out; /* standard colour/opacity fades  */
+  --transition-motion: 0.2s ease; /* physical movement (gap/transform) */
+
+  --letter-spacing-caps: 0.1em;
+
   --font-body: "PT Serif", "Georgia", "Times New Roman", serif;
   --font-display: "Lora", "Georgia", "Times New Roman", serif;
 
@@ -125,24 +138,6 @@ html[data-theme="dark"] {
 }
 
 /* -------------------------
- * Theme — Interaction Tokens
- * Focus outlines, transitions, and typography utilities
- * ------------------------- */
-:root {
-  --focus-outline: 1px solid var(--color-border-hover);
-  --focus-offset-sm: 0.125rem; /* tag chips, compact labels      */
-  --focus-offset: 0.25rem; /* default: icon buttons, inputs  */
-  --focus-offset-lg: 0.5rem; /* text links, large blocks       */
-  --focus-radius: 0.125rem; /* focus ring corner radius       */
-
-  --transition-fast: 0.15s ease; /* micro (skip link slide)        */
-  --transition: 0.3s ease-in-out; /* standard colour/opacity fades  */
-  --transition-motion: 0.2s ease; /* physical movement (gap/transform) */
-
-  --letter-spacing-caps: 0.1em;
-}
-
-/* -------------------------
  * Base — Document
  * Element-level defaults for body, main, and inline code
  * ------------------------- */
@@ -168,6 +163,22 @@ main :not(pre) > code {
   font-family:
     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
+  white-space: nowrap;
+}
+
+/* -------------------------
+   * Base — Utility
+   * Visually hidden but readable by screen readers
+   * ------------------------- */
+.sr-only {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  margin: -1px;
+  border-width: 0;
+  padding: 0;
+  width: 1px;
+  height: 1px;
   white-space: nowrap;
 }
 

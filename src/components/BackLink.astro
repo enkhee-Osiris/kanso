@@ -25,7 +25,8 @@ const { href, label } = Astro.props;
     gap: 0.5rem;
     transition:
       color var(--transition),
-      gap var(--transition-motion);
+      gap var(--transition-motion),
+      margin var(--transition-motion);
     margin-block-end: 1.5rem;
     padding-block: 0.25rem;
     min-height: 1.5rem;
@@ -43,7 +44,8 @@ const { href, label } = Astro.props;
   .back-link:hover,
   .back-link:focus-visible {
     gap: 0.75rem;
-    color: var(--color-text);
+    margin-inline-start: -0.25rem;
+    color: var(--color-accent);
   }
 
   .back-link:focus-visible {

@@ -63,3 +63,63 @@ export const DESCRIPTIONS = {
     "Search through all writings by title, description, or content. Find specific topics, techniques, or ideas.",
   about: `Learn more about ${AUTHOR} — the person behind ${SITE_TITLE}, their background, interests, and what drives their work.`,
 };
+
+interface Experience {
+  company: string;
+  role: string;
+  start: string;
+  end: string | null;
+  description: string;
+  icon?: string;
+}
+
+interface Project {
+  name: string;
+  description: string;
+  url: string;
+  tags: string[];
+}
+
+export const EXPERIENCES: Experience[] = [
+  {
+    company: "Acme Corp",
+    role: "Senior Software Engineer",
+    start: "2022",
+    end: null,
+    description:
+      "Leading frontend architecture and design system development. Building tools that bridge design and engineering.",
+  },
+  {
+    company: "Design Studio",
+    role: "Software Engineer",
+    start: "2019",
+    end: "2022",
+    description:
+      "Developed interactive web experiences and component libraries for clients in fintech and media.",
+  },
+  {
+    company: "Startup Inc",
+    role: "Junior Developer",
+    start: "2017",
+    end: "2019",
+    description:
+      "Built and maintained React applications. Contributed to product design and accessibility improvements.",
+  },
+];
+
+export const PROJECTS: Project[] = [
+  {
+    name: "Kanso",
+    description:
+      "A minimal writing theme for Astro. Focused on typography, clean reading experience, and accessibility.",
+    url: "https://github.com/enkhee-Osiris/kanso",
+    tags: ["Astro", "TypeScript", "CSS"],
+  },
+  {
+    name: "Project Two",
+    description:
+      "An open-source component library with accessible, theme-aware UI primitives for React.",
+    url: "https://github.com/enkhee-Osiris",
+    tags: ["React", "TypeScript"],
+  },
+];
