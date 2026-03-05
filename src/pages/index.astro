@@ -94,8 +94,8 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
         {
           latestWritings.length > 0 && (
-            <section class="latest-writings" aria-label="Latest writings">
-              <h2 class="latest-heading">
+            <section class="latest-writings" aria-labelledby="latest-heading">
+              <h2 class="latest-heading" id="latest-heading">
                 <a class="latest-heading-link" href={URLS.writings}>
                   Writings
                   <span class="latest-icon" aria-hidden="true">

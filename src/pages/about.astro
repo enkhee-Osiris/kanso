@@ -1,6 +1,5 @@
 ---
 import FloatingNav from "@/components/FloatingNav.astro";
-import Footer from "@/components/Footer.astro";
 import FullscreenNav from "@/components/FullscreenNav.astro";
 import Head from "@/components/Head.astro";
 import SkipLink from "@/components/SkipLink.astro";
@@ -9,7 +8,6 @@ import { AUTHOR, DESCRIPTIONS, EXPERIENCES, PROJECTS, SOCIAL, TITLES } from "@/c
 const githubIcon = await import("@/assets/icons/github.svg?raw");
 const linkedinIcon = await import("@/assets/icons/linkedin.svg?raw");
 const mailIcon = await import("@/assets/icons/mail.svg?raw");
-const arrowRightIcon = await import("@/assets/icons/arrow-right.svg?raw");
 ---
 
 <!doctype html>
@@ -153,7 +151,6 @@ const arrowRightIcon = await import("@/assets/icons/arrow-right.svg?raw");
 
     <FloatingNav />
     <FullscreenNav />
-    <Footer />
   </body>
 </html>
 
@@ -383,7 +380,7 @@ const arrowRightIcon = await import("@/assets/icons/arrow-right.svg?raw");
     border-radius: 9999px;
     background: var(--color-surface-100);
     padding: 0.4rem 0.8rem;
-    color: var(--color-surface-600);
+    color: var(--color-surface-700);
     font-size: 0.875rem;
     line-height: 1;
   }
