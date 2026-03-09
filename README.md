@@ -1,62 +1,77 @@
-# Astro Starter Kit: Blog
+# Kanso
 
-```sh
-npm create astro@latest -- --template blog
-```
+A minimal, content-focused writing theme for [Astro](https://astro.build). Designed for long-form writing with careful typography, dark mode, full-text search, and static OG image generation.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+![Kanso homepage](screenshots/home-light.png)
 
-Features:
+## Features
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+- Minimal design focused on reading and writing
+- Light/dark theme toggle with system preference detection
+- Full-text static search via [Pagefind](https://pagefind.app)
+- Dynamic OG image generation at build time (SVG → Sharp, no headless browser)
+- RSS feed and sitemap
+- Tag-based content organisation
+- Syntax highlighting with [Expressive Code](https://expressive-code.com) (Catppuccin themes)
+- MDX support with custom components
+- 100/100 Lighthouse scores
+- Deployed to GitHub Pages
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Project Structure
 
 ```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+src/
+├── assets/
+│   ├── icons/          # SVG icons (imported via ?raw)
+│   └── og/             # OG image template, fonts, fonts.conf
+├── components/         # Astro components
+├── content/
+│   └── writing/        # .md / .mdx writing files
+├── pages/              # Astro pages and API routes
+├── styles/             # global.css, reset.css
+└── utils/              # data.ts, og-image.ts
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Command              | Action                                                             |
+| :------------------- | :----------------------------------------------------------------- |
+| `npm install`        | Install dependencies                                               |
+| `npm run dev`        | Start dev server at `localhost:4321`                               |
+| `npm run dev:search` | Build + copy Pagefind index + start dev server (search functional) |
+| `npm run build`      | Type-check, build, and index for search                            |
+| `npm run preview`    | Preview production build locally                                   |
+| `npm run clean`      | Remove `dist/`, `.astro/`, `public/pagefind/`                      |
+| `npm run format`     | Format all files with Prettier                                     |
+| `npm run lint`       | Run ESLint                                                         |
+| `npm run lighthouse` | Lighthouse audit (pass `-- --build` to build first)                |
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## Configuration
 
-Any static assets, like images, can be placed in the `public/` directory.
+Personalise the theme by editing these files:
 
-## 🧞 Commands
+- **`src/constants.ts`** — site title, description, author, social links, display limits, about page content (experience + projects)
+- **`astro.config.mjs`** — production `site` URL and `base` path
+- **`ec.config.mjs`** — code block themes and font
+- **`src/content/writing/`** — your writing files (`.md` / `.mdx`)
 
-All commands are run from the root of the project, from a terminal:
+See [`configuring-kanso`](src/content/writing/configuring-kanso.md) for a full walkthrough.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Writing Frontmatter
 
-## 👀 Want to learn more?
+```md
+---
+title: "Your Post Title"
+description: "One-sentence description."
+pubDatetime: 2026-01-15T00:00:00.000Z
+tags: ["guide", "astro"]
+featured: true # optional — pins to homepage featured section
+draft: false # optional — excludes from all listings
+---
+```
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Tags must be lowercase letters and hyphens only (e.g. `design-systems`).
 
-## Credit
+## Deployment
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Configured for GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`). Set `site` and `base` in `astro.config.mjs` to match your repository, then push to `main`.
