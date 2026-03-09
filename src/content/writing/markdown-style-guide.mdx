@@ -1,11 +1,15 @@
 ---
 title: "Markdown Style Guide"
-description: "A reference for all supported markdown elements and how they render."
+description: "A visual reference for every supported element — headings, prose, code, tables, lists, and more."
 pubDatetime: 2026-02-23T00:00:00.000Z
-tags: ["reference", "design-systems", "design"]
+tags: ["guide", "reference", "design-systems", "design"]
 ---
 
 import Image from "@/components/Image.astro";
+
+This page documents every Markdown and MDX element supported in writings — useful for checking how things render before publishing, and for verifying styles after theme changes.
+
+---
 
 ## Headings
 
@@ -21,95 +25,98 @@ import Image from "@/components/Image.astro";
 
 ---
 
-## Emphasis
+## Paragraph
 
-This is **bold text** and this is _italic text_ and this is ~~strikethrough~~.
+A paragraph is one or more consecutive lines of text separated by a blank line. It wraps naturally at the content width and maintains comfortable line lengths for reading.
 
-You can also combine **_bold and italic_** together.
-
-```md
-This is **bold text** and this is _italic text_ and this is ~~strikethrough~~.
-
-You can also combine **_bold and italic_** together.
-```
+This is a second paragraph. Notice how the spacing above creates a clear visual break between them. Line height and measure are the two most impactful typographic decisions — both are set in the global styles.
 
 ---
 
-## Paragraph
+## Emphasis
 
-A paragraph is simply one or more consecutive lines of text, separated by one or more blank lines. It should wrap naturally and maintain comfortable line lengths for reading.
+This is **bold text**, _italic text_, and ~~strikethrough~~. You can also combine **_bold and italic_** together.
 
-This is the second paragraph. Notice the blank line above which separates them.
+```md
+This is **bold text**, _italic text_, and ~~strikethrough~~.
+
+You can also combine **_bold and italic_** together.
+```
 
 ---
 
 ## Blockquote
 
-> Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.
+> The details are not the details. They make the design.
 >
-> ~ <cite>Bernard M. Baruch</cite>
+> ~ <cite>Charles Eames</cite>
 
-> Nested blockquotes are also possible.
+> Nested blockquotes are supported.
 >
 > > This is a nested blockquote inside the outer one.
 
 ```md
-> Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.
+> The details are not the details. They make the design.
 >
-> ~ <cite>Bernard M. Baruch</cite>
+> ~ <cite>Charles Eames</cite>
 
-> Nested blockquotes are also possible.
+> Nested blockquotes are supported.
 >
 > > This is a nested blockquote inside the outer one.
-```
-
----
-
-## References
-
-An example containing a clickable reference[^1] with a link to the source.
-
-Second example containing a reference[^2] with a link to the source.
-
-[^1]: Reference first footnote with a return to content link.
-
-[^2]: Second reference with a link.
-
-```md
-An example containing a clickable reference[^1] with a link to the source.
-
-Second example containing a reference[^2] with a link to the source.
-
-[^1]: Reference first footnote with a return to content link.
-
-[^2]: Second reference with a link.
 ```
 
 ---
 
 ## Links
 
-[enkhee-Osiris's personal blog](https://enkhee-Osiris.github.io/)
+Internal links use the site's base path. External links automatically open in a new tab.
+
+[Back to writings](/kanso/writing/) — internal link
+
+[Astro documentation](https://docs.astro.build) — external link, opens in new tab
 
 ```md
-[enkhee-Osiris's personal blog](https://enkhee-Osiris.github.io/)
+[Back to writings](/kanso/writing/)
+
+[Astro documentation](https://docs.astro.build)
+```
+
+---
+
+## Footnotes
+
+An example containing a clickable footnote reference[^1] with a return link.
+
+A second reference[^2] demonstrating multiple footnotes on the same page.
+
+[^1]: First footnote — includes a return link back to the reference in the text.
+
+[^2]: Second footnote — rendered in a separate section at the end of the document.
+
+```md
+An example containing a clickable footnote reference[^1].
+
+[^1]: First footnote — includes a return link.
 ```
 
 ---
 
 ## Image
 
-![Placeholder image](https://placehold.co/720x400)
+A standalone Markdown image, unwrapped from its paragraph container:
+
+![Placeholder image — 720×400](https://placehold.co/720x400)
 
 ```md
-![Placeholder image](https://placehold.co/720x400)
+![Placeholder image — 720×400](https://placehold.co/720x400)
 ```
 
+The `Image` MDX component supports captions and additional layout options:
+
 <Image
-  src="https://placehold.co/1440x800"
-  alt="placeholder image"
-  caption="Figure 1. Placeholder image"
-  layout="full-width"
+  src="https://placehold.co/720x400"
+  alt="Placeholder image with caption"
+  caption="Figure 1. A placeholder image rendered via the Image component."
   inferSize
 />
 
@@ -117,10 +124,9 @@ Second example containing a reference[^2] with a link to the source.
 import Image from "@/components/Image.astro";
 
 <Image
-  src="https://placehold.co/1440x800"
-  alt="placeholder image"
-  caption="Figure 1. Placeholder image"
-  layout="full-width"
+  src="https://placehold.co/720x400"
+  alt="Placeholder image with caption"
+  caption="Figure 1. A placeholder image rendered via the Image component."
   inferSize
 />
 ```
@@ -129,75 +135,77 @@ import Image from "@/components/Image.astro";
 
 ## Table
 
-| Name    | Type   | Default |
-| ------- | ------ | ------- |
-| title   | string | —       |
-| visible | bool   | true    |
-| count   | number | 0       |
+A simple table with default left-aligned columns:
 
-Right-aligned and centered columns:
+| Property    | Type       | Default  | Required |
+| ----------- | ---------- | -------- | -------- |
+| title       | `string`   | —        | Yes      |
+| description | `string`   | —        | Yes      |
+| pubDatetime | `Date`     | —        | Yes      |
+| author      | `string`   | `AUTHOR` | No       |
+| tags        | `string[]` | `others` | No       |
+| featured    | `boolean`  | `false`  | No       |
+| draft       | `boolean`  | `false`  | No       |
 
-| Item   | Qty | Price |
-| :----- | --: | :---: |
-| Apples |  12 | $1.20 |
-| Bread  |   1 | $3.50 |
-| Milk   |   2 | $2.80 |
+A wider table to test horizontal scrolling on small screens — columns use alignment syntax:
+
+| Token                  | Light value           | Dark value            | Usage                    |
+| :--------------------- | :-------------------- | :-------------------- | :----------------------- |
+| `--color-bg`           | `--color-surface-100` | `--color-surface-900` | Page background          |
+| `--color-text`         | `--color-surface-900` | `--color-surface-100` | Body text                |
+| `--color-border`       | 15% surface-900       | 15% surface-100       | Dividers, outlines       |
+| `--color-border-hover` | 40% surface-900       | 40% surface-100       | Interactive borders      |
+| `--color-accent`       | `--color-amber-600`   | `--color-amber-400`   | Links, focus, highlights |
+| `--color-code-bg`      | `--color-surface-200` | `--color-surface-800` | Inline code background   |
+| `--color-mark-bg`      | `--color-amber-200`   | `--color-amber-900`   | `<mark>` highlight       |
 
 ```md
-| Name    | Type   | Default |
-| ------- | ------ | ------- |
-| title   | string | —       |
-| visible | bool   | true    |
-| count   | number | 0       |
-
-Right-aligned and centered columns:
-
-| Item   | Qty | Price |
-| :----- | --: | :---: |
-| Apples |  12 | $1.20 |
-| Bread  |   1 | $3.50 |
-| Milk   |   2 | $2.80 |
+| Property | Type      | Default | Required |
+| -------- | --------- | ------- | -------- |
+| title    | `string`  | —       | Yes      |
+| draft    | `boolean` | `false` | No       |
 ```
 
 ---
 
 ## Code
 
-Inline `code` looks like this.
+Inline `code` uses a monospace font with a subtle background.
+
+A TypeScript block with syntax highlighting:
 
 ```ts
-interface WritingProps {
-  title: string;
-  description: string;
-  pubDatetime: Date;
-  tags: string[];
-}
+import { getCollection, type CollectionEntry } from "astro:content";
 
-function getWritings(writings: WritingProps[]): WritingProps[] {
-  return writings
-    .filter(w => !w.draft)
-    .toSorted((a, b) => b.pubDatetime.getTime() - a.pubDatetime.getTime());
+export async function getPublishedWritings(): Promise<CollectionEntry<"writing">[]> {
+  return getCollection("writing", w => !w.data.draft);
 }
 ```
 
+A CSS block with a filename label:
+
 ```css title="global.css"
 :root {
-  --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --font-body: "PT Serif", serif;
+  --color-bg: var(--color-surface-100);
+  --color-text: var(--color-surface-900);
+  --font-body: "PT Serif", Georgia, serif;
+  --font-display: "Lora", Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #1a1a1a;
-    --color-text: #f5f5f5;
+    --color-bg: var(--color-surface-900);
+    --color-text: var(--color-surface-100);
   }
 }
 ```
 
-```bash title="Terminal example"
-npm run dev
-npm run build
+A shell block:
+
+```sh
+npm run dev       # start dev server at localhost:4321
+npm run build     # astro check + astro build + pagefind
+npm run lighthouse -- --build
 ```
 
 ---
@@ -231,21 +239,19 @@ npm run build
 ```md
 - List item one
 - List item two
-- List item three
   - Nested item
-  - Another nested item
 ```
 
 ### Task list
 
-- [x] Completed task
-- [ ] Incomplete task
-- [ ] Another incomplete task
+- [x] Schema defined in `src/content.config.ts`
+- [x] Sample writings added
+- [ ] Replace placeholder content with real data
+- [ ] Accessibility audit
 
 ```md
 - [x] Completed task
 - [ ] Incomplete task
-- [ ] Another incomplete task
 ```
 
 ---
@@ -254,36 +260,43 @@ npm run build
 
 ### Abbreviation
 
-The <abbr title="HyperText Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
+The <abbr title="HyperText Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>. Hover the abbreviation to see its expansion.
 
 ```md
-The <abbr title="HyperText Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
+The <abbr title="HyperText Markup Language">HTML</abbr> specification
+is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
 ```
 
 ### Subscript and Superscript
 
-H<sub>2</sub>O is water and X<sup>2</sup> is X squared.
-
-The chemical formula for caffeine is C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>.
+H<sub>2</sub>O is water. X<sup>2</sup> is X squared. The chemical formula for caffeine is C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>.
 
 ```md
-H<sub>2</sub>O is water and X<sup>2</sup> is X squared.
-
-The chemical formula for caffeine is C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>.
+H<sub>2</sub>O and X<sup>2</sup>
 ```
 
 ### Keyboard
 
-Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open the command palette.
+Press <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open the command palette. Press <kbd>Esc</kbd> to close.
 
 ```md
-Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open the command palette.
+Press <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> to open the command palette.
 ```
 
 ### Mark
 
-This is <mark>highlighted text</mark> using the mark element.
+Use <mark>highlighted text</mark> to draw attention to a specific term or phrase within a paragraph.
 
 ```md
-This is <mark>highlighted text</mark> using the mark element.
+Use <mark>highlighted text</mark> to draw attention to a specific term.
+```
+
+### Horizontal rule
+
+A thematic break rendered as a full-width border:
+
+---
+
+```md
+---
 ```

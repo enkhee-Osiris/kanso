@@ -2,7 +2,7 @@
 title: "The Case for Static"
 description: "Most websites don't need a server. The best architecture for content-driven sites is often the simplest one."
 pubDatetime: 2024-11-12T00:00:00.000Z
-tags: ["engineering", "web"]
+tags: ["dummy", "engineering", "web"]
 ---
 
 The default architecture for web projects has crept toward complexity. Databases, server-side rendering, background jobs, caches — a stack that would have seemed excessive for a company blog ten years ago is now routine.
