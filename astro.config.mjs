@@ -5,6 +5,7 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import expressiveCode from "astro-expressive-code";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeEnhancedTables from "@benjc/rehype-enhanced-tables";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
 import { defineConfig } from "astro/config";
@@ -18,6 +19,7 @@ export default defineConfig({
   markdown: {
     rehypePlugins: [
       rehypeHeadingIds,
+      [rehypeEnhancedTables, { classes: { wrapper: "table-scroll" } }],
       [rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
       rehypeUnwrapImages,
       [
