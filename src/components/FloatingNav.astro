@@ -87,6 +87,44 @@ const sunIcon = await import("@/assets/icons/sun.svg?raw");
     width: 1.5rem;
     height: 1.5rem;
   }
+
+  /* -------------------------
+   * State — Small screens
+   * Move to bottom-left corner, horizontal layout, smaller icons
+   * ------------------------- */
+  @media (max-width: 64rem) {
+    .floating-nav {
+      top: 1.25rem;
+      bottom: auto;
+      flex-direction: row;
+      transform: none;
+      inset-inline-end: 1.25rem;
+      inset-inline-start: auto;
+    }
+
+    .floating-nav button,
+    .floating-nav a {
+      background-color: var(--color-surface-100);
+      color: var(--color-surface-600);
+    }
+
+    .floating-nav button:active,
+    .floating-nav a:active {
+      background-color: var(--color-surface-200);
+      color: var(--color-text);
+    }
+
+    .floating-nav button,
+    .floating-nav a {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .floating-nav :global(svg) {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
 </style>
 
 <script>

@@ -270,6 +270,12 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
     border-color: var(--color-accent);
     background-color: var(--color-surface-100);
   }
+
+  @media (max-width: 40rem) {
+    .pagefind-ui__result-title {
+      font-size: 1.25rem;
+    }
+  }
 </style>
 
 <style>
@@ -300,5 +306,26 @@ const svgDataUri = `url("data:image/svg+xml,${encodeURIComponent(searchIcon.defa
     line-height: 1.2;
     font-family: var(--font-display);
     font-optical-sizing: auto;
+  }
+
+  /* -------------------------
+   * State — Responsive
+   * ------------------------- */
+  @media (max-width: 64rem) {
+    .container {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    :root {
+      --search-padding-y: 5rem;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .heading {
+      font-size: 2rem;
+    }
   }
 </style>

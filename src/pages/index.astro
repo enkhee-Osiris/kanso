@@ -176,7 +176,8 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
     flex-direction: column;
     gap: 2.5rem;
     margin-inline: auto;
-    width: var(--home-content-width);
+    width: 100%;
+    max-width: var(--home-content-width);
   }
 
   .intro-title {
@@ -277,11 +278,7 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
   /* Card title */
   .featured-title {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
     margin-block-end: 1rem;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
     font-weight: 700;
     font-size: 1.5rem;
     line-height: 1.3333;
@@ -291,12 +288,9 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
 
   /* Card description */
   .featured-description {
-    max-height: 8.125rem;
-    overflow: hidden;
     color: var(--color-surface-700);
     font-size: 1.0625rem;
     line-height: 1.53;
-    text-overflow: ellipsis;
   }
 
   /* Tag pills */
@@ -344,7 +338,8 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
    * ------------------------- */
   .latest-writings {
     margin-inline: auto;
-    width: var(--home-content-width);
+    width: 100%;
+    max-width: var(--home-content-width);
   }
 
   .latest-heading {
@@ -448,5 +443,71 @@ const latestWritings = getNonFeaturedWritings(allWritings, HOME_LATEST_WRITINGS_
   .latest-link:hover :global(time),
   .latest-link:focus-visible :global(time) {
     opacity: 1;
+  }
+
+  /* -------------------------
+   * State — Responsive
+   * ------------------------- */
+  @media (max-width: 64rem) {
+    :root {
+      --home-card-gap: 1.5rem;
+    }
+
+    .container {
+      padding-inline: 1.5rem;
+    }
+
+    .featured-writings {
+      margin-inline: auto;
+      width: 100%;
+      max-width: var(--home-content-width);
+    }
+
+    .featured-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    :root {
+      --home-padding-y: 5rem;
+    }
+
+    .latest-link {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    /* Show dates inline on touch devices where hover is unavailable */
+    .latest-link :global(time) {
+      display: block;
+      position: static;
+      opacity: 1;
+      margin-inline-end: 0;
+      margin-block-start: 0.25rem;
+      padding-block-start: 0;
+      color: var(--color-text);
+      font-weight: 700;
+      white-space: normal;
+    }
+
+    .latest-link:link :global(time) {
+      color: var(--color-text);
+    }
+
+    .latest-link:visited :global(time) {
+      color: var(--color-surface-400);
+    }
+
+    .latest-link:hover :global(time),
+    .latest-link:focus-visible :global(time) {
+      color: var(--color-accent);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .intro-title {
+      font-size: 2rem;
+    }
   }
 </style>

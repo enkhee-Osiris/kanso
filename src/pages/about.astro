@@ -412,4 +412,33 @@ const mailIcon = await import("@/assets/icons/mail.svg?raw");
   .project-link:focus {
     outline: none;
   }
+
+  /* -------------------------
+   * State — Responsive
+   * ------------------------- */
+  @media (max-width: 64rem) {
+    .container {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    :root {
+      --about-padding-y: 5rem;
+    }
+
+    .exp-icon {
+      display: none;
+    }
+
+    .exp-header {
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .name {
+      font-size: 2rem;
+    }
+  }
 </style>

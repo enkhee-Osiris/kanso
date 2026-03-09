@@ -71,6 +71,8 @@ This is an Astro 5 site with a minimal, content-focused design.
 
 Focus shape conventions: circular elements (FloatingNav buttons, TagChip) use `border-radius: 9999px` on `:focus-visible` (not `--focus-radius`). Prose links keep `outline-offset: 0.15rem` as a literal (matches `text-underline-offset`). SkipLink keeps `outline-offset: -2px` as a literal (prevents clipping at viewport top).
 
+**Responsive design:** Two breakpoints used across all pages. `48rem` (768px) — add `padding-inline: 1.5rem` to page containers, collapse fixed-width inner sections to `width: 100%`. `40rem` (640px) — layout changes: featured cards collapse from 2-column grid to 1-column, article meta collapses from `1fr auto` grid to single column (reset `grid-row: auto` + `order: 0` on all children to restore DOM order: date → title → tags), hover-only date patterns (`.latest-link time`, `.related-link time`) shown inline (`position: static; opacity: 1`). `FullscreenNav` has its own `@media (max-width: 640px)` stacking breakpoint. `--article-padding-y` overridden at `48rem` to `5rem 6rem` (desktop is `12.625rem 15rem`). `WritingsByYear` column gap reduced to `1rem` at `48rem`. Prose tables use `display: block; overflow-x: auto`.
+
 **SVG icons:** Stored in `src/assets/icons/` and imported via `?raw` suffix + `set:html` directive (e.g., `const icon = await import("@/assets/icons/name.svg?raw")`). For CSS usage (e.g., blockquote decoration), SVGs are embedded as data URIs with `mask-image` so `background-color` can use CSS variables for theme-aware coloring.
 
 **Components:**

@@ -63,7 +63,7 @@ const writingsByYear = getWritingsByYear(allWritings);
   :root {
     --tags-padding-y: 8rem;
     --tags-content-width: 36rem;
-    --writings-section-gap: 6rem;
+    --tags-section-gap: 6rem;
   }
 
   /* -------------------------
@@ -72,7 +72,7 @@ const writingsByYear = getWritingsByYear(allWritings);
   .container {
     display: flex;
     flex-direction: column;
-    gap: var(--writings-section-gap);
+    gap: var(--tags-section-gap);
     margin-inline: auto;
     padding-block: var(--tags-padding-y);
     width: 100%;
@@ -156,5 +156,33 @@ const writingsByYear = getWritingsByYear(allWritings);
     outline-offset: var(--focus-offset-sm);
     background: var(--color-surface-200);
     color: var(--color-surface-900);
+  }
+
+  /* -------------------------
+   * State — Responsive
+   * ------------------------- */
+  @media (max-width: 64rem) {
+    .container {
+      padding-inline: 1.5rem;
+    }
+
+    :global(.writings-list) {
+      margin-inline: auto;
+      width: 100%;
+      max-width: var(--tags-content-width);
+    }
+  }
+
+  @media (max-width: 48rem) {
+    :root {
+      --tags-padding-y: 5rem;
+      --tags-section-gap: 3rem;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .heading {
+      font-size: 2rem;
+    }
   }
 </style>

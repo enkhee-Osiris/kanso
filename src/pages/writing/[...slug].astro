@@ -145,9 +145,8 @@ const { Content } = await render(writing);
    * Theme — Local Variables
    * ------------------------- */
   :root {
-    --article-padding-y: 12.625rem 15rem;
+    --article-padding-y: 8rem;
     --article-max-width: 55rem;
-    --article-content-width: 44rem;
     --article-heading-spacing-h1: 4rem;
     --article-heading-spacing-h2: 3rem;
     --article-heading-spacing-h3: 2.5rem;
@@ -167,6 +166,7 @@ const { Content } = await render(writing);
     flex-direction: column;
     margin-inline: auto;
     padding-block: var(--article-padding-y);
+    width: 100%;
     max-width: var(--article-max-width);
   }
 
@@ -174,6 +174,8 @@ const { Content } = await render(writing);
    * Module — Article Header
    * ------------------------- */
   .article-header {
+    /* Pulls BackLink up into the top padding zone so the heading aligns with the tag index page */
+    margin-block-start: -3.1625rem;
     margin-block-end: 3rem;
     border-block-end: 1px solid var(--color-border);
     padding-block-end: 3rem;
@@ -232,8 +234,6 @@ const { Content } = await render(writing);
   .prose :global(h4),
   .prose :global(h5),
   .prose :global(h6) {
-    margin-inline: auto;
-    max-width: var(--article-content-width);
     font-weight: 700;
     font-family: var(--font-display);
     font-optical-sizing: auto;
@@ -277,13 +277,10 @@ const { Content } = await render(writing);
 
   /* Paragraphs */
   .prose :global(p) {
-    margin-inline: auto;
     margin-block-end: 1rem;
-    max-width: var(--article-content-width);
   }
 
   /* Horizontal rule */
-
   .prose :global(hr) {
     margin-block: 3rem;
     border: none;
@@ -307,9 +304,17 @@ const { Content } = await render(writing);
   .prose :global(blockquote) {
     position: relative;
     margin-block: 1.2rem;
-    padding-inline-start: 1rem;
+    padding-inline-start: 2rem;
     color: var(--color-surface-700);
     font-style: italic;
+  }
+
+  .prose :global(blockquote > p) {
+    margin-block-end: 0.5rem;
+  }
+
+  .prose :global(blockquote > p:last-child) {
+    margin-block-end: 0;
   }
 
   .prose :global(blockquote cite) {
@@ -369,12 +374,21 @@ const { Content } = await render(writing);
 
   /* Images */
   .prose :global(:not(figure) > img) {
+    display: block;
     margin-block: 1.5rem;
     border-radius: 0.25rem;
+    max-width: 100%;
+    height: auto;
   }
 
   .prose :global(figure) {
     margin-block: 1.5rem;
+    max-width: 100%;
+  }
+
+  .prose :global(figure img) {
+    max-width: 100%;
+    height: auto;
   }
 
   .prose :global(figcaption) {
@@ -386,9 +400,12 @@ const { Content } = await render(writing);
 
   /* Tables */
   .prose :global(table) {
+    display: block;
     margin-block: 1.5rem;
     border-collapse: collapse;
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
+    overflow-x: auto;
     font-size: 0.9rem;
   }
 
@@ -428,10 +445,8 @@ const { Content } = await render(writing);
   /* Lists */
   .prose :global(ul),
   .prose :global(ol) {
-    margin-inline: auto;
     margin-block: 1rem;
     padding-inline-start: 1.5rem;
-    max-width: var(--article-content-width);
   }
 
   .prose :global(ul) {
@@ -524,7 +539,6 @@ const { Content } = await render(writing);
    * Module — Related Writings
    * ------------------------- */
   .related-writings {
-    margin-inline: auto;
     margin-block-start: 3rem;
     border-block-start: 1px solid var(--color-border);
     padding-block-start: 3rem;
@@ -597,5 +611,88 @@ const { Content } = await render(writing);
   .related-link:hover :global(time),
   .related-link:focus-visible :global(time) {
     opacity: 1;
+  }
+
+  /* -------------------------
+   * State — Responsive
+   * ------------------------- */
+  @media (max-width: 64rem) {
+    .container {
+      padding-inline: 1.5rem;
+    }
+
+    .article-meta {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .article-meta :global(time) {
+      grid-row: auto;
+      order: 1;
+      padding-block: 0;
+      font-size: 1rem;
+    }
+
+    .article-title {
+      grid-row: auto;
+      order: 0;
+      font-size: 2rem;
+    }
+
+    .article-tags {
+      grid-row: auto;
+      grid-column: auto;
+      order: 2;
+    }
+
+    .related-link {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    .related-link :global(time) {
+      display: block;
+      position: static;
+      opacity: 1;
+      margin-inline-end: 0;
+      margin-block-start: 0.25rem;
+      padding-block-start: 0;
+      color: var(--color-text);
+      font-weight: 700;
+      white-space: normal;
+    }
+
+    .related-link:link :global(time) {
+      color: var(--color-text);
+    }
+
+    .related-link:visited :global(time) {
+      color: var(--color-surface-400);
+    }
+
+    .related-link:hover :global(time),
+    .related-link:focus-visible :global(time) {
+      color: var(--color-accent);
+    }
+  }
+
+  @media (max-width: 48rem) {
+    :root {
+      --article-padding-y: 5rem;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .prose :global(h2) {
+      font-size: 1.625rem;
+    }
+
+    .prose :global(h3) {
+      font-size: 1.375rem;
+    }
+
+    .prose :global(h4) {
+      font-size: 1.25rem;
+    }
   }
 </style>

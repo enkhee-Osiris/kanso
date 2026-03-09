@@ -132,4 +132,40 @@ const { writingsByYear } = Astro.props;
   .writing-link:focus-visible .title {
     color: var(--color-accent);
   }
+
+  /* -------------------------
+   * State — Responsive
+   * ------------------------- */
+  @media (max-width: 64rem) {
+    :root {
+      --writings-list-gap-column: 1rem;
+    }
+
+    .writings-list {
+      display: block;
+    }
+
+    .writing-year {
+      position: static;
+      margin-block-start: 2rem;
+      width: auto;
+      text-align: left;
+    }
+
+    .writing-year:first-child {
+      margin-block-start: 0;
+    }
+
+    .writing-item {
+      margin-block-end: var(--writings-list-gap-row);
+    }
+
+    .writing-item:last-child {
+      margin-block-end: 0;
+    }
+
+    .title {
+      font-size: 1.25rem;
+    }
+  }
 </style>
