@@ -23,6 +23,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Husky + lint-staged** — Pre-commit hook runs eslint + prettier on staged files
 - **Deployment** — GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`), project site at `enkhee-Osiris.github.io/kanso`. Deploy only triggers on changes to source code, static assets, and build config (`src/`, `public/`, `astro.config.mjs`, `ec.config.mjs`, `package.json`, `package-lock.json`, `tsconfig.json`). Manual deploy available via `workflow_dispatch`.
 - **Skills** — Project-level agent skills in `.agents/skills/`: astro, css-architecture, accessibility-compliance, best-practices
+- **Screenshots** — `screenshots/` contains 14 full-page PNGs at 1440×900 (7 pages × light + dark) taken from production preview (`npm run build && npm run preview`). When re-screenshotting, set `localStorage.setItem('theme','light')` **before** navigating (not after) so the anti-FOUC script in `Head.astro` initialises the correct theme on load.
 
 ## Architecture
 
