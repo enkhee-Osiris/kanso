@@ -40,7 +40,7 @@
   --color-mark-bg: #fef08a;
   --color-mark-text: #1a1a1a;
 
-  --color-accent: #b45309;
+  --color-accent: #c2410c;
   --color-accent-text: var(--color-white, #ffffff);
 
   --color-bg: var(--color-white, #ffffff);
@@ -100,7 +100,7 @@ html[data-theme="light"] {
   --color-mark-bg: #fef08a;
   --color-mark-text: #1a1a1a;
 
-  --color-accent: #b45309;
+  --color-accent: #c2410c;
   --color-accent-text: var(--color-white, #ffffff);
 
   --color-bg: var(--color-white, #ffffff);
