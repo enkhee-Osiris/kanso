@@ -2,7 +2,7 @@
 title: "Performance Budgets Are a Design Tool"
 description: "Treating load time as a design constraint changes how you make decisions about features, images, and third-party scripts."
 pubDatetime: 2025-10-15T00:00:00.000Z
-tags: ["engineering", "performance"]
+tags: ["dummy", "engineering", "performance"]
 ---
 
 Performance budgets are usually framed as an engineering concern. Set a limit, measure against it, don't exceed it. But budgets are more useful when treated as a design constraint from the start — not an engineering check at the end.

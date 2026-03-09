@@ -2,7 +2,7 @@
 title: "Reading Code Is a Skill"
 description: "Writing code gets most of the attention. Reading it is harder, more common, and rarely practiced deliberately."
 pubDatetime: 2024-02-14T00:00:00.000Z
-tags: ["engineering"]
+tags: ["dummy", "engineering"]
 ---
 
 Programming education focuses almost entirely on writing code. Syntax, algorithms, data structures, design patterns — the output of a developer. But most of a developer's time is spent reading code someone else wrote.

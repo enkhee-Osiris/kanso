@@ -2,7 +2,7 @@
 title: "Design Systems Don't Scale Themselves"
 description: "A design system is a product, not a deliverable. The teams that treat it that way are the ones that see it actually used."
 pubDatetime: 2024-05-22T00:00:00.000Z
-tags: ["design", "design-systems", "engineering"]
+tags: ["dummy", "design", "design-systems", "engineering"]
 ---
 
 Design systems look like a coordination problem. You build the components once, teams use them everywhere, consistency follows automatically. In practice, the coordination problem is only the beginning.

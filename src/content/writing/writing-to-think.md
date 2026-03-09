@@ -2,7 +2,7 @@
 title: "Writing to Think"
 description: "The case for writing as a tool for clarity — not just communication, but comprehension."
 pubDatetime: 2025-01-12T00:00:00.000Z
-tags: ["writing"]
+tags: ["dummy", "writing"]
 ---
 
 Most writing advice treats writing as a way to communicate ideas you already have. But writing is also a way to have ideas in the first place. The act of putting something into words forces a kind of clarity that thinking alone rarely produces.

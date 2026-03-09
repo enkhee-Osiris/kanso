@@ -2,7 +2,7 @@
 title: "Color Is the Last Thing to Add"
 description: "Most UI color problems are actually hierarchy and contrast problems in disguise. Solve those first."
 pubDatetime: 2025-03-20T00:00:00.000Z
-tags: ["design", "css"]
+tags: ["dummy", "design", "css"]
 ---
 
 The most common mistake in interface design is adding color too early. Color is so expressive that it tends to cover up structural problems — and then you ship those problems.

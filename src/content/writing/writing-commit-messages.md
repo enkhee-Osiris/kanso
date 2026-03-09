@@ -2,7 +2,7 @@
 title: "The Commit Message Is Documentation"
 description: "A commit log is a history of intent. Writing it well is one of the highest-leverage habits in software development."
 pubDatetime: 2025-07-08T00:00:00.000Z
-tags: ["engineering"]
+tags: ["dummy", "guide", "engineering"]
 ---
 
 Most developers treat commit messages as a formality. Something to write so the CI pipeline moves. But a commit history is documentation — the only record of why the code looks the way it does.
