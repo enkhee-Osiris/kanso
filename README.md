@@ -2,7 +2,9 @@
 
 A minimal, content-focused writing theme for [Astro](https://astro.build). Designed for long-form writing with careful typography, dark mode, full-text search, and static OG image generation.
 
-![Kanso homepage](screenshots/home-light.png)
+| Light                                               | Dark                                              |
+| --------------------------------------------------- | ------------------------------------------------- |
+| ![Kanso homepage light](screenshots/home-light.png) | ![Kanso homepage dark](screenshots/home-dark.png) |
 
 ## Features
 
