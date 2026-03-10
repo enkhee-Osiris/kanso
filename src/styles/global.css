@@ -21,6 +21,9 @@
 
   --letter-spacing-caps: 0.1em;
 
+  /* Layout utilities */
+  --back-link-offset: -3.1625rem; /* pulls BackLink into top padding zone */
+
   --font-body: "PT Serif", "Georgia", "Times New Roman", serif;
   --font-display: "Lora", "Georgia", "Times New Roman", serif;
 
