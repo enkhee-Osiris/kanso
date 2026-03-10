@@ -21,9 +21,9 @@ Three pieces work together:
 
 The SVG template contains everything that doesn't change between posts: background color, a dot-grid pattern, an accent line, author name position. The content group is left intentionally empty:
 
-```svg
+```html
 <!-- 1200×630, dark background, decorative elements … -->
-<g id="content"/>
+<g id="content" />
 ```
 
 At build time, the generator replaces that placeholder with the post-specific `<text>` nodes. The rest of the SVG stays identical across every card.
