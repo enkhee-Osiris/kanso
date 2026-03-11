@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.1",
   "scripts": {
-    "clean": "rm -rf dist .astro public/pagefind",
+    "clean": "rm -rf dist .astro public/pagefind ./node_modules/.astro",
     "generate": "astro sync",
     "dev": "astro dev",
     "dev:search": "astro build && pagefind --site dist && cp -r dist/pagefind public/pagefind && astro dev",

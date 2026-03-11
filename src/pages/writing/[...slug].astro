@@ -1,4 +1,5 @@
 ---
+import { Font } from "astro:assets";
 import { type CollectionEntry, render } from "astro:content";
 
 import BackLink from "@/components/BackLink.astro";
@@ -39,10 +40,7 @@ const { Content } = await render(writing);
   includeFooter={true}
 >
   <slot slot="head">
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital@0;1&display=swap"
-      rel="stylesheet"
-    />
+    <Font cssVariable="--font-jetbrains-mono" preload />
     <style set:html={`.prose blockquote::after { mask-image: ${svgDataUri}; }`}></style>
   </slot>
 
