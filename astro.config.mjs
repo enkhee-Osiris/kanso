@@ -23,8 +23,8 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       weights: [400, 700],
       styles: ["normal", "italic"],
-      subsets: ["latin", "cyrillic"],
-      formats: ["woff2", "woff", "ttf"],
+      subsets: ["latin", "cyrillic", "cyrillic-ext"],
+      formats: ["woff2", "woff"],
       fallbacks: ["New York", "Georgia", "serif"],
     },
     {
@@ -33,8 +33,8 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       weights: [700],
       styles: ["normal"],
-      subsets: ["latin", "cyrillic"],
-      formats: ["woff2", "woff", "ttf"],
+      subsets: ["latin", "cyrillic", "cyrillic-ext"],
+      formats: ["woff2", "woff"],
       fallbacks: ["Palatino Linotype", "Book Antiqua", "Palatino", "Georgia", "serif"],
     },
     {
