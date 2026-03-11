@@ -8,7 +8,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeEnhancedTables from "@benjc/rehype-enhanced-tables";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,6 +16,35 @@ export default defineConfig({
   base: "/kanso",
   trailingSlash: "always",
   integrations: [expressiveCode(), mdx(), sitemap()],
+  fonts: [
+    {
+      name: "PT Serif",
+      cssVariable: "--font-pt-serif",
+      provider: fontProviders.fontsource(),
+      weights: [400, 700],
+      styles: ["normal", "italic"],
+      subsets: ["latin", "cyrillic"],
+      formats: ["woff2", "woff", "ttf"],
+      fallbacks: ["New York", "Georgia", "serif"],
+    },
+    {
+      name: "Lora",
+      cssVariable: "--font-lora",
+      provider: fontProviders.fontsource(),
+      weights: [700],
+      styles: ["normal"],
+      subsets: ["latin", "cyrillic"],
+      formats: ["woff2", "woff", "ttf"],
+      fallbacks: ["Palatino Linotype", "Book Antiqua", "Palatino", "Georgia", "serif"],
+    },
+    {
+      name: "JetBrains Mono",
+      cssVariable: "--font-jetbrains-mono",
+      provider: fontProviders.fontsource(),
+      subsets: ["latin", "latin-ext"],
+      fallbacks: ["Menlo", "Consolas", "monospace"],
+    },
+  ],
   markdown: {
     rehypePlugins: [
       rehypeHeadingIds,
