@@ -41,9 +41,13 @@ This is an Astro 5 site with a minimal, content-focused design.
 - `getTagsWithWritings(writings)` — `{ tag, writings[] }` pairs for all tags, sorted by count descending then alphabetical
 - `getWritingsByYear(writings)` — `{ year, writings[] }` pairs sorted by year descending
 
+**Referrer utility:** `src/utils/referrer.ts` exports `getBackLinkFromReferrer(referrer, currentOrigin, baseUrl)` which parses a referrer URL and returns `{ href, label }` for smart back links or `null` if cross-origin.
+
 **Navigation:** `FloatingNav.astro` is a fixed right-side bar (z-index 100) with menu toggle, search link, and theme toggle. `FullscreenNav.astro` is a full-screen overlay (z-index 90) with centered nav links (Home, Writings, About, Search) — visibility is CSS-driven via `html[data-menu-open]` (set by FloatingNav's menu toggle). Page scroll is locked when the overlay is open (`overflow: hidden` on `html`). Both components are included on every page.
 
-**Page layout chain:** Pages use `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads) + `SkipLink.astro` (skip to `#main-content`, z-index 200) + `Footer.astro` (copyright line) for site chrome. The writing detail page (`src/pages/writing/[...slug].astro`) is self-contained — it imports components directly rather than using a layout wrapper. Markdown content is rendered inside a `.prose` div with scoped `:global()` styles for all typography elements. The writing detail page also includes a related writings section (filtered by shared tags, limited to `RELATED_WRITINGS_LIMIT`) and a client-side script that uses `document.referrer` to update the `BackLink` based on the previous same-origin page: `/tag/[slug]` → "Back to #slug", `/tag/` → "Back to tags", `/search/` → "Back to search" (preserving `?q=` param), `BASE_URL` root → "Back to home"; default is "Back to writings". The tag detail page (`/tag/[tag]`) has a similar script: navigating from a writing updates the back link to "Back to writing"; from home updates it to "Back to home".
+**Page layout:** All pages use `BaseLayout.astro` (from `src/layouts/`) which wraps page content with `Head.astro` (global CSS import, meta tags, OG/Twitter cards, font preloads), `SkipLink.astro` (skip to `#main-content`, z-index 200), `FloatingNav.astro`, and `FullscreenNav.astro`. The writing detail page and about page optionally include `Footer.astro` (via `includeFooter` prop). BaseLayout accepts props: `title`, `description`, `image` (OG image), `pagefindIgnore` (default: `true`), and `includeFooter` (default: `false`). A `head` slot allows pages to inject page-specific elements (e.g., fonts, inline styles).
+
+Markdown content on the writing detail page is rendered inside a `.prose` div with scoped `:global()` styles for all typography elements. The writing detail page also includes a related writings section (filtered by shared tags, limited to `RELATED_WRITINGS_LIMIT`) and a client-side script using `getBackLinkFromReferrer()` from `src/utils/referrer.ts` to update the `BackLink` based on the previous same-origin page: `/tag/[slug]` → "Back to #slug", `/tag/` → "Back to tags", `/search/` → "Back to search" (preserving `?q=` param), `BASE_URL` root → "Back to home"; default is "Back to writings". The tag detail page (`/tag/[tag]`) has a similar script: navigating from a writing updates the back link to "Back to writing"; from home updates it to "Back to home".
 
 **Key integrations:**
 
@@ -77,27 +81,32 @@ Focus shape conventions: circular elements (FloatingNav buttons, TagChip) use `b
 
 **SVG icons:** Stored in `src/assets/icons/` and imported via `?raw` suffix + `set:html` directive (e.g., `const icon = await import("@/assets/icons/name.svg?raw")`). For CSS usage (e.g., blockquote decoration), SVGs are embedded as data URIs with `mask-image` so `background-color` can use CSS variables for theme-aware coloring.
 
+**Layouts:**
+
+- `BaseLayout.astro` — page wrapper for all routes; includes Head, SkipLink, FloatingNav, FullscreenNav, optional Footer; accepts `title`, `description`, `image`, `pagefindIgnore`, `includeFooter` props; provides `head` slot for page-specific additions
+
 **Components:**
 
 - `TagChip.astro` — pill-shaped tag link using `URLS.tag()`
 - `Image.astro` — wraps Astro's `<Image>` with `<figure>`/optional `<figcaption>`, fills container width with `height: auto`
 - `BackLink.astro` — back navigation link with arrow-left icon; accepts `href` (default: `URLS.writings`) and `label` (default: `"Back to writings"`) props
 - `FormattedDate.astro` — renders a `<time>` element; accepts `date: Date` and optional `formatOptions: Intl.DateTimeFormatOptions` (default: `{ year: "numeric", month: "short", day: "numeric" }`)
+- `SocialLinks.astro` — social icon links (GitHub, LinkedIn, Email); accepts `iconStyle` ("default" | "large") and `includeLabels` (boolean) props
 - `WritingsByYear.astro` — reusable year-grouped writings list (two-column grid: sticky year label + writing entries with date and title); used on writings index, tag index, and tag detail pages
 - `SkipLink.astro` — skip-to-content link targeting `#main-content`, visually hidden until focused, z-index 200
 
-**Pages:**
+**Pages:** All pages use `BaseLayout.astro` as their wrapper.
 
-- `src/pages/index.astro` — homepage with featured cards and latest writings list
+- `src/pages/index.astro` — homepage with featured cards and latest writings list; uses `SocialLinks` with `iconStyle="large"` and `includeLabels={false}`
 - `src/pages/writing/index.astro` — all writings, year-grouped with date + title
-- `src/pages/writing/[...slug].astro` — writing detail with prose styles, related writings, and referrer-aware back link
+- `src/pages/writing/[...slug].astro` — writing detail with prose styles, related writings, and referrer-aware back link; uses `includeFooter={true}` and `pagefindIgnore={false}`; injects JetBrains Mono font and blockquote icon via `head` slot
 - `src/pages/tag/index.astro` — all tags as pill-shaped chips (`#name` + count badge), sorted by count desc then alphabetical; includes `WritingsByYear` section below
 - `src/pages/tag/[tag].astro` — same layout as tag index (all tag chips + `WritingsByYear`), with the active tag chip highlighted via `aria-current="page"` (inverted colors, `order: -1` to appear first)
-- `src/pages/search.astro` — search page using `PagefindUI`; `<main data-pagefind-ignore="all">` excludes it from the index; pagefind CSS variables overridden with site tokens on `#search`
+- `src/pages/search.astro` — search page using `PagefindUI`; `<main data-pagefind-ignore="all">` excludes it from the index; pagefind CSS variables overridden with site tokens on `#search`; injects search icon mask via `head` slot
+- `src/pages/about.astro` — bio (name + paragraphs + social links), experience list (icon badge or company initial + company/role/period using `<time>`), projects list (bordered cards with title link, description, tech tags); uses `SocialLinks` component
 - `src/pages/robots.txt.ts` — API route generating `robots.txt`; disallows `${base}search/` and `${base}pagefind/`; uses `FULL_URL.pathname` for the base path prefix
 - `src/pages/rss.xml.ts` — RSS feed
 - `src/pages/og/[slug].png.ts` — static API route; generates a 1200×630 PNG for every published writing at build time using `generateOgImage()` from `src/utils/og-image.ts`
-- `src/pages/about.astro` — bio (name + paragraphs + social links), experience list (icon badge or company initial + company/role/period using `<time>`), projects list (bordered cards with title link, description, tech tags)
 
 **Links:** The site uses `base: "/kanso"` in `astro.config.mjs`. Internal links must use `import.meta.env.BASE_URL` as prefix or use `URLS` constants.
 
