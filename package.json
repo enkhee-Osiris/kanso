@@ -1,7 +1,7 @@
 {
   "name": "kanso",
   "type": "module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "clean": "rm -rf dist .astro public/pagefind ./node_modules/.astro",
     "generate": "astro sync",
